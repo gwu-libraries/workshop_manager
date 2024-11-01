@@ -12,120 +12,101 @@ require 'rails_helper'
 # of tools you can use to make these specs even more expressive, but we're
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
-RSpec.describe "/workshops", type: :request do
-  
+RSpec.describe '/workshops', type: :request do
   # This should return the minimal set of attributes required to create a valid
   # Workshop. As you add validations to Workshop, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
-
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
-
-  describe "GET /index" do
-    it "renders a successful response" do
-      Workshop.create! valid_attributes
-      get workshops_url
-      expect(response).to be_successful
-    end
+  let(:valid_attributes) do
+    {
+      title: 'A Valid Workshop Title',
+      description: 'A valid workshop description',
+      start_time: DateTime.now - 1.hours,
+      end_time: DateTime.now + 1.hours
+    }
   end
 
-  describe "GET /show" do
-    it "renders a successful response" do
-      workshop = Workshop.create! valid_attributes
-      get workshop_url(workshop)
-      expect(response).to be_successful
-    end
-  end
+  context 'as a logged in facilitator' do
+    before(:each) { login_as(FactoryBot.create(:facilitator)) }
 
-  describe "GET /new" do
-    it "renders a successful response" do
-      get new_workshop_url
-      expect(response).to be_successful
+    describe 'GET /index' do
+      it 'renders a successful response' do
+        Workshop.create! valid_attributes
+        get workshops_url
+        expect(response).to be_successful
+      end
     end
-  end
 
-  describe "GET /edit" do
-    it "renders a successful response" do
-      workshop = Workshop.create! valid_attributes
-      get edit_workshop_url(workshop)
-      expect(response).to be_successful
+    describe 'GET /show' do
+      it 'renders a successful response' do
+        workshop = Workshop.create! valid_attributes
+        get workshop_url(workshop)
+        expect(response).to be_successful
+      end
     end
-  end
 
-  describe "POST /create" do
-    context "with valid parameters" do
-      it "creates a new Workshop" do
-        expect {
+    describe 'GET /new' do
+      it 'renders a successful response' do
+        get new_workshop_url
+        expect(response).to be_successful
+      end
+    end
+
+    describe 'GET /edit' do
+      it 'renders a successful response' do
+        workshop = Workshop.create! valid_attributes
+        get edit_workshop_url(workshop)
+        expect(response).to be_successful
+      end
+    end
+
+    describe 'POST /create' do
+      context 'with valid parameters' do
+        it 'creates a new Workshop' do
+          expect {
+            post workshops_url, params: { workshop: valid_attributes }
+          }.to change(Workshop, :count).by(1)
+        end
+
+        it 'redirects to the created workshop' do
           post workshops_url, params: { workshop: valid_attributes }
-        }.to change(Workshop, :count).by(1)
-      end
-
-      it "redirects to the created workshop" do
-        post workshops_url, params: { workshop: valid_attributes }
-        expect(response).to redirect_to(workshop_url(Workshop.last))
+          expect(response).to redirect_to(workshop_url(Workshop.last))
+        end
       end
     end
 
-    context "with invalid parameters" do
-      it "does not create a new Workshop" do
-        expect {
-          post workshops_url, params: { workshop: invalid_attributes }
-        }.to change(Workshop, :count).by(0)
-      end
+    describe 'PATCH /update' do
+      context 'with valid parameters' do
+        let(:new_attributes) { { title: 'My New Workshop Title' } }
 
-      it "renders a response with 422 status (i.e. to display the 'new' template)" do
-        post workshops_url, params: { workshop: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
+        it 'updates the requested workshop' do
+          workshop = Workshop.create! valid_attributes
+          patch workshop_url(workshop), params: { workshop: new_attributes }
+          workshop.reload
+          expect(workshop.title).to eq('My New Workshop Title')
+        end
+
+        it 'redirects to the workshop' do
+          workshop = Workshop.create! valid_attributes
+          patch workshop_url(workshop), params: { workshop: new_attributes }
+          workshop.reload
+          expect(response).to redirect_to(workshop_url(workshop))
+        end
       end
     end
-  end
 
-  describe "PATCH /update" do
-    context "with valid parameters" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
-
-      it "updates the requested workshop" do
+    describe 'DELETE /destroy' do
+      it 'destroys the requested workshop' do
         workshop = Workshop.create! valid_attributes
-        patch workshop_url(workshop), params: { workshop: new_attributes }
-        workshop.reload
-        skip("Add assertions for updated state")
+        expect { delete workshop_url(workshop) }.to change(Workshop, :count).by(
+          -1
+        )
       end
 
-      it "redirects to the workshop" do
+      it 'redirects to the workshops list' do
         workshop = Workshop.create! valid_attributes
-        patch workshop_url(workshop), params: { workshop: new_attributes }
-        workshop.reload
-        expect(response).to redirect_to(workshop_url(workshop))
-      end
-    end
-
-    context "with invalid parameters" do
-      it "renders a response with 422 status (i.e. to display the 'edit' template)" do
-        workshop = Workshop.create! valid_attributes
-        patch workshop_url(workshop), params: { workshop: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
-      end
-    end
-  end
-
-  describe "DELETE /destroy" do
-    it "destroys the requested workshop" do
-      workshop = Workshop.create! valid_attributes
-      expect {
         delete workshop_url(workshop)
-      }.to change(Workshop, :count).by(-1)
-    end
-
-    it "redirects to the workshops list" do
-      workshop = Workshop.create! valid_attributes
-      delete workshop_url(workshop)
-      expect(response).to redirect_to(workshops_url)
+        expect(response).to redirect_to(workshops_url)
+      end
     end
   end
 end

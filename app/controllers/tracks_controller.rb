@@ -1,5 +1,6 @@
 class TracksController < ApplicationController
-  before_action :set_track, only: %i[ show edit update destroy ]
+  before_action :set_track, only: %i[show edit update destroy]
+  # before_action :require_login, only: %i[new edit create update destroy]
 
   # GET /tracks or /tracks.json
   def index
@@ -25,11 +26,15 @@ class TracksController < ApplicationController
 
     respond_to do |format|
       if @track.save
-        format.html { redirect_to @track, notice: "Track was successfully created." }
+        format.html do
+          redirect_to @track, notice: 'Track was successfully created.'
+        end
         format.json { render :show, status: :created, location: @track }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @track.errors, status: :unprocessable_entity }
+        format.json do
+          render json: @track.errors, status: :unprocessable_entity
+        end
       end
     end
   end
@@ -38,11 +43,15 @@ class TracksController < ApplicationController
   def update
     respond_to do |format|
       if @track.update(track_params)
-        format.html { redirect_to @track, notice: "Track was successfully updated." }
+        format.html do
+          redirect_to @track, notice: 'Track was successfully updated.'
+        end
         format.json { render :show, status: :ok, location: @track }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @track.errors, status: :unprocessable_entity }
+        format.json do
+          render json: @track.errors, status: :unprocessable_entity
+        end
       end
     end
   end
@@ -52,19 +61,24 @@ class TracksController < ApplicationController
     @track.destroy!
 
     respond_to do |format|
-      format.html { redirect_to tracks_path, status: :see_other, notice: "Track was successfully destroyed." }
+      format.html do
+        redirect_to tracks_path,
+                    status: :see_other,
+                    notice: 'Track was successfully destroyed.'
+      end
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_track
-      @track = Track.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def track_params
-      params.fetch(:track, {})
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_track
+    @track = Track.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def track_params
+    params.require(:track).permit(:title, :description)
+  end
 end

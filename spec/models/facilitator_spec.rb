@@ -1,5 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Facilitator, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'relationships' do
+    it { should have_many :workshop_facilitators }
+    it { should have_many(:workshops).through(:workshop_facilitators) }
+  end
 end

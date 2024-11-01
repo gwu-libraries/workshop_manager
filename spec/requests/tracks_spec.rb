@@ -12,120 +12,97 @@ require 'rails_helper'
 # of tools you can use to make these specs even more expressive, but we're
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
-RSpec.describe "/tracks", type: :request do
-  
+RSpec.describe '/tracks', type: :request do
   # This should return the minimal set of attributes required to create a valid
   # Track. As you add validations to Track, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
-
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
-
-  describe "GET /index" do
-    it "renders a successful response" do
-      Track.create! valid_attributes
-      get tracks_url
-      expect(response).to be_successful
-    end
+  let(:valid_attributes) do
+    {
+      title: 'A valid workshop track title',
+      description: 'A valid track description'
+    }
   end
 
-  describe "GET /show" do
-    it "renders a successful response" do
-      track = Track.create! valid_attributes
-      get track_url(track)
-      expect(response).to be_successful
-    end
-  end
+  context 'as a logged in facilitator' do
+    before(:each) { login_as(FactoryBot.create(:facilitator)) }
 
-  describe "GET /new" do
-    it "renders a successful response" do
-      get new_track_url
-      expect(response).to be_successful
+    describe 'GET /index' do
+      it 'renders a successful response' do
+        Track.create! valid_attributes
+        get tracks_url
+        expect(response).to be_successful
+      end
     end
-  end
 
-  describe "GET /edit" do
-    it "renders a successful response" do
-      track = Track.create! valid_attributes
-      get edit_track_url(track)
-      expect(response).to be_successful
+    describe 'GET /show' do
+      it 'renders a successful response' do
+        track = Track.create! valid_attributes
+        get track_url(track)
+        expect(response).to be_successful
+      end
     end
-  end
 
-  describe "POST /create" do
-    context "with valid parameters" do
-      it "creates a new Track" do
-        expect {
+    describe 'GET /new' do
+      it 'renders a successful response' do
+        get new_track_url
+        expect(response).to be_successful
+      end
+    end
+
+    describe 'GET /edit' do
+      it 'renders a successful response' do
+        track = Track.create! valid_attributes
+        get edit_track_url(track)
+        expect(response).to be_successful
+      end
+    end
+
+    describe 'POST /create' do
+      context 'with valid parameters' do
+        it 'creates a new Track' do
+          expect {
+            post tracks_url, params: { track: valid_attributes }
+          }.to change(Track, :count).by(1)
+        end
+
+        it 'redirects to the created track' do
           post tracks_url, params: { track: valid_attributes }
-        }.to change(Track, :count).by(1)
-      end
-
-      it "redirects to the created track" do
-        post tracks_url, params: { track: valid_attributes }
-        expect(response).to redirect_to(track_url(Track.last))
+          expect(response).to redirect_to(track_url(Track.last))
+        end
       end
     end
 
-    context "with invalid parameters" do
-      it "does not create a new Track" do
-        expect {
-          post tracks_url, params: { track: invalid_attributes }
-        }.to change(Track, :count).by(0)
-      end
+    describe 'PATCH /update' do
+      context 'with valid parameters' do
+        let(:new_attributes) { { title: 'My New Track Title' } }
 
-      it "renders a response with 422 status (i.e. to display the 'new' template)" do
-        post tracks_url, params: { track: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
+        it 'updates the requested track' do
+          track = Track.create! valid_attributes
+          patch track_url(track), params: { track: new_attributes }
+          track.reload
+          expect(track.title).to eq('My New Track Title')
+        end
+
+        it 'redirects to the track' do
+          track = Track.create! valid_attributes
+          patch track_url(track), params: { track: new_attributes }
+          track.reload
+          expect(response).to redirect_to(track_url(track))
+        end
       end
     end
-  end
 
-  describe "PATCH /update" do
-    context "with valid parameters" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
-
-      it "updates the requested track" do
+    describe 'DELETE /destroy' do
+      it 'destroys the requested track' do
         track = Track.create! valid_attributes
-        patch track_url(track), params: { track: new_attributes }
-        track.reload
-        skip("Add assertions for updated state")
+        expect { delete track_url(track) }.to change(Track, :count).by(-1)
       end
 
-      it "redirects to the track" do
+      it 'redirects to the tracks list' do
         track = Track.create! valid_attributes
-        patch track_url(track), params: { track: new_attributes }
-        track.reload
-        expect(response).to redirect_to(track_url(track))
-      end
-    end
-
-    context "with invalid parameters" do
-      it "renders a response with 422 status (i.e. to display the 'edit' template)" do
-        track = Track.create! valid_attributes
-        patch track_url(track), params: { track: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
-      end
-    end
-  end
-
-  describe "DELETE /destroy" do
-    it "destroys the requested track" do
-      track = Track.create! valid_attributes
-      expect {
         delete track_url(track)
-      }.to change(Track, :count).by(-1)
-    end
-
-    it "redirects to the tracks list" do
-      track = Track.create! valid_attributes
-      delete track_url(track)
-      expect(response).to redirect_to(tracks_url)
+        expect(response).to redirect_to(tracks_url)
+      end
     end
   end
 end

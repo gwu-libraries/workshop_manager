@@ -12,120 +12,118 @@ require 'rails_helper'
 # of tools you can use to make these specs even more expressive, but we're
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
-RSpec.describe "/workshop_participants", type: :request do
-  
+RSpec.describe '/workshop_participants', type: :request do
   # This should return the minimal set of attributes required to create a valid
   # WorkshopParticipant. As you add validations to WorkshopParticipant, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
 
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
-
-  describe "GET /index" do
-    it "renders a successful response" do
-      WorkshopParticipant.create! valid_attributes
-      get workshop_participants_url
-      expect(response).to be_successful
-    end
+  before(:each) do
+    @workshop_1 = FactoryBot.create(:workshop)
+    @participant_1 = FactoryBot.create(:participant)
   end
 
-  describe "GET /show" do
-    it "renders a successful response" do
-      workshop_participant = WorkshopParticipant.create! valid_attributes
-      get workshop_participant_url(workshop_participant)
-      expect(response).to be_successful
-    end
+  let(:valid_attributes) do
+    { workshop_id: @workshop_1.id, participant_id: @participant_1.id }
   end
 
-  describe "GET /new" do
-    it "renders a successful response" do
-      get new_workshop_participant_url
-      expect(response).to be_successful
-    end
-  end
+  context 'as a logged in facilitator' do
+    before(:each) { login_as(FactoryBot.create(:facilitator)) }
 
-  describe "GET /edit" do
-    it "renders a successful response" do
-      workshop_participant = WorkshopParticipant.create! valid_attributes
-      get edit_workshop_participant_url(workshop_participant)
-      expect(response).to be_successful
+    describe 'GET /index' do
+      it 'renders a successful response' do
+        WorkshopParticipant.create! valid_attributes
+        get workshop_participants_url
+        expect(response).to be_successful
+      end
     end
-  end
 
-  describe "POST /create" do
-    context "with valid parameters" do
-      it "creates a new WorkshopParticipant" do
+    describe 'GET /show' do
+      it 'renders a successful response' do
+        workshop_participant = WorkshopParticipant.create! valid_attributes
+        get workshop_participant_url(workshop_participant)
+        expect(response).to be_successful
+      end
+    end
+
+    describe 'GET /new' do
+      it 'renders a successful response' do
+        get new_workshop_participant_url
+        expect(response).to be_successful
+      end
+    end
+
+    describe 'GET /edit' do
+      it 'renders a successful response' do
+        workshop_participant = WorkshopParticipant.create! valid_attributes
+        get edit_workshop_participant_url(workshop_participant)
+        expect(response).to be_successful
+      end
+    end
+
+    describe 'POST /create' do
+      context 'with valid parameters' do
+        it 'creates a new WorkshopParticipant' do
+          expect {
+            post workshop_participants_url,
+                 params: {
+                   workshop_participant: valid_attributes
+                 }
+          }.to change(WorkshopParticipant, :count).by(1)
+        end
+
+        it 'redirects to the created workshop_participant' do
+          post workshop_participants_url,
+               params: {
+                 workshop_participant: valid_attributes
+               }
+          expect(response).to redirect_to(
+            workshop_participant_url(WorkshopParticipant.last)
+          )
+        end
+      end
+    end
+
+    describe 'PATCH /update' do
+      context 'with valid parameters' do
+        let(:new_attributes) { { in_attendance: true } }
+
+        it 'updates the requested workshop_participant' do
+          workshop_participant = WorkshopParticipant.create! valid_attributes
+          patch workshop_participant_url(workshop_participant),
+                params: {
+                  workshop_participant: new_attributes
+                }
+          workshop_participant.reload
+          expect(workshop_participant.in_attendance).to eq(true)
+        end
+
+        it 'redirects to the workshop_participant' do
+          workshop_participant = WorkshopParticipant.create! valid_attributes
+          patch workshop_participant_url(workshop_participant),
+                params: {
+                  workshop_participant: new_attributes
+                }
+          workshop_participant.reload
+          expect(response).to redirect_to(
+            workshop_participant_url(workshop_participant)
+          )
+        end
+      end
+    end
+
+    describe 'DELETE /destroy' do
+      it 'destroys the requested workshop_participant' do
+        workshop_participant = WorkshopParticipant.create! valid_attributes
         expect {
-          post workshop_participants_url, params: { workshop_participant: valid_attributes }
-        }.to change(WorkshopParticipant, :count).by(1)
+          delete workshop_participant_url(workshop_participant)
+        }.to change(WorkshopParticipant, :count).by(-1)
       end
 
-      it "redirects to the created workshop_participant" do
-        post workshop_participants_url, params: { workshop_participant: valid_attributes }
-        expect(response).to redirect_to(workshop_participant_url(WorkshopParticipant.last))
-      end
-    end
-
-    context "with invalid parameters" do
-      it "does not create a new WorkshopParticipant" do
-        expect {
-          post workshop_participants_url, params: { workshop_participant: invalid_attributes }
-        }.to change(WorkshopParticipant, :count).by(0)
-      end
-
-      it "renders a response with 422 status (i.e. to display the 'new' template)" do
-        post workshop_participants_url, params: { workshop_participant: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
-      end
-    end
-  end
-
-  describe "PATCH /update" do
-    context "with valid parameters" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
-
-      it "updates the requested workshop_participant" do
+      it 'redirects to the workshop_participants list' do
         workshop_participant = WorkshopParticipant.create! valid_attributes
-        patch workshop_participant_url(workshop_participant), params: { workshop_participant: new_attributes }
-        workshop_participant.reload
-        skip("Add assertions for updated state")
-      end
-
-      it "redirects to the workshop_participant" do
-        workshop_participant = WorkshopParticipant.create! valid_attributes
-        patch workshop_participant_url(workshop_participant), params: { workshop_participant: new_attributes }
-        workshop_participant.reload
-        expect(response).to redirect_to(workshop_participant_url(workshop_participant))
-      end
-    end
-
-    context "with invalid parameters" do
-      it "renders a response with 422 status (i.e. to display the 'edit' template)" do
-        workshop_participant = WorkshopParticipant.create! valid_attributes
-        patch workshop_participant_url(workshop_participant), params: { workshop_participant: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
-      end
-    end
-  end
-
-  describe "DELETE /destroy" do
-    it "destroys the requested workshop_participant" do
-      workshop_participant = WorkshopParticipant.create! valid_attributes
-      expect {
         delete workshop_participant_url(workshop_participant)
-      }.to change(WorkshopParticipant, :count).by(-1)
-    end
-
-    it "redirects to the workshop_participants list" do
-      workshop_participant = WorkshopParticipant.create! valid_attributes
-      delete workshop_participant_url(workshop_participant)
-      expect(response).to redirect_to(workshop_participants_url)
+        expect(response).to redirect_to(workshop_participants_url)
+      end
     end
   end
 end

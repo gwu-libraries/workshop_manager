@@ -1,5 +1,7 @@
 class WorkshopFacilitatorsController < ApplicationController
-  before_action :set_workshop_facilitator, only: %i[ show edit update destroy ]
+  before_action :set_workshop_facilitator, only: %i[show edit update destroy]
+  before_action :require_login,
+                only: %i[index show new edit create update destroy]
 
   # GET /workshop_facilitators or /workshop_facilitators.json
   def index
@@ -25,11 +27,19 @@ class WorkshopFacilitatorsController < ApplicationController
 
     respond_to do |format|
       if @workshop_facilitator.save
-        format.html { redirect_to @workshop_facilitator, notice: "Workshop facilitator was successfully created." }
-        format.json { render :show, status: :created, location: @workshop_facilitator }
+        format.html do
+          redirect_to @workshop_facilitator,
+                      notice: 'Workshop facilitator was successfully created.'
+        end
+        format.json do
+          render :show, status: :created, location: @workshop_facilitator
+        end
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @workshop_facilitator.errors, status: :unprocessable_entity }
+        format.json do
+          render json: @workshop_facilitator.errors,
+                 status: :unprocessable_entity
+        end
       end
     end
   end
@@ -38,11 +48,19 @@ class WorkshopFacilitatorsController < ApplicationController
   def update
     respond_to do |format|
       if @workshop_facilitator.update(workshop_facilitator_params)
-        format.html { redirect_to @workshop_facilitator, notice: "Workshop facilitator was successfully updated." }
-        format.json { render :show, status: :ok, location: @workshop_facilitator }
+        format.html do
+          redirect_to @workshop_facilitator,
+                      notice: 'Workshop facilitator was successfully updated.'
+        end
+        format.json do
+          render :show, status: :ok, location: @workshop_facilitator
+        end
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @workshop_facilitator.errors, status: :unprocessable_entity }
+        format.json do
+          render json: @workshop_facilitator.errors,
+                 status: :unprocessable_entity
+        end
       end
     end
   end
@@ -52,19 +70,24 @@ class WorkshopFacilitatorsController < ApplicationController
     @workshop_facilitator.destroy!
 
     respond_to do |format|
-      format.html { redirect_to workshop_facilitators_path, status: :see_other, notice: "Workshop facilitator was successfully destroyed." }
+      format.html do
+        redirect_to workshop_facilitators_path,
+                    status: :see_other,
+                    notice: 'Workshop facilitator was successfully destroyed.'
+      end
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_workshop_facilitator
-      @workshop_facilitator = WorkshopFacilitator.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def workshop_facilitator_params
-      params.fetch(:workshop_facilitator, {})
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_workshop_facilitator
+    @workshop_facilitator = WorkshopFacilitator.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def workshop_facilitator_params
+    params.require(:workshop_facilitator).permit(:workshop_id, :facilitator_id)
+  end
 end

@@ -12,120 +12,103 @@ require 'rails_helper'
 # of tools you can use to make these specs even more expressive, but we're
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
-RSpec.describe "/participants", type: :request do
-  
+RSpec.describe '/participants', type: :request do
   # This should return the minimal set of attributes required to create a valid
   # Participant. As you add validations to Participant, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
-
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
-
-  describe "GET /index" do
-    it "renders a successful response" do
-      Participant.create! valid_attributes
-      get participants_url
-      expect(response).to be_successful
-    end
+  let(:valid_attributes) do
+    { name: 'Sandwich P. Kitty', email: 'email@example.com' }
   end
 
-  describe "GET /show" do
-    it "renders a successful response" do
-      participant = Participant.create! valid_attributes
-      get participant_url(participant)
-      expect(response).to be_successful
-    end
-  end
+  context 'as a signed in facilitator' do
+    before(:each) { login_as(FactoryBot.create(:facilitator)) }
 
-  describe "GET /new" do
-    it "renders a successful response" do
-      get new_participant_url
-      expect(response).to be_successful
+    describe 'GET /index' do
+      it 'renders a successful response' do
+        Participant.create! valid_attributes
+        get participants_url
+        expect(response).to be_successful
+      end
     end
-  end
 
-  describe "GET /edit" do
-    it "renders a successful response" do
-      participant = Participant.create! valid_attributes
-      get edit_participant_url(participant)
-      expect(response).to be_successful
+    describe 'GET /show' do
+      it 'renders a successful response' do
+        participant = Participant.create! valid_attributes
+        get participant_url(participant)
+        expect(response).to be_successful
+      end
     end
-  end
 
-  describe "POST /create" do
-    context "with valid parameters" do
-      it "creates a new Participant" do
-        expect {
+    describe 'GET /new' do
+      it 'renders a successful response' do
+        get new_participant_url
+        expect(response).to be_successful
+      end
+    end
+
+    describe 'GET /edit' do
+      it 'renders a successful response' do
+        participant = Participant.create! valid_attributes
+        get edit_participant_url(participant)
+        expect(response).to be_successful
+      end
+    end
+
+    describe 'POST /create' do
+      context 'with valid parameters' do
+        it 'creates a new Participant' do
+          expect {
+            post participants_url, params: { participant: valid_attributes }
+          }.to change(Participant, :count).by(1)
+        end
+
+        it 'redirects to the created participant' do
           post participants_url, params: { participant: valid_attributes }
-        }.to change(Participant, :count).by(1)
-      end
-
-      it "redirects to the created participant" do
-        post participants_url, params: { participant: valid_attributes }
-        expect(response).to redirect_to(participant_url(Participant.last))
+          expect(response).to redirect_to(participant_url(Participant.last))
+        end
       end
     end
 
-    context "with invalid parameters" do
-      it "does not create a new Participant" do
-        expect {
-          post participants_url, params: { participant: invalid_attributes }
-        }.to change(Participant, :count).by(0)
-      end
+    describe 'PATCH /update' do
+      context 'with valid parameters' do
+        let(:new_attributes) { { email: 'mynewemail@example.com' } }
 
-      it "renders a response with 422 status (i.e. to display the 'new' template)" do
-        post participants_url, params: { participant: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
+        it 'updates the requested participant' do
+          participant = Participant.create! valid_attributes
+          patch participant_url(participant),
+                params: {
+                  participant: new_attributes
+                }
+          participant.reload
+          expect(participant.email).to eq('mynewemail@example.com')
+        end
+
+        it 'redirects to the participant' do
+          participant = Participant.create! valid_attributes
+          patch participant_url(participant),
+                params: {
+                  participant: new_attributes
+                }
+          participant.reload
+          expect(response).to redirect_to(participant_url(participant))
+        end
       end
     end
-  end
 
-  describe "PATCH /update" do
-    context "with valid parameters" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
-
-      it "updates the requested participant" do
+    describe 'DELETE /destroy' do
+      it 'destroys the requested participant' do
         participant = Participant.create! valid_attributes
-        patch participant_url(participant), params: { participant: new_attributes }
-        participant.reload
-        skip("Add assertions for updated state")
+        expect { delete participant_url(participant) }.to change(
+          Participant,
+          :count
+        ).by(-1)
       end
 
-      it "redirects to the participant" do
+      it 'redirects to the participants list' do
         participant = Participant.create! valid_attributes
-        patch participant_url(participant), params: { participant: new_attributes }
-        participant.reload
-        expect(response).to redirect_to(participant_url(participant))
-      end
-    end
-
-    context "with invalid parameters" do
-      it "renders a response with 422 status (i.e. to display the 'edit' template)" do
-        participant = Participant.create! valid_attributes
-        patch participant_url(participant), params: { participant: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
-      end
-    end
-  end
-
-  describe "DELETE /destroy" do
-    it "destroys the requested participant" do
-      participant = Participant.create! valid_attributes
-      expect {
         delete participant_url(participant)
-      }.to change(Participant, :count).by(-1)
-    end
-
-    it "redirects to the participants list" do
-      participant = Participant.create! valid_attributes
-      delete participant_url(participant)
-      expect(response).to redirect_to(participants_url)
+        expect(response).to redirect_to(participants_url)
+      end
     end
   end
 end

@@ -1,5 +1,7 @@
 class TrackWorkshopsController < ApplicationController
-  before_action :set_track_workshop, only: %i[ show edit update destroy ]
+  before_action :set_track_workshop, only: %i[show edit update destroy]
+  before_action :require_login,
+                only: %i[index show new edit create update destroy]
 
   # GET /track_workshops or /track_workshops.json
   def index
@@ -25,11 +27,18 @@ class TrackWorkshopsController < ApplicationController
 
     respond_to do |format|
       if @track_workshop.save
-        format.html { redirect_to @track_workshop, notice: "Track workshop was successfully created." }
-        format.json { render :show, status: :created, location: @track_workshop }
+        format.html do
+          redirect_to @track_workshop,
+                      notice: 'Track workshop was successfully created.'
+        end
+        format.json do
+          render :show, status: :created, location: @track_workshop
+        end
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @track_workshop.errors, status: :unprocessable_entity }
+        format.json do
+          render json: @track_workshop.errors, status: :unprocessable_entity
+        end
       end
     end
   end
@@ -38,11 +47,16 @@ class TrackWorkshopsController < ApplicationController
   def update
     respond_to do |format|
       if @track_workshop.update(track_workshop_params)
-        format.html { redirect_to @track_workshop, notice: "Track workshop was successfully updated." }
+        format.html do
+          redirect_to @track_workshop,
+                      notice: 'Track workshop was successfully updated.'
+        end
         format.json { render :show, status: :ok, location: @track_workshop }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @track_workshop.errors, status: :unprocessable_entity }
+        format.json do
+          render json: @track_workshop.errors, status: :unprocessable_entity
+        end
       end
     end
   end
@@ -52,19 +66,24 @@ class TrackWorkshopsController < ApplicationController
     @track_workshop.destroy!
 
     respond_to do |format|
-      format.html { redirect_to track_workshops_path, status: :see_other, notice: "Track workshop was successfully destroyed." }
+      format.html do
+        redirect_to track_workshops_path,
+                    status: :see_other,
+                    notice: 'Track workshop was successfully destroyed.'
+      end
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_track_workshop
-      @track_workshop = TrackWorkshop.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def track_workshop_params
-      params.fetch(:track_workshop, {})
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_track_workshop
+    @track_workshop = TrackWorkshop.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def track_workshop_params
+    params.require(:track_workshop).permit(:track_id, :workshop_id)
+  end
 end

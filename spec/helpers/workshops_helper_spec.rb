@@ -11,5 +11,23 @@ require 'rails_helper'
 #   end
 # end
 RSpec.describe WorkshopsHelper, type: :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'human readable start_date' do
+    it 'converts a datetime into a human readable time' do
+      dt = DateTime.new(2001, 2, 3, 4, 5, 6)
+
+      formatted_time = human_readable_time(dt)
+
+      expect(formatted_time).to eq('4:05 AM')
+    end
+  end
+
+  describe 'human readable date' do
+    it 'converts a datetime into a human readable date' do
+      dt = DateTime.new(2001, 2, 3, 4, 5, 6)
+
+      formatted_date = human_readable_date(dt)
+
+      expect(formatted_date).to eq('Saturday, February 3, 2001')
+    end
+  end
 end

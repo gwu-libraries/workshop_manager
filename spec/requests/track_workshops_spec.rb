@@ -12,120 +12,87 @@ require 'rails_helper'
 # of tools you can use to make these specs even more expressive, but we're
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
-RSpec.describe "/track_workshops", type: :request do
-  
+RSpec.describe '/track_workshops', type: :request do
   # This should return the minimal set of attributes required to create a valid
   # TrackWorkshop. As you add validations to TrackWorkshop, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
-
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
-
-  describe "GET /index" do
-    it "renders a successful response" do
-      TrackWorkshop.create! valid_attributes
-      get track_workshops_url
-      expect(response).to be_successful
-    end
+  before(:each) do
+    @workshop_1 = FactoryBot.create(:workshop)
+    @track_1 = FactoryBot.create(:track)
   end
 
-  describe "GET /show" do
-    it "renders a successful response" do
-      track_workshop = TrackWorkshop.create! valid_attributes
-      get track_workshop_url(track_workshop)
-      expect(response).to be_successful
-    end
+  let(:valid_attributes) do
+    { workshop_id: @workshop_1.id, track_id: @track_1.id }
   end
 
-  describe "GET /new" do
-    it "renders a successful response" do
-      get new_track_workshop_url
-      expect(response).to be_successful
-    end
-  end
+  context 'as a logged in facilitator' do
+    before(:each) { login_as(FactoryBot.create(:facilitator)) }
 
-  describe "GET /edit" do
-    it "renders a successful response" do
-      track_workshop = TrackWorkshop.create! valid_attributes
-      get edit_track_workshop_url(track_workshop)
-      expect(response).to be_successful
+    describe 'GET /index' do
+      it 'renders a successful response' do
+        TrackWorkshop.create! valid_attributes
+        get track_workshops_url
+        expect(response).to be_successful
+      end
     end
-  end
 
-  describe "POST /create" do
-    context "with valid parameters" do
-      it "creates a new TrackWorkshop" do
-        expect {
+    describe 'GET /show' do
+      it 'renders a successful response' do
+        track_workshop = TrackWorkshop.create! valid_attributes
+        get track_workshop_url(track_workshop)
+        expect(response).to be_successful
+      end
+    end
+
+    describe 'GET /new' do
+      it 'renders a successful response' do
+        get new_track_workshop_url
+        expect(response).to be_successful
+      end
+    end
+
+    describe 'GET /edit' do
+      it 'renders a successful response' do
+        track_workshop = TrackWorkshop.create! valid_attributes
+        get edit_track_workshop_url(track_workshop)
+        expect(response).to be_successful
+      end
+    end
+
+    describe 'POST /create' do
+      context 'with valid parameters' do
+        it 'creates a new TrackWorkshop' do
+          expect {
+            post track_workshops_url,
+                 params: {
+                   track_workshop: valid_attributes
+                 }
+          }.to change(TrackWorkshop, :count).by(1)
+        end
+
+        it 'redirects to the created track_workshop' do
           post track_workshops_url, params: { track_workshop: valid_attributes }
-        }.to change(TrackWorkshop, :count).by(1)
-      end
-
-      it "redirects to the created track_workshop" do
-        post track_workshops_url, params: { track_workshop: valid_attributes }
-        expect(response).to redirect_to(track_workshop_url(TrackWorkshop.last))
+          expect(response).to redirect_to(
+            track_workshop_url(TrackWorkshop.last)
+          )
+        end
       end
     end
 
-    context "with invalid parameters" do
-      it "does not create a new TrackWorkshop" do
-        expect {
-          post track_workshops_url, params: { track_workshop: invalid_attributes }
-        }.to change(TrackWorkshop, :count).by(0)
-      end
-
-      it "renders a response with 422 status (i.e. to display the 'new' template)" do
-        post track_workshops_url, params: { track_workshop: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
-      end
-    end
-  end
-
-  describe "PATCH /update" do
-    context "with valid parameters" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
-
-      it "updates the requested track_workshop" do
+    describe 'DELETE /destroy' do
+      it 'destroys the requested track_workshop' do
         track_workshop = TrackWorkshop.create! valid_attributes
-        patch track_workshop_url(track_workshop), params: { track_workshop: new_attributes }
-        track_workshop.reload
-        skip("Add assertions for updated state")
+        expect { delete track_workshop_url(track_workshop) }.to change(
+          TrackWorkshop,
+          :count
+        ).by(-1)
       end
 
-      it "redirects to the track_workshop" do
+      it 'redirects to the track_workshops list' do
         track_workshop = TrackWorkshop.create! valid_attributes
-        patch track_workshop_url(track_workshop), params: { track_workshop: new_attributes }
-        track_workshop.reload
-        expect(response).to redirect_to(track_workshop_url(track_workshop))
-      end
-    end
-
-    context "with invalid parameters" do
-      it "renders a response with 422 status (i.e. to display the 'edit' template)" do
-        track_workshop = TrackWorkshop.create! valid_attributes
-        patch track_workshop_url(track_workshop), params: { track_workshop: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
-      end
-    end
-  end
-
-  describe "DELETE /destroy" do
-    it "destroys the requested track_workshop" do
-      track_workshop = TrackWorkshop.create! valid_attributes
-      expect {
         delete track_workshop_url(track_workshop)
-      }.to change(TrackWorkshop, :count).by(-1)
-    end
-
-    it "redirects to the track_workshops list" do
-      track_workshop = TrackWorkshop.create! valid_attributes
-      delete track_workshop_url(track_workshop)
-      expect(response).to redirect_to(track_workshops_url)
+        expect(response).to redirect_to(track_workshops_url)
+      end
     end
   end
 end

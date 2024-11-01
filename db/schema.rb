@@ -11,6 +11,9 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.1].define(version: 2024_11_01_162648) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "facilitators", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -32,8 +35,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_01_162648) do
   end
 
   create_table "track_workshops", force: :cascade do |t|
-    t.integer "track_id", null: false
-    t.integer "workshop_id", null: false
+    t.bigint "track_id", null: false
+    t.bigint "workshop_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["track_id"], name: "index_track_workshops_on_track_id"
@@ -48,8 +51,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_01_162648) do
   end
 
   create_table "workshop_facilitators", force: :cascade do |t|
-    t.integer "workshop_id", null: false
-    t.integer "facilitator_id", null: false
+    t.bigint "workshop_id", null: false
+    t.bigint "facilitator_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["facilitator_id"], name: "index_workshop_facilitators_on_facilitator_id"
@@ -57,8 +60,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_01_162648) do
   end
 
   create_table "workshop_participants", force: :cascade do |t|
-    t.integer "workshop_id", null: false
-    t.integer "participant_id", null: false
+    t.bigint "workshop_id", null: false
+    t.bigint "participant_id", null: false
     t.boolean "in_attendance"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
