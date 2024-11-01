@@ -1,0 +1,2 @@
+class TrackWorkshop < ApplicationRecord
+end

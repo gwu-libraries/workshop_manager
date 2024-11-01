@@ -1,0 +1,2 @@
+class WorkshopFacilitator < ApplicationRecord
+end

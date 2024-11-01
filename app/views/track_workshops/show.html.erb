@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @track_workshop %>
+
+<div>
+  <%= link_to "Edit this track workshop", edit_track_workshop_path(@track_workshop) %> |
+  <%= link_to "Back to track workshops", track_workshops_path %>
+
+  <%= button_to "Destroy this track workshop", @track_workshop, method: :delete %>
+</div>

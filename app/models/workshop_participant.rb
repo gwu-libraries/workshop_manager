@@ -1,0 +1,2 @@
+class WorkshopParticipant < ApplicationRecord
+end

@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Track workshops</h1>
+
+<div id="track_workshops">
+  <% @track_workshops.each do |track_workshop| %>
+    <%= render track_workshop %>
+    <p>
+      <%= link_to "Show this track workshop", track_workshop %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New track workshop", new_track_workshop_path %>

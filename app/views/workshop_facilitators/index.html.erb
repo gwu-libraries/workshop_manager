@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Workshop facilitators</h1>
+
+<div id="workshop_facilitators">
+  <% @workshop_facilitators.each do |workshop_facilitator| %>
+    <%= render workshop_facilitator %>
+    <p>
+      <%= link_to "Show this workshop facilitator", workshop_facilitator %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New workshop facilitator", new_workshop_facilitator_path %>
