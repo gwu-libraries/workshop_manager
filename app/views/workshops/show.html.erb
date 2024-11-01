@@ -2,9 +2,10 @@
 
 <%= render @workshop %>
 
-<div>
-  <%= link_to "Edit this workshop", edit_workshop_path(@workshop) %> |
-  <%= link_to "Back to workshops", workshops_path %>
+<% if current_facilitator.present? %>
+  <%= render "admin_panel", workshop: @workshop %>
+<% end %>
 
-  <%= button_to "Destroy this workshop", @workshop, method: :delete %>
-</div>
+<%= link_to "Back to workshops", workshops_path %>
+
+

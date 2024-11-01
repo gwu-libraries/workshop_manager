@@ -1,0 +1,30 @@
+<h3>Registered Participants</h3>
+
+<div id="registered-participants">
+    <% @workshop.participants.order(:name).each do |participant| %>
+        <%= turbo_frame_tag "participant_#{participant.id}" do %>
+          <%= participant.name %> - <%= participant.email %>
+
+          <%= form_with url: workshop_participant_path(@workshop, participant), method: :patch, local: true do |form| %>
+            <%= form.hidden_field :in_attendance, value: true %>          
+            <%= form.submit "Mark Present" %>
+          <% end %>
+
+          <%= form_with url: workshop_participant_path(@workshop, participant), method: :patch, local: true do |form| %>
+            <%= form.hidden_field :in_attendance, value: false %>          
+            <%= form.submit "Mark Absent" %>
+          <% end %>
+
+          <%= button_to 'Delete this participant',
+              workshop_participant_path(@workshop, participant),
+              method: :delete %>
+        <% end %>
+        <p></p>
+    <% end %>
+</div>
+
+
+<div id="workshop-controls">
+  <%= link_to "Edit this workshop", edit_workshop_path(@workshop) %>
+  <%= button_to "Destroy this workshop", @workshop, method: :delete %>
+</div>

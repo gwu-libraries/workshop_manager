@@ -1,2 +1,29 @@
 <div id="<%= dom_id workshop %>">
+  <h1> <%= @workshop.title %> </h1>
+  <br>
+  <h3>
+    Facilitators
+  </h3>
+  <% @workshop.facilitators.each do |facilitator| %>
+    <p>
+      <%= facilitator.name %>
+    </p>
+  <% end %>
+
+  <h3>Description</h3>
+  <p>
+    <%= @workshop.description %>
+  </p>
+
+  <h3>Time and Date</h3>
+  <p>
+    Date: <%= human_readable_date(@workshop.start_time) %>
+  </p>
+  <p>
+    Start time: <%= human_readable_time(@workshop.start_time) %>
+  </p>
+  <p>
+    End time: <%= human_readable_time(@workshop.end_time) %>
+  </p>
+
 </div>
