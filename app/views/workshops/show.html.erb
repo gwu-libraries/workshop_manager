@@ -4,6 +4,8 @@
 
 <% if current_facilitator.present? %>
   <%= render "admin_panel", workshop: @workshop %>
+<% else %>
+  <%= render "workshop_participants/form", workshop: @workshop %>
 <% end %>
 
 <%= link_to "Back to workshops", workshops_path %>

@@ -1,7 +1,7 @@
 class TrackWorkshopsController < ApplicationController
   before_action :set_track_workshop, only: %i[show edit update destroy]
-  before_action :require_login,
-                only: %i[index show new edit create update destroy]
+  # before_action :require_login,
+  # only: %i[index show new edit create update destroy]
 
   # GET /track_workshops or /track_workshops.json
   def index

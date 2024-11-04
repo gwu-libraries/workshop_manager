@@ -2,8 +2,8 @@ class WorkshopParticipantsController < ApplicationController
   include WorkshopParticipantNotifier
 
   before_action :set_workshop_participant, only: %i[show edit update destroy]
-  before_action :require_login,
-                only: %i[index show new edit create update destroy]
+  # before_action :require_login,
+  #               only: %i[index show new edit create update destroy]
 
   # GET /workshop_participants or /workshop_participants.json
   def index
@@ -25,7 +25,17 @@ class WorkshopParticipantsController < ApplicationController
 
   # POST /workshop_participants or /workshop_participants.json
   def create
-    @workshop_participant = WorkshopParticipant.new(workshop_participant_params)
+    @participant =
+      Participant.find_or_create_by(
+        name: workshop_participant_params[:name],
+        email: workshop_participant_params[:email]
+      )
+
+    @workshop_participant =
+      WorkshopParticipant.new(
+        workshop_id: workshop_participant_params[:workshop_id],
+        participant_id: @participant.id
+      )
 
     respond_to do |format|
       if @workshop_participant.save
@@ -93,7 +103,9 @@ class WorkshopParticipantsController < ApplicationController
     params.require(:workshop_participant).permit(
       :workshop_id,
       :participant_id,
-      :in_attendance
+      :in_attendance,
+      :name,
+      :email
     )
   end
 end

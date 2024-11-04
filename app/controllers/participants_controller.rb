@@ -1,6 +1,6 @@
 class ParticipantsController < ApplicationController
   before_action :set_participant, only: %i[show edit update destroy]
-  before_action :require_login, only: %i[index show edit update destroy]
+  # before_action :require_login, only: %i[index show edit update destroy]
 
   # GET /participants or /participants.json
   def index
