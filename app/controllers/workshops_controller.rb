@@ -24,6 +24,15 @@ class WorkshopsController < ApplicationController
   def create
     @workshop = Workshop.new(workshop_params)
 
+    workshop_params[:facilitator_ids]
+      .reject(&:empty?)
+      .each do |facilitator_id|
+        WorkshopFacilitator.create(
+          workshop_id: @workshop.id,
+          facilitator_id: facilitator_id
+        )
+      end
+
     respond_to do |format|
       if @workshop.save
         format.html do
@@ -83,7 +92,9 @@ class WorkshopsController < ApplicationController
       :title,
       :description,
       :start_time,
-      :end_time
+      :end_time,
+      :location,
+      facilitator_ids: []
     )
   end
 end

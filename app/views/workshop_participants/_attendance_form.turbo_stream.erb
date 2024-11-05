@@ -1,0 +1,14 @@
+<%= turbo_frame_tag "workshop_participant_attendance_form_#{@workshop_participant.id}" do %>
+  <%= @workshop_participant.participant.name %> - <%= @workshop_participant.participant.email %> 
+  Present? <%= @workshop_participant.in_attendance ? "✅" : "❌" %>
+
+  <%= simple_form_for @workshop_participant do |f| %>
+    <%= f.hidden_field :in_attendance, value: true %>
+    <%= f.submit "Mark present", data: { turbo_frame: "workshop_participant_attendance_form_#{@workshop_participant.id}" } %>
+  <% end %>
+
+  <%= simple_form_for @workshop_participant do |f| %>
+    <%= f.hidden_field :in_attendance, value: false %>
+    <%= f.submit "Mark absent", data: { turbo_frame: "workshop_participant_attendance_form_#{@workshop_participant.id}" } %>
+  <% end %>
+<% end %>

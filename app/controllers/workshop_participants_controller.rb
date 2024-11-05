@@ -60,13 +60,11 @@ class WorkshopParticipantsController < ApplicationController
   def update
     respond_to do |format|
       if @workshop_participant.update(workshop_participant_params)
-        format.html do
-          redirect_to @workshop_participant,
-                      notice: 'Workshop participant was successfully updated.'
+        format.turbo_stream do
+          render "workshop_participant_attendance_form_#{@workshop_participant.id}",
+                 partial: 'workshop_participants/attendance_form'
         end
-        format.json do
-          render :show, status: :ok, location: @workshop_participant
-        end
+        format.html { render workshop_path(@workshop_participant.workshop_id) }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json do
@@ -82,12 +80,13 @@ class WorkshopParticipantsController < ApplicationController
     @workshop_participant.destroy!
 
     respond_to do |format|
-      format.html do
-        redirect_to workshop_participants_path,
-                    status: :see_other,
-                    notice: 'Workshop participant was successfully destroyed.'
+      format.turbo_stream do
+        render turbo_stream:
+                 turbo_stream.remove(
+                   "participant_#{@workshop_participant.participant_id}"
+                 )
       end
-      format.json { head :no_content }
+      format.html { render workshop_path(@workshop_participant.workshop_id) }
     end
   end
 

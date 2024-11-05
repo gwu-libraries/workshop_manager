@@ -3,9 +3,11 @@
 <%= render @workshop %>
 
 <% if current_facilitator.present? %>
+  <h3>Admin Panel</h3>
   <%= render "admin_panel", workshop: @workshop %>
 <% else %>
-  <%= render "workshop_participants/form", workshop: @workshop %>
+  <h3>Register for <%= @workshop.title %></h3>
+  <%= render "workshop_participants/registration_form", workshop: @workshop %>
 <% end %>
 
 <%= link_to "Back to workshops", workshops_path %>

@@ -1,17 +1,17 @@
-<%= form_with(model: workshop) do |form| %>
-  <% if workshop.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(workshop.errors.count, "error") %> prohibited this workshop from being saved:</h2>
+<%= simple_form_for @workshop do |f| %>
+  <div class="form-inputs">
+    <%= f.input :title %>
+    <%= f.input :description %>
+    <%= f.input :location %>
+    <%= f.input :start_time, as: :datetime %>
+    <%= f.input :end_time, as: :datetime %>
+  </div>
 
-      <ul>
-        <% workshop.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <div class="facilitators-input">
+    <%= f.association :facilitators, label_method: :name, include_blank: false, as: :check_boxes %>
+  </div>
 
-  <div>
-    <%= form.submit %>
+  <div class="form-actions">
+    <%= f.button :submit %>
   </div>
 <% end %>
