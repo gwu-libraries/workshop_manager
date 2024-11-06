@@ -1,15 +1,12 @@
-<%= link_to "Edit Workshop", edit_workshop_path(@workshop)%>
+<div id="workshop-controls">
+  <%= link_to "Edit Workshop", edit_workshop_path(@workshop)%>
+  <%= button_to "Destroy this workshop", @workshop, method: :delete %>
+</div>
 
 <h3>Registered Participants</h3>
 
 <div id="registered-participants">
   <%= render partial: "workshop_participants/attendance_form", 
-             collection: @workshop.workshop_participants,
+             collection: @workshop.workshop_participants.order('created_at asc'),
              as: :workshop_participant %>
-</div>
-
-
-<div id="workshop-controls">
-  <%= link_to "Edit this workshop", edit_workshop_path(@workshop) %>
-  <%= button_to "Destroy this workshop", @workshop, method: :delete %>
 </div>
