@@ -1,0 +1,5 @@
+<%= turbo_stream.replace "participation_bar_chart" do %>
+  <%= turbo_frame_tag "participation_bar_chart" do %>
+    <%= vega_chart @participation_bar_chart %>
+  <% end %>
+<% end %>

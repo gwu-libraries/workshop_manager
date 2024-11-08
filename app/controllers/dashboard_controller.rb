@@ -19,7 +19,7 @@ class DashboardController < ApplicationController
       }
     end
 
-    @bar_chart = {
+    @participation_bar_chart = {
       '$schema': 'https://vega.github.io/schema/vega-lite/v5.json',
       data: {
         values: result

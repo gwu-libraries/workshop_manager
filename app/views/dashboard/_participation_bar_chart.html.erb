@@ -1,0 +1,9 @@
+<%= turbo_frame_tag "participation_bar_chart" do %>
+  <% Facilitator.all.each do |facilitator| %>
+    <%= simple_form_for :facilitator_filter, url: dashboard_path do |f| %>
+      <%= f.hidden_field :facilitator_id, value: facilitator.id %>
+      <%= f.submit "#{facilitator.name}" %>
+    <% end %>
+  <% end %>
+  <%= vega_chart @participation_bar_chart %>
+<% end %>

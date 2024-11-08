@@ -42,7 +42,11 @@ past_workshops.each do |pw|
   participants
     .sample(rand(participants.count))
     .each do |part|
-      WorkshopParticipant.create(workshop_id: pw.id, participant_id: part.id)
+      WorkshopParticipant.create(
+        workshop_id: pw.id,
+        participant_id: part.id,
+        in_attendance: [true, false].sample
+      )
     end
 
   facilitators
@@ -56,7 +60,11 @@ future_workshops.each do |fw|
   participants
     .sample(rand(participants.count))
     .each do |part|
-      WorkshopParticipant.create(workshop_id: fw.id, participant_id: part.id)
+      WorkshopParticipant.create(
+        workshop_id: fw.id,
+        participant_id: part.id,
+        in_attendance: [true, false].sample
+      )
     end
 
   facilitators
