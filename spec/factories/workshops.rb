@@ -11,6 +11,8 @@ FactoryBot.define do
       )
     end
 
+    attendance_strategy { [0, 1].sample }
+
     factory :current_workshop do
       start_time { DateTime.now - 1.hours }
       end_time { DateTime.now + 1.hours }

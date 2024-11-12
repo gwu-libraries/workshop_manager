@@ -1,4 +1,6 @@
 class Workshop < ApplicationRecord
+  enum :attendance_strategy, { individual: 0, collective: 1 }
+
   has_many :track_workshops
   has_many :tracks, through: :track_workshops
 
