@@ -5,8 +5,16 @@
 
 <h3>Registered Participants</h3>
 
-<div id="registered-participants">
-  <%= render partial: "workshop_participants/attendance_form", 
-             collection: @workshop.workshop_participants.order('created_at asc'),
-             as: :workshop_participant %>
-</div>
+<% if @workshop.attendance_strategy == 'individual'%>
+  <div id="registered-participants">
+    <%= render partial: "workshop_participants/attendance_form", 
+              collection: @workshop.workshop_participants.order('created_at asc'),
+              as: :workshop_participant %>
+  </div>
+<% end %>
+
+<% if @workshop.attendance_strategy == 'collective' %>
+  <div id="group-attendance">
+    <%= render partial: "group_attendance_form" %>
+  </div>
+<% end %>

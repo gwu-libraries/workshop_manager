@@ -6,8 +6,10 @@
   <h3>Admin Panel</h3>
   <%= render "admin_panel", workshop: @workshop %>
 <% else %>
-  <h3>Register for <%= @workshop.title %></h3>
-  <%= render "workshop_participants/registration_form", workshop: @workshop %>
+  <% unless @workshop.end_time.past? %>
+    <h3>Register for <%= @workshop.title %></h3>
+    <%= render "workshop_participants/registration_form", workshop: @workshop %>
+  <% end %>
 <% end %>
 
 <%= link_to "Back to workshops", workshops_path %>

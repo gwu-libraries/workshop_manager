@@ -74,6 +74,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_01_162648) do
     t.string "description"
     t.string "location"
     t.integer "attendance_strategy"
+    t.integer "attendance_count"
     t.datetime "start_time"
     t.datetime "end_time"
     t.datetime "created_at", null: false

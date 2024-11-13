@@ -5,6 +5,7 @@ class CreateWorkshops < ActiveRecord::Migration[7.1]
       t.string :description
       t.string :location
       t.integer :attendance_strategy
+      t.integer :attendance_count
       t.datetime :start_time
       t.datetime :end_time
 
