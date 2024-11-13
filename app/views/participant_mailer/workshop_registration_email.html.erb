@@ -1,7 +1,7 @@
-<h1>Participant#workshop_registration_email</h1>
+<h1>Workshop Registration Email</h1>
 
 <p>
-  <%= @greeting %>, find me in app/views/participant_mailer/workshop_registration_email.html.erb
+  <%= @message %>
 </p>
 
-<%= link_to 'Show Workshop', workshop_url(Workshop.first, host: 'localhost:3000')%>
+<%= link_to 'Show Workshop', workshop_url(@workshop, host: 'localhost:3000')%>

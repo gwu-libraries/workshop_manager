@@ -40,8 +40,9 @@ class WorkshopParticipantsController < ApplicationController
     respond_to do |format|
       if @workshop_participant.save
         format.html do
-          redirect_to @workshop_participant,
-                      notice: 'Workshop participant was successfully created.'
+          redirect_to workshop_path(@workshop_participant.workshop),
+                      notice:
+                        "You're signed up! Check your email for more information."
         end
         format.json do
           render :show, status: :created, location: @workshop_participant
