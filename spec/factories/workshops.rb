@@ -13,6 +13,12 @@ FactoryBot.define do
 
     attendance_strategy { [0, 1].sample }
 
+    modality { [0, 1, 2].sample }
+
+    virtual_location { 'A Zoom Room' }
+
+    in_person_location { "Room #{rand(100..1000)}" }
+
     factory :current_workshop do
       start_time { DateTime.now - 1.hours }
       end_time { DateTime.now + 1.hours }

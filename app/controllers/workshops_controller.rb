@@ -95,6 +95,9 @@ class WorkshopsController < ApplicationController
       :end_time,
       :location,
       :attendance_strategy,
+      :modality,
+      :in_person_location,
+      :virtual_location,
       :attendance_count,
       facilitator_ids: []
     )
