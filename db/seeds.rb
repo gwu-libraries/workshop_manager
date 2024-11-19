@@ -89,22 +89,48 @@ end
 
 5.times { FactoryBot.create(:non_finalized_workshop) }
 
-Workshop.where(registration_modality: 'application_required') do |workshop|
-  at = ApplicationTemplate.create()
-  wat =
-    WorkshopApplicationTemplate.create(
-      application_template_id: at.id,
-      workshop_id: workshop.id
-    )
-end
+Workshop
+  .where(registration_modality: 'application_required')
+  .each do |workshop|
+    at = ApplicationTemplate.create
+    wat =
+      WorkshopApplicationTemplate.create(
+        application_template_id: at.id,
+        workshop_id: workshop.id
+      )
+  end
 
 ApplicationTemplate.all.each do |at|
-  5.times do
-    q = FactoryBot.create(:question)
-    atq =
-      ApplicationTemplateQuestion.create(
-        question_id: q.id,
-        application_template_id: at.id
-      )
+  2.times do
+    q = FactoryBot.create(:true_false_question)
+
+    ApplicationTemplateQuestion.create(
+      question_id: q.id,
+      application_template_id: at.id
+    )
+  end
+  2.times do
+    q = FactoryBot.create(:short_answer_question)
+
+    ApplicationTemplateQuestion.create(
+      question_id: q.id,
+      application_template_id: at.id
+    )
+  end
+  2.times do
+    q = FactoryBot.create(:long_answer_question)
+
+    ApplicationTemplateQuestion.create(
+      question_id: q.id,
+      application_template_id: at.id
+    )
+  end
+  2.times do
+    q = FactoryBot.create(:likert_question)
+
+    ApplicationTemplateQuestion.create(
+      question_id: q.id,
+      application_template_id: at.id
+    )
   end
 end
