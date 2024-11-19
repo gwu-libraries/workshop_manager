@@ -16,12 +16,15 @@ RSpec.describe '/workshops', type: :request do
   # This should return the minimal set of attributes required to create a valid
   # Workshop. As you add validations to Workshop, be sure to
   # adjust the attributes here as well.
+  let(:facilitator_1) { FactoryBot.create(:facilitator) }
+  let(:facilitator_2) { FactoryBot.create(:facilitator) }
   let(:valid_attributes) do
     {
       title: 'A Valid Workshop Title',
       description: 'A valid workshop description',
       start_time: DateTime.now - 1.hours,
-      end_time: DateTime.now + 1.hours
+      end_time: DateTime.now + 1.hours,
+      facilitator_ids: [facilitator_1.id, facilitator_2.id]
     }
   end
 

@@ -11,13 +11,21 @@ FactoryBot.define do
       )
     end
 
-    attendance_strategy { [0, 1].sample }
+    attendance_modality { [0, 1].sample }
 
-    modality { [0, 1, 2].sample }
+    presentation_modality { [0, 1, 2].sample }
+
+    registration_modality { [0, 1, 2].sample }
 
     virtual_location { 'A Zoom Room' }
 
     in_person_location { "Room #{rand(100..1000)}" }
+
+    finalized { true }
+
+    factory :non_finalized_workshop do
+      finalized { false }
+    end
 
     factory :current_workshop do
       start_time { DateTime.now - 1.hours }

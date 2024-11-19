@@ -1,7 +1,22 @@
 <%= simple_form_for @workshop do |f| %>
-  <div class="form-inputs">
-    <%= f.input :attendance_count %>
-  </div>
+  <% if @workshop.presentation_modality == 'in_person' %>
+    <div class="form-inputs">
+      <%= f.input :in_person_attendance_count %>
+    </div>
+  <% end %>
+
+  <% if @workshop.presentation_modality == 'virtual' %>
+    <div class="form-inputs">
+      <%= f.input :virtual_attendance_count %>
+    </div>
+  <% end %>
+
+  <% if @workshop.presentation_modality == 'hybrid' %>
+    <div class="form-inputs">
+      <%= f.input :virtual_attendance_count %>
+      <%= f.input :in_person_attendance_count %>
+    </div>
+  <% end %>
 
   <div class="form-actions">
     <%= f.button :submit %>

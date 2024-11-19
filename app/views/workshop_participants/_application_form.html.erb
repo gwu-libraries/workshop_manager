@@ -1,21 +1,20 @@
-<%= simple_form_for :workshop_participant, url: workshop_participants_path do |f| %>
-  <div class = "form-inputs">
-    <%= f.input :email %>
-    <%= f.input :name %>
-
-      <% if @workshop.application_template.present? %>
-        <% @workshop.application_template.questions.each do |question| %>
-          <p>
-            <%= question.prompt %>
-          </p>
-        <% end %>
-      <% end %>
-
-    <%= f.hidden_field :workshop_id, value: @workshop.id %>
-  </div>
-
+<%= simple_form_for :workshop_participants, url: "/workshop_participants/apply" do |f| %>
+  <%= f.input :email %>
+  <%= f.input :name %>
+  <% application_template.questions.each do |question| %>
+    <% case question.question_format %>
+      <% when "short_answer" %>
+        <%= f.input "#{question.prompt}" %>
+      <% when "long_answer" %>
+        <%= f.input "#{question.prompt}", as: :text %>
+      <% when "true_false" %>
+        <%= f.input "#{question.prompt}", as: :radio_buttons, collection: ['true', 'false']%>
+      <% when "likert" %>
+        <%= f.input "#{question.prompt}", as: :radio_buttons, collection: ['1', '2', '3', '4', '5']%>
+    <% end %>
+  <% end%>
+  <%= f.hidden_field :workshop_id, value: @workshop.id %>
   <div class="form-actions">
-    <%= f.submit "Submit Application"%>
+    <%= f.submit "Submit Application" %>
   </div>
-
 <% end %>

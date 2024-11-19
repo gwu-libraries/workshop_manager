@@ -26,4 +26,26 @@
     End time: <%= human_readable_time(@workshop.end_time) %>
   </p>
 
+  <h3>Location</h3>
+
+  <% if @workshop.presentation_modality == 'virtual'%>
+    <b>Virtual</b>
+    <p>
+      <%= @workshop.virtual_location %>
+    </p>
+  <% elsif @workshop.presentation_modality == 'in_person'%>
+    <b>In Person</b>
+    <p>
+      <%= @workshop.in_person_location %>
+    </p>
+  <% elsif @workshop.presentation_modality == 'hybrid' %>
+    <b>Hybrid</b>
+    <p>
+      Virtual Location: <%= @workshop.virtual_location %>
+    </p>
+    <p>
+      In Person Location: <%= @workshop.in_person_location %>
+    </p>
+  <% end %>
+
 </div>

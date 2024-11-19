@@ -33,12 +33,29 @@ class WorkshopsController < ApplicationController
         )
       end
 
+    if @workshop.save
+      if @workshop.registration_modality == 'application_required'
+        @application_template = ApplicationTemplate.create()
+        @workshop_application_template =
+          WorkshopApplicationTemplate.create(
+            workshop_id: @workshop.id,
+            application_template_id: @application_template.id
+          )
+      end
+    end
+
     respond_to do |format|
       if @workshop.save
-        format.html do
-          redirect_to @workshop, notice: 'Workshop was successfully created.'
+        if @workshop.registration_modality == 'application_required'
+          format.html do
+            redirect_to application_template_path(@application_template)
+          end
+        else
+          format.html do
+            redirect_to @workshop, notice: 'Workshop was successfully created.'
+          end
+          format.json { render :show, status: :created, location: @workshop }
         end
-        format.json { render :show, status: :created, location: @workshop }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json do
@@ -94,11 +111,13 @@ class WorkshopsController < ApplicationController
       :start_time,
       :end_time,
       :location,
-      :attendance_strategy,
-      :modality,
+      :attendance_modality,
+      :presentation_modality,
+      :registration_modality,
       :in_person_location,
       :virtual_location,
-      :attendance_count,
+      :in_person_attendance_count,
+      :virtual_attendance_count,
       facilitator_ids: []
     )
   end

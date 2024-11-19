@@ -92,8 +92,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_18_173306) do
   create_table "workshop_participants", force: :cascade do |t|
     t.bigint "workshop_id", null: false
     t.bigint "participant_id", null: false
+    t.jsonb "application_responses"
     t.boolean "in_attendance"
-    t.boolean "accepted"
+    t.integer "application_status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["participant_id"], name: "index_workshop_participants_on_participant_id"

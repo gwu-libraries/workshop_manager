@@ -4,6 +4,6 @@ class ParticipantMailerPreview < ActionMailer::Preview
   def workshop_registration_email
     participant = FactoryBot.create(:participant)
     workshop = FactoryBot.create(:future_workshop)
-    ParticipantMailer.workshop_registration_email(workshop, participant)
+    ParticipantMailer.workshop_registration_email(workshop.id, participant.id)
   end
 end

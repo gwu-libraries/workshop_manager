@@ -15,7 +15,7 @@ RSpec.describe Workshop, type: :model do
   describe 'methods' do
     it 'can return a total attendance count with an individual attendance modality' do
       workshop_1 =
-        FactoryBot.create(:future_workshop, attendance_strategy: 'individual')
+        FactoryBot.create(:future_workshop, attendance_modality: 'individual')
       participant_1 = FactoryBot.create(:participant)
       participant_2 = FactoryBot.create(:participant)
       participant_3 = FactoryBot.create(:participant)
@@ -49,7 +49,7 @@ RSpec.describe Workshop, type: :model do
       workshop_1 =
         FactoryBot.create(
           :future_workshop,
-          attendance_strategy: 'collective',
+          attendance_modality: 'collective',
           virtual_attendance_count: 6,
           in_person_attendance_count: 3
         )

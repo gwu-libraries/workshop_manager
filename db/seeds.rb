@@ -88,3 +88,23 @@ tracks.each do |t|
 end
 
 5.times { FactoryBot.create(:non_finalized_workshop) }
+
+Workshop.where(registration_modality: 'application_required') do |workshop|
+  at = ApplicationTemplate.create()
+  wat =
+    WorkshopApplicationTemplate.create(
+      application_template_id: at.id,
+      workshop_id: workshop.id
+    )
+end
+
+ApplicationTemplate.all.each do |at|
+  5.times do
+    q = FactoryBot.create(:question)
+    atq =
+      ApplicationTemplateQuestion.create(
+        question_id: q.id,
+        application_template_id: at.id
+      )
+  end
+end

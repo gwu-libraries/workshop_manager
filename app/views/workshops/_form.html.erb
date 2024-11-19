@@ -2,8 +2,11 @@
   <div class="form-inputs">
     <%= f.input :title %>
     <%= f.input :description %>
-    <%= f.input :location %>
-    <%= f.input :attendance_strategy, as: :radio_buttons, collection: ['individual', 'collective'] %>
+    <%= f.input :presentation_modality, as: :radio_buttons, collection: ['in_person', 'virtual', 'hybrid']%>
+    <%= f.input :virtual_location %>
+    <%= f.input :in_person_location %>
+    <%= f.input :attendance_modality, as: :radio_buttons, collection: ['individual', 'collective'] %>
+    <%= f.input :registration_modality, as: :radio_buttons, collection: ['no_registration_required', 'registration_required', 'application_required'] %>
     <%= f.input :start_time, as: :datetime %>
     <%= f.input :end_time, as: :datetime %>
   </div>

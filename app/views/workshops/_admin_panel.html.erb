@@ -1,20 +1,30 @@
+<h3>Pending Applications</h3>
+
+<% case @workshop.registration_modality %>
+  <% when "application_required"%>
+    <div id="pending-applications">
+      <%= render partial: "workshop_participants/approval_form",
+                collection: @workshop.workshop_participants.where(application_status: "pending").order('created_at asc'),
+                as: :workshop_participant %>
+    </div>
+<% end %>
+
+<h3>Registered Participants</h3>
+
+<% case @workshop.attendance_modality %>
+  <% when "individual"%>
+    <div id="registered-participants">
+      <%= render partial: "workshop_participants/attendance_form", 
+                collection: @workshop.workshop_participants.where(application_status: "accepted").order('created_at asc'),
+                as: :workshop_participant %>
+    </div>
+  <% when "collective" %>
+    <div id="group-attendance">
+      <%= render partial: "group_attendance_form" %>
+    </div>
+<% end %>
+
 <div id="workshop-controls">
   <%= link_to "Edit Workshop", edit_workshop_path(@workshop)%>
   <%= button_to "Destroy this workshop", @workshop, method: :delete %>
 </div>
-
-<h3>Registered Participants</h3>
-
-<% if @workshop.attendance_strategy == 'individual'%>
-  <div id="registered-participants">
-    <%= render partial: "workshop_participants/attendance_form", 
-              collection: @workshop.workshop_participants.order('created_at asc'),
-              as: :workshop_participant %>
-  </div>
-<% end %>
-
-<% if @workshop.attendance_strategy == 'collective' %>
-  <div id="group-attendance">
-    <%= render partial: "group_attendance_form" %>
-  </div>
-<% end %>

@@ -23,6 +23,48 @@ class WorkshopParticipantsController < ApplicationController
   def edit
   end
 
+  def apply # no one is happy about this, fix it, but whatever for now. Should be part of "Application" and "WorkshopParticipantApplication"
+    @participant =
+      Participant.find_or_create_by(
+        name: params[:workshop_participants][:name],
+        email: params[:workshop_participants][:email]
+      )
+
+    application_responses = {}
+
+    application_responses =
+      params[:workshop_participants]
+        .except(:email, :name, :workshop_id)
+        .each { |key, value| application_responses[key] = value }
+
+    @workshop_participant =
+      WorkshopParticipant.create(
+        workshop_id: params[:workshop_participants][:workshop_id],
+        participant_id: @participant.id,
+        application_status: 'pending',
+        application_responses: application_responses
+      )
+
+    respond_to do |format|
+      if @workshop_participant.save
+        format.html do
+          redirect_to workshop_path(@workshop_participant.workshop),
+                      notice:
+                        'Your application is pending! Check your email for more information.'
+        end
+        format.json do
+          render :show, status: :created, location: @workshop_participant
+        end
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json do
+          render json: @workshop_participant.errors,
+                 status: :unprocessable_entity
+        end
+      end
+    end
+  end
+
   # POST /workshop_participants or /workshop_participants.json
   def create
     @participant =
@@ -34,7 +76,8 @@ class WorkshopParticipantsController < ApplicationController
     @workshop_participant =
       WorkshopParticipant.new(
         workshop_id: workshop_participant_params[:workshop_id],
-        participant_id: @participant.id
+        participant_id: @participant.id,
+        application_status: 'accepted'
       )
 
     respond_to do |format|
@@ -105,7 +148,8 @@ class WorkshopParticipantsController < ApplicationController
       :participant_id,
       :in_attendance,
       :name,
-      :email
+      :email,
+      :application_status
     )
   end
 end
