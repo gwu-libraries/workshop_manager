@@ -1,0 +1,25 @@
+<%= turbo_frame_tag "workshop_participant_approval_form_#{workshop_participant.id}" do %>
+  <p>
+    Name: <%= workshop_participant.participant.name %>
+  </p>
+  <p>
+    Email: <%= workshop_participant.participant.email %>
+  </p>
+
+  <% workshop_participant.application_responses.each do |prompt, response|%>
+    <p>
+      Prompt: <%= prompt %>
+    <br>
+      Response: <%= response %>
+    </p>
+  <% end %>
+
+  <%= simple_form_for workshop_participant do |f| %>
+    <%= f.hidden_field :application_status, value: "accepted" %>
+    <%= f.submit "Accept participant application" %>
+  <% end %>
+  <%= simple_form_for workshop_participant do |f| %>
+    <%= f.hidden_field :application_status, value: "rejected" %>
+    <%= f.submit "Reject participant application" %>
+  <% end %>
+<% end %>
