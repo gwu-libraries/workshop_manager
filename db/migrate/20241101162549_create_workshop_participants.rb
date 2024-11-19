@@ -4,6 +4,7 @@ class CreateWorkshopParticipants < ActiveRecord::Migration[7.1]
       t.references :workshop, null: false, foreign_key: true
       t.references :participant, null: false, foreign_key: true
       t.boolean :in_attendance, null: true
+      t.boolean :accepted, null: true
 
       t.timestamps
     end

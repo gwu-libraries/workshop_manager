@@ -1,0 +1,21 @@
+<%= simple_form_for :workshop_participant, url: workshop_participants_path do |f| %>
+  <div class = "form-inputs">
+    <%= f.input :email %>
+    <%= f.input :name %>
+
+      <% if @workshop.application_template.present? %>
+        <% @workshop.application_template.questions.each do |question| %>
+          <p>
+            <%= question.prompt %>
+          </p>
+        <% end %>
+      <% end %>
+
+    <%= f.hidden_field :workshop_id, value: @workshop.id %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit "Submit Application"%>
+  </div>
+
+<% end %>

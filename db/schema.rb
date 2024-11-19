@@ -10,9 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_01_162648) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_18_173306) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "application_template_questions", force: :cascade do |t|
+    t.bigint "application_template_id", null: false
+    t.bigint "question_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["application_template_id"], name: "idx_on_application_template_id_63e6caaa85"
+    t.index ["question_id"], name: "index_application_template_questions_on_question_id"
+  end
+
+  create_table "application_templates", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "facilitators", force: :cascade do |t|
     t.string "name"
@@ -34,6 +48,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_01_162648) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "questions", force: :cascade do |t|
+    t.string "prompt"
+    t.integer "question_format"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "track_workshops", force: :cascade do |t|
     t.bigint "track_id", null: false
     t.bigint "workshop_id", null: false
@@ -50,6 +71,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_01_162648) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "workshop_application_templates", force: :cascade do |t|
+    t.bigint "workshop_id", null: false
+    t.bigint "application_template_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["application_template_id"], name: "idx_on_application_template_id_080c9fac35"
+    t.index ["workshop_id"], name: "index_workshop_application_templates_on_workshop_id"
+  end
+
   create_table "workshop_facilitators", force: :cascade do |t|
     t.bigint "workshop_id", null: false
     t.bigint "facilitator_id", null: false
@@ -63,6 +93,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_01_162648) do
     t.bigint "workshop_id", null: false
     t.bigint "participant_id", null: false
     t.boolean "in_attendance"
+    t.boolean "accepted"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["participant_id"], name: "index_workshop_participants_on_participant_id"
@@ -72,17 +103,26 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_01_162648) do
   create_table "workshops", force: :cascade do |t|
     t.string "title"
     t.string "description"
-    t.string "location"
-    t.integer "attendance_strategy"
-    t.integer "attendance_count"
+    t.integer "attendance_modality"
+    t.integer "presentation_modality"
+    t.integer "registration_modality"
+    t.integer "virtual_attendance_count", default: 0
+    t.integer "in_person_attendance_count", default: 0
+    t.string "virtual_location"
+    t.string "in_person_location"
     t.datetime "start_time"
     t.datetime "end_time"
+    t.boolean "finalized", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "application_template_questions", "application_templates"
+  add_foreign_key "application_template_questions", "questions"
   add_foreign_key "track_workshops", "tracks"
   add_foreign_key "track_workshops", "workshops"
+  add_foreign_key "workshop_application_templates", "application_templates"
+  add_foreign_key "workshop_application_templates", "workshops"
   add_foreign_key "workshop_facilitators", "facilitators"
   add_foreign_key "workshop_facilitators", "workshops"
   add_foreign_key "workshop_participants", "participants"

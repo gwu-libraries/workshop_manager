@@ -86,3 +86,5 @@ tracks.each do |t|
     .sample(rand(future_workshops.count))
     .each { |fw| TrackWorkshop.create(track_id: t.id, workshop_id: fw.id) }
 end
+
+5.times { FactoryBot.create(:non_finalized_workshop) }

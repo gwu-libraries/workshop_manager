@@ -1,0 +1,10 @@
+<h2>
+Add a new question
+</h2>
+
+<%= simple_form_for Question.new do |f| %>
+  <%= f.input :prompt %>
+  <%= f.input :question_format, as: :radio_buttons, collection: ['true_false', 'likert', 'short_answer', 'long_answer'] %>
+  <%= f.hidden_field :application_template_id, value: @application_template.id %>
+  <%= f.submit "Save question" %>
+<% end %>

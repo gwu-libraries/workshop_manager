@@ -1,0 +1,10 @@
+<h3> Create Application Form for Workshop </h3>
+
+<%= turbo_frame_tag "questions" do %>
+  <h2>Questions</h2>
+  <% @application_template.questions.each do |question| %>
+    <%= render question %>
+  <% end %>
+<% end %>
+
+<%= render "questions/form", application_template: @application_template %>
