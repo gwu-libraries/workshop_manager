@@ -149,7 +149,12 @@ class WorkshopParticipantsController < ApplicationController
       :in_attendance,
       :name,
       :email,
-      :application_status
+      :application_status,
+      reminder_options: []
     )
+  end
+
+  def reminder_option_params
+    params.require(:reminder_options).permit(reminder_options: [])
   end
 end

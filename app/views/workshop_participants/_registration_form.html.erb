@@ -4,6 +4,10 @@
     <%= f.input :email %>
     <%= f.input :name %>
     <%= f.hidden_field :workshop_id, value: @workshop.id %>
+
+    <%= simple_fields_for :reminder_options do |n| %>
+      <%= n.input :reminder_options, as: :check_boxes, collection: ["One week before", "One day before", "One hour before"] %>
+    <% end %>
   </div>
 
   <div class="form-actions">

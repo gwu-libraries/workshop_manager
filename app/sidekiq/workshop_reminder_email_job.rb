@@ -1,5 +1,6 @@
 class WorkshopReminderEmailJob
   include Sidekiq::Job
+  # sidekiq_options queue: :mailer
 
   def perform(*args)
     ParticipantMailer.workshop_reminder_email(
