@@ -7,6 +7,7 @@ class Workshop < ApplicationRecord
          registration_required: 1,
          application_required: 2
        }
+  enum :proposal_status, { pending: 0, approved: 1, rejected: 2 }, default: 0
 
   has_many :track_workshops, dependent: :destroy
   has_many :tracks, through: :track_workshops

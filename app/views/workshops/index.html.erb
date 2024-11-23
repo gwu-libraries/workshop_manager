@@ -2,11 +2,10 @@
 
 <h2>Upcoming Workshops</h2>
 
-<%= month_calendar(events: @workshops) do |date, workshops| %>
+<%= month_calendar(events: @workshops.where(proposal_status: "approved")) do |date, workshops| %>
   <%= date %>
 
   <% workshops.each do |workshop| %>
-    <% if workshop.finalized %>
       <div>
         <%= link_to workshop.title, workshop_path(workshop.id) %>
         <br>
@@ -28,6 +27,5 @@
             <div> Registration Required </div>
         <% end %>
       </div>
-    <% end %>
   <% end %>
 <% end %>

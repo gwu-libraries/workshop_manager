@@ -104,6 +104,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_18_173306) do
   create_table "workshops", force: :cascade do |t|
     t.string "title"
     t.string "description"
+    t.integer "proposal_status"
     t.integer "attendance_modality"
     t.integer "presentation_modality"
     t.integer "registration_modality"
@@ -113,7 +114,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_18_173306) do
     t.string "in_person_location"
     t.datetime "start_time"
     t.datetime "end_time"
-    t.boolean "finalized", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -21,10 +21,14 @@ FactoryBot.define do
 
     in_person_location { "Room #{rand(100..1000)}" }
 
-    finalized { true }
+    proposal_status { 'approved' }
 
-    factory :non_finalized_workshop do
-      finalized { false }
+    factory :proposal_pending_workshop do
+      proposal_status { 'pending' }
+    end
+
+    factory :rejected_workshop do
+      proposal_status { 'rejected' }
     end
 
     factory :current_workshop do

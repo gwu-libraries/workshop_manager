@@ -3,6 +3,7 @@ class CreateWorkshops < ActiveRecord::Migration[7.1]
     create_table :workshops do |t|
       t.string :title
       t.string :description
+      t.integer :proposal_status
       t.integer :attendance_modality
       t.integer :presentation_modality
       t.integer :registration_modality
@@ -12,7 +13,6 @@ class CreateWorkshops < ActiveRecord::Migration[7.1]
       t.string :in_person_location
       t.datetime :start_time
       t.datetime :end_time
-      t.boolean :finalized, default: true # for development, switch to false for prod
 
       t.timestamps
     end

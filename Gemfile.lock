@@ -193,6 +193,8 @@ GEM
     net-smtp (0.5.0)
       net-protocol
     nio4r (2.7.4)
+    nokogiri (1.15.6-arm64-darwin)
+      racc (~> 1.4)
     nokogiri (1.15.6-x86_64-darwin)
       racc (~> 1.4)
     nokogiri (1.15.6-x86_64-linux)
@@ -286,6 +288,11 @@ GEM
       rspec-expectations (~> 3.13)
       rspec-mocks (~> 3.13)
       rspec-support (~> 3.13)
+    rspec-sidekiq (5.0.0)
+      rspec-core (~> 3.0)
+      rspec-expectations (~> 3.0)
+      rspec-mocks (~> 3.0)
+      sidekiq (>= 5, < 8)
     rspec-support (3.13.1)
     rubyzip (2.3.2)
     securerandom (0.3.1)
@@ -369,6 +376,7 @@ GEM
     zeitwerk (2.6.18)
 
 PLATFORMS
+  arm64-darwin-23
   x86_64-darwin-21
   x86_64-linux
 
@@ -395,6 +403,7 @@ DEPENDENCIES
   recaptcha
   redis (>= 4.0.1)
   rspec-rails
+  rspec-sidekiq
   selenium-webdriver
   shoulda-matchers
   sidekiq (~> 7.3)
