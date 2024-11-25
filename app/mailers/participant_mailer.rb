@@ -24,4 +24,28 @@ class ParticipantMailer < ApplicationMailer
         "Reminder: #{@workshop.title} at #{human_readable_time(@workshop.start_time)}"
     )
   end
+
+  def workshop_waitlisted_email(workshop_id, participant_id)
+    @workshop = Workshop.find(workshop_id)
+    @participant = Participant.find(participant_id)
+    @message = "You have been waitlisted for #{@workshop.title}"
+
+    mail(to: @participant.email, subject: "Waitlisted: #{@workshop.title}")
+  end
+
+  def workshop_accepted_email(workshop_id, participant_id)
+    @workshop = Workshop.find(workshop_id)
+    @participant = Participant.find(participant_id)
+    @message = "You have been accepted for #{@workshop.title}"
+
+    mail(to: @participant.email, subject: "Accepted: #{@workshop.title}")
+  end
+
+  def workshop_rejected_email(workshop_id, participant_id)
+    @workshop = Workshop.find(workshop_id)
+    @participant = Participant.find(participant_id)
+    @message = "You have been rejected for #{@workshop.title}"
+
+    mail(to: @participant.email, subject: "Rejected: #{@workshop.title}")
+  end
 end

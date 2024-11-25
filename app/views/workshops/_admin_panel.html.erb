@@ -1,7 +1,7 @@
-<h3>Pending Applications</h3>
 
 <% case @workshop.registration_modality %>
   <% when "application_required"%>
+    <h3>Pending Applications</h3>
     <div id="pending-applications">
       <%= render partial: "workshop_participants/approval_form",
                 collection: @workshop.workshop_participants.where(application_status: "pending").order('created_at asc'),
@@ -9,13 +9,13 @@
     </div>
 <% end %>
 
-<h3>Registered Participants</h3>
 
 <% case @workshop.attendance_modality %>
   <% when "individual"%>
+    <h3>Registered Participants</h3>
     <div id="registered-participants">
       <%= render partial: "workshop_participants/attendance_form", 
-                collection: @workshop.workshop_participants.where(application_status: "accepted").order('created_at asc'),
+                collection: @workshop.workshop_participants.order('created_at asc'),
                 as: :workshop_participant %>
     </div>
   <% when "collective" %>

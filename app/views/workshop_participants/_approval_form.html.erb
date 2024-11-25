@@ -22,4 +22,8 @@
     <%= f.hidden_field :application_status, value: "rejected" %>
     <%= f.submit "Reject participant application" %>
   <% end %>
+  <%= simple_form_for workshop_participant do |f| %>
+    <%= f.hidden_field :application_status, value: "waitlisted" %>
+    <%= f.submit "Waitlist participant application" %>
+  <% end %>
 <% end %>

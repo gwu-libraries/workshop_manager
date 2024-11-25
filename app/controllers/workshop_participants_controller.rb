@@ -66,7 +66,7 @@ class WorkshopParticipantsController < ApplicationController
   end
 
   # POST /workshop_participants or /workshop_participants.json
-  def create
+  def create # this is used for registering, not applying
     @participant =
       Participant.find_or_create_by(
         name: workshop_participant_params[:name],
