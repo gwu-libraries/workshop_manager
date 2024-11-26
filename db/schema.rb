@@ -104,7 +104,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_18_173306) do
   create_table "workshops", force: :cascade do |t|
     t.string "title"
     t.string "description"
-    t.integer "proposal_status"
+    t.integer "proposal_status", default: 0
     t.integer "attendance_modality"
     t.integer "presentation_modality"
     t.integer "registration_modality"

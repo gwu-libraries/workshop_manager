@@ -3,7 +3,7 @@ class CreateWorkshops < ActiveRecord::Migration[7.1]
     create_table :workshops do |t|
       t.string :title
       t.string :description
-      t.integer :proposal_status
+      t.integer :proposal_status, default: 0
       t.integer :attendance_modality
       t.integer :presentation_modality
       t.integer :registration_modality

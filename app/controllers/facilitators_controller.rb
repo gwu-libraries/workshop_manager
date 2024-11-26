@@ -3,12 +3,12 @@ class FacilitatorsController < ApplicationController
   before_action :require_login,
                 only: %i[index show new edit create update destroy]
 
-  # GET /facilitators or /facilitators.json
+  # GET /facilitators
   def index
     @facilitators = Facilitator.all
   end
 
-  # GET /facilitators/1 or /facilitators/1.json
+  # GET /facilitators/1
   def show
   end
 
@@ -21,7 +21,7 @@ class FacilitatorsController < ApplicationController
   def edit
   end
 
-  # POST /facilitators or /facilitators.json
+  # POST /facilitators
   def create
     require 'pry'
     binding.pry
@@ -33,17 +33,13 @@ class FacilitatorsController < ApplicationController
           redirect_to @facilitator,
                       notice: 'Facilitator was successfully created.'
         end
-        format.json { render :show, status: :created, location: @facilitator }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json do
-          render json: @facilitator.errors, status: :unprocessable_entity
-        end
       end
     end
   end
 
-  # PATCH/PUT /facilitators/1 or /facilitators/1.json
+  # PATCH/PUT /facilitators/1
   def update
     respond_to do |format|
       if @facilitator.update(facilitator_params)
@@ -51,17 +47,13 @@ class FacilitatorsController < ApplicationController
           redirect_to @facilitator,
                       notice: 'Facilitator was successfully updated.'
         end
-        format.json { render :show, status: :ok, location: @facilitator }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json do
-          render json: @facilitator.errors, status: :unprocessable_entity
-        end
       end
     end
   end
 
-  # DELETE /facilitators/1 or /facilitators/1.json
+  # DELETE /facilitators/1
   def destroy
     @facilitator.destroy!
 
@@ -71,7 +63,6 @@ class FacilitatorsController < ApplicationController
                     status: :see_other,
                     notice: 'Facilitator was successfully destroyed.'
       end
-      format.json { head :no_content }
     end
   end
 

@@ -7,6 +7,13 @@
                 collection: @workshop.workshop_participants.where(application_status: "pending").order('created_at asc'),
                 as: :workshop_participant %>
     </div>
+
+    <h3>Waitlisted Applications</h3>
+    <div id="waitlisted-applications">
+      <%= render partial: "workshop_participants/approval_form",
+                collection: @workshop.workshop_participants.where(application_status: "waitlisted").order('created_at asc'),
+                as: :workshop_participant %>
+    </div>
 <% end %>
 
 

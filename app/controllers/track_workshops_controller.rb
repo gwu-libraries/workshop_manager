@@ -3,12 +3,12 @@ class TrackWorkshopsController < ApplicationController
   # before_action :require_login,
   # only: %i[index show new edit create update destroy]
 
-  # GET /track_workshops or /track_workshops.json
+  # GET /track_workshops
   def index
     @track_workshops = TrackWorkshop.all
   end
 
-  # GET /track_workshops/1 or /track_workshops/1.json
+  # GET /track_workshops/1
   def show
   end
 
@@ -21,7 +21,7 @@ class TrackWorkshopsController < ApplicationController
   def edit
   end
 
-  # POST /track_workshops or /track_workshops.json
+  # POST /track_workshops
   def create
     @track_workshop = TrackWorkshop.new(track_workshop_params)
 
@@ -31,19 +31,13 @@ class TrackWorkshopsController < ApplicationController
           redirect_to @track_workshop,
                       notice: 'Track workshop was successfully created.'
         end
-        format.json do
-          render :show, status: :created, location: @track_workshop
-        end
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json do
-          render json: @track_workshop.errors, status: :unprocessable_entity
-        end
       end
     end
   end
 
-  # PATCH/PUT /track_workshops/1 or /track_workshops/1.json
+  # PATCH/PUT /track_workshops/1
   def update
     respond_to do |format|
       if @track_workshop.update(track_workshop_params)
@@ -51,17 +45,13 @@ class TrackWorkshopsController < ApplicationController
           redirect_to @track_workshop,
                       notice: 'Track workshop was successfully updated.'
         end
-        format.json { render :show, status: :ok, location: @track_workshop }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json do
-          render json: @track_workshop.errors, status: :unprocessable_entity
-        end
       end
     end
   end
 
-  # DELETE /track_workshops/1 or /track_workshops/1.json
+  # DELETE /track_workshops/1
   def destroy
     @track_workshop.destroy!
 
@@ -71,7 +61,6 @@ class TrackWorkshopsController < ApplicationController
                     status: :see_other,
                     notice: 'Track workshop was successfully destroyed.'
       end
-      format.json { head :no_content }
     end
   end
 

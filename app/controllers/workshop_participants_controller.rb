@@ -5,12 +5,12 @@ class WorkshopParticipantsController < ApplicationController
   # before_action :require_login,
   #               only: %i[index show new edit create update destroy]
 
-  # GET /workshop_participants or /workshop_participants.json
+  # GET /workshop_participants
   def index
     @workshop_participants = WorkshopParticipant.all
   end
 
-  # GET /workshop_participants/1 or /workshop_participants/1.json
+  # GET /workshop_participants/1
   def show
   end
 
@@ -52,20 +52,13 @@ class WorkshopParticipantsController < ApplicationController
                       notice:
                         'Your application is pending! Check your email for more information.'
         end
-        format.json do
-          render :show, status: :created, location: @workshop_participant
-        end
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json do
-          render json: @workshop_participant.errors,
-                 status: :unprocessable_entity
-        end
       end
     end
   end
 
-  # POST /workshop_participants or /workshop_participants.json
+  # POST /workshop_participants
   def create # this is used for registering, not applying
     @participant =
       Participant.find_or_create_by(
@@ -87,20 +80,13 @@ class WorkshopParticipantsController < ApplicationController
                       notice:
                         "You're signed up! Check your email for more information."
         end
-        format.json do
-          render :show, status: :created, location: @workshop_participant
-        end
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json do
-          render json: @workshop_participant.errors,
-                 status: :unprocessable_entity
-        end
       end
     end
   end
 
-  # PATCH/PUT /workshop_participants/1 or /workshop_participants/1.json
+  # PATCH/PUT /workshop_participants/1
   def update
     respond_to do |format|
       if @workshop_participant.update(workshop_participant_params)
@@ -111,15 +97,11 @@ class WorkshopParticipantsController < ApplicationController
         format.html { render workshop_path(@workshop_participant.workshop_id) }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json do
-          render json: @workshop_participant.errors,
-                 status: :unprocessable_entity
-        end
       end
     end
   end
 
-  # DELETE /workshop_participants/1 or /workshop_participants/1.json
+  # DELETE /workshop_participants/1
   def destroy
     @workshop_participant.destroy!
 

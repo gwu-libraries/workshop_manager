@@ -3,12 +3,12 @@ class WorkshopFacilitatorsController < ApplicationController
   # before_action :require_login,
   #               only: %i[index show new edit create update destroy]
 
-  # GET /workshop_facilitators or /workshop_facilitators.json
+  # GET /workshop_facilitators
   def index
     @workshop_facilitators = WorkshopFacilitator.all
   end
 
-  # GET /workshop_facilitators/1 or /workshop_facilitators/1.json
+  # GET /workshop_facilitators/1
   def show
   end
 
@@ -21,7 +21,7 @@ class WorkshopFacilitatorsController < ApplicationController
   def edit
   end
 
-  # POST /workshop_facilitators or /workshop_facilitators.json
+  # POST /workshop_facilitators
   def create
     @workshop_facilitator = WorkshopFacilitator.new(workshop_facilitator_params)
 
@@ -31,20 +31,13 @@ class WorkshopFacilitatorsController < ApplicationController
           redirect_to @workshop_facilitator,
                       notice: 'Workshop facilitator was successfully created.'
         end
-        format.json do
-          render :show, status: :created, location: @workshop_facilitator
-        end
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json do
-          render json: @workshop_facilitator.errors,
-                 status: :unprocessable_entity
-        end
       end
     end
   end
 
-  # PATCH/PUT /workshop_facilitators/1 or /workshop_facilitators/1.json
+  # PATCH/PUT /workshop_facilitators/1
   def update
     respond_to do |format|
       if @workshop_facilitator.update(workshop_facilitator_params)
@@ -52,20 +45,13 @@ class WorkshopFacilitatorsController < ApplicationController
           redirect_to @workshop_facilitator,
                       notice: 'Workshop facilitator was successfully updated.'
         end
-        format.json do
-          render :show, status: :ok, location: @workshop_facilitator
-        end
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json do
-          render json: @workshop_facilitator.errors,
-                 status: :unprocessable_entity
-        end
       end
     end
   end
 
-  # DELETE /workshop_facilitators/1 or /workshop_facilitators/1.json
+  # DELETE /workshop_facilitators/1
   def destroy
     @workshop_facilitator.destroy!
 
@@ -75,7 +61,6 @@ class WorkshopFacilitatorsController < ApplicationController
                     status: :see_other,
                     notice: 'Workshop facilitator was successfully destroyed.'
       end
-      format.json { head :no_content }
     end
   end
 
