@@ -48,3 +48,5 @@ coverage/*
 /coverage/*
 
 dump.rdb
+
+.DS_Store
