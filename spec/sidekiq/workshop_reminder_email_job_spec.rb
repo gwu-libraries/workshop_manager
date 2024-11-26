@@ -2,18 +2,14 @@ require 'rails_helper'
 RSpec.describe WorkshopReminderEmailJob, type: :job do
   xit 'can schedule multiple reminder emails' do
     facilitator_1 = FactoryBot.create(:facilitator)
-    workshop_1 =
-      FactoryBot.create(
-        :future_workshop,
-        registration_modality: 'registration_required'
-      )
+    workshop_1 = FactoryBot.create(:future_registration_workshop)
 
     WorkshopFacilitator.create(
       facilitator_id: facilitator_1.id,
       workshop_id: workshop_1.id
     )
 
-    visit workshop_path(workshop_1)
+    visit "/workshops/#{workshop_1.id}"
 
     fill_in 'Name', with: 'Professor Test'
     fill_in 'Email', with: 'testing@example.com'
@@ -43,18 +39,14 @@ RSpec.describe WorkshopReminderEmailJob, type: :job do
   # still trying to figure that out
   xit 'can schedule a subset of reminder emails' do
     facilitator_1 = FactoryBot.create(:facilitator)
-    workshop_1 =
-      FactoryBot.create(
-        :future_workshop,
-        registration_modality: 'registration_required'
-      )
+    workshop_1 = FactoryBot.create(:future_registration_workshop)
 
     WorkshopFacilitator.create(
       facilitator_id: facilitator_1.id,
       workshop_id: workshop_1.id
     )
 
-    visit workshop_path(workshop_1)
+    visit "/workshops/#{workshop_1.id}"
 
     fill_in 'Name', with: 'Professor Test'
     fill_in 'Email', with: 'testing@example.com'
