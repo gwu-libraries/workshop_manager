@@ -18,7 +18,7 @@ RSpec.describe 'workshops/new' do
 
     choose 'no_registration_required'
 
-    click_button 'Create Workshop'
+    click_button 'Propose Workshop'
 
     workshop = Workshop.last
 
