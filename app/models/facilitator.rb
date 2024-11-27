@@ -8,4 +8,8 @@ class Facilitator < ApplicationRecord
          :validatable
   has_many :workshop_facilitators
   has_many :workshops, through: :workshop_facilitators
+
+  def is_admin?
+    self.is_admin
+  end
 end

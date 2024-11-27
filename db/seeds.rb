@@ -14,9 +14,12 @@ puts 'Seeding development database...'
 
 # Create an admin user
 admin =
+  FactoryBot.create(:admin, email: 'admin@example.com', password: 'pjassword')
+
+non_admin_facilitator =
   FactoryBot.create(
     :facilitator,
-    email: 'admin@example.com',
+    email: 'facilitator@example.com',
     password: 'pjassword'
   )
 
@@ -122,6 +125,8 @@ future_workshops_application_required.each do |workshop|
     )
   end
 end
+
+FactoryBot.create(:proposal_pending_workshop)
 
 # Add participants to past workshops, randomize if they are marked as in_attendance or not
 # Add random selection of facilitators to past workshops

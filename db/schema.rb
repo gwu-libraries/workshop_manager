@@ -30,6 +30,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_18_173306) do
 
   create_table "facilitators", force: :cascade do |t|
     t.string "name"
+    t.boolean "is_admin"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "email", default: "", null: false
