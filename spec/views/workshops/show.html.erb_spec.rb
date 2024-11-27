@@ -3,14 +3,32 @@ require 'rails_helper'
 RSpec.describe 'workshops/show', type: :view do
   before(:each) do
     @future_application_workshop =
-      FactoryBot.create(:future_application_workshop)
+      FactoryBot.create(
+        :future_application_workshop,
+        start_time: DateTime.now + 1.hours,
+        end_time: DateTime.now + 2.hours
+      )
 
-    @past_application_workshop = FactoryBot.create(:past_application_workshop)
+    @past_application_workshop =
+      FactoryBot.create(
+        :past_application_workshop,
+        start_time: DateTime.now - 2.hours,
+        end_time: DateTime.now - 1.hours
+      )
 
     @future_registration_workshop =
-      FactoryBot.create(:future_registration_workshop)
+      FactoryBot.create(
+        :future_registration_workshop,
+        start_time: DateTime.now + 4.hours,
+        end_time: DateTime.now + 5.hours
+      )
 
-    @past_registration_workshop = FactoryBot.create(:past_registration_workshop)
+    @past_registration_workshop =
+      FactoryBot.create(
+        :past_registration_workshop,
+        start_time: DateTime.now - 6.hours,
+        end_time: DateTime.now - 5.hours
+      )
 
     @facilitator_1 = FactoryBot.create(:facilitator)
     @facilitator_2 = FactoryBot.create(:facilitator)
