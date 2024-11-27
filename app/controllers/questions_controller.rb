@@ -1,15 +1,4 @@
 class QuestionsController < ApplicationController
-  def show
-    @question = Question.find(question_params[:id])
-  end
-  def index
-    @questions = Question.all
-  end
-
-  def new
-    @question = Question.new
-  end
-
   def create
     @question =
       Question.create(question_params.except(:application_template_id))

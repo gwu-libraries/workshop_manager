@@ -107,6 +107,7 @@ class WorkshopsController < ApplicationController
       :registration_modality,
       :in_person_location,
       :virtual_location,
+      :proposal_status,
       :in_person_attendance_count,
       :virtual_attendance_count,
       facilitator_ids: []
