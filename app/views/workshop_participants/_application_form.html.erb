@@ -1,3 +1,5 @@
+<h3>Apply for <%= @workshop.title %> </h3>
+
 <%= simple_form_for :workshop_participants, url: "/workshop_participants/apply" do |f| %>
   <%= f.input :email %>
   <%= f.input :name %>
