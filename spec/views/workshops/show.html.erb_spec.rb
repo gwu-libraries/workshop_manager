@@ -2,6 +2,10 @@ require 'rails_helper'
 
 RSpec.describe 'workshops/show', type: :view do
   before(:each) do
+    @admin = FactoryBot.create(:admin)
+
+    @proposal_pending_workshop = FactoryBot.create(:proposal_pending_workshop)
+
     @future_application_workshop =
       FactoryBot.create(
         :future_application_workshop,
@@ -52,6 +56,7 @@ RSpec.describe 'workshops/show', type: :view do
     end
 
     [
+      @proposal_pending_workshop,
       @future_application_workshop,
       @past_application_workshop,
       @future_registration_workshop,
@@ -115,5 +120,37 @@ RSpec.describe 'workshops/show', type: :view do
     expect(page).to_not have_content(
       "Apply for #{@past_registration_workshop.title}"
     )
+  end
+
+  it 'displays a button to approve a pending workshop if logged in as an admin and workshop is pending' do
+    login_as @admin
+
+    visit workshop_path(@proposal_pending_workshop)
+
+    click_button 'Approve this workshop'
+
+    visit workshops_path
+
+    expect(page).to have_content(@proposal_pending_workshop.title)
+  end
+
+  it 'displays a button to reject a pending workshop if logged in as an admin and workshop is pending' do
+    login_as @admin
+
+    visit workshop_path(@proposal_pending_workshop)
+
+    click_button 'Reject this workshop'
+
+    visit workshops_path
+
+    expect(page).to_not have_content(@proposal_pending_workshop.title)
+  end
+
+  it 'does not display a button to approve or reject a workshop if facilitator is not admin' do
+    login_as @facilitator
+
+    visit workshop_path(@proposal_pending_workshop)
+
+    expect(page).to_not have_content('approve or reject?')
   end
 end

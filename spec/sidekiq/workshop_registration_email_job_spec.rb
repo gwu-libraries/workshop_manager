@@ -2,11 +2,7 @@ require 'rails_helper'
 RSpec.describe WorkshopRegistrationEmailJob, type: :job do
   it 'enqueues an email confirming registration when a participant registers' do
     facilitator_1 = FactoryBot.create(:facilitator)
-    workshop_1 =
-      FactoryBot.create(
-        :future_workshop,
-        registration_modality: 'registration_required'
-      )
+    workshop_1 = FactoryBot.create(:future_registration_workshop)
 
     WorkshopFacilitator.create(
       facilitator_id: facilitator_1.id,
