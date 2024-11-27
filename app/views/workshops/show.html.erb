@@ -2,19 +2,20 @@
 
 <%= render @workshop %>
 
-<% if current_facilitator.present? %>
-  <h3>Admin Panel</h3>
+<% if current_facilitator.present? && current_facilitator.is_admin? %>
   <%= render "admin_panel", workshop: @workshop %>
-<% else %>
-  <% unless @workshop.end_time.past? %>
-    <% case @workshop.registration_modality %>
-      <% when "registration_required" %>
-        <h3>Register for <%= @workshop.title %></h3>
-        <%= render "workshop_participants/registration_form", workshop: @workshop %>
-      <% when "application_required"%>
-        <h3>Apply for <%= @workshop.title %> </h3>
-        <%= render "workshop_participants/application_form", application_template: @workshop.application_templates.first %>
-    <% end %>
+<% end %>
+
+<% if current_facilitator.present? %>
+  <%= render "facilitator_panel", workshop: @workshop %>
+<% end %>
+
+<% unless @workshop.end_time.past? %>
+  <% case @workshop.registration_modality %>
+    <% when "registration_required" %>
+      <%= render "workshop_participants/registration_form", workshop: @workshop %>
+    <% when "application_required"%>
+      <%= render "workshop_participants/application_form", application_template: @workshop.application_templates.first %>
   <% end %>
 <% end %>
 

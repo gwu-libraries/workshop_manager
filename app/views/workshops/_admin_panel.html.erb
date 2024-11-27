@@ -1,37 +1,20 @@
+<h3>Admin Panel</h3>
 
-<% case @workshop.registration_modality %>
-  <% when "application_required"%>
-    <h3>Pending Applications</h3>
-    <div id="pending-applications">
-      <%= render partial: "workshop_participants/approval_form",
-                collection: @workshop.workshop_participants.where(application_status: "pending").order('created_at asc'),
-                as: :workshop_participant %>
-    </div>
+<% case @workshop.proposal_status %>
+  <% when 'pending' %>
+    <p>Workshop proposal status is pending - approve or reject?</p>
 
-    <h3>Waitlisted Applications</h3>
-    <div id="waitlisted-applications">
-      <%= render partial: "workshop_participants/approval_form",
-                collection: @workshop.workshop_participants.where(application_status: "waitlisted").order('created_at asc'),
-                as: :workshop_participant %>
-    </div>
+    <%= simple_form_for @workshop do |f| %>
+      <%= f.hidden_field :proposal_status, value: 'approved' %>
+      <%= f.submit "Approve this workshop" %>
+    <% end %>
+
+    <%= simple_form_for @workshop do |f| %>
+      <%= f.hidden_field :proposal_status, value: 'rejected' %>
+      <%= f.submit "Reject this workshop" %>
+    <% end %>
+  <% when 'approved' %>
+    <p> Workshop proposal is approved <p>
+  <% when 'rejected' %>
+    <p> Workshop proposal is rejected <p>
 <% end %>
-
-
-<% case @workshop.attendance_modality %>
-  <% when "individual"%>
-    <h3>Registered Participants</h3>
-    <div id="registered-participants">
-      <%= render partial: "workshop_participants/attendance_form", 
-                collection: @workshop.workshop_participants.order('created_at asc'),
-                as: :workshop_participant %>
-    </div>
-  <% when "collective" %>
-    <div id="group-attendance">
-      <%= render partial: "group_attendance_form" %>
-    </div>
-<% end %>
-
-<div id="workshop-controls">
-  <%= link_to "Edit Workshop", edit_workshop_path(@workshop)%>
-  <%= button_to "Destroy this workshop", @workshop, method: :delete %>
-</div>
