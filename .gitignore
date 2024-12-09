@@ -50,3 +50,6 @@ coverage/*
 dump.rdb
 
 .DS_Store
+
+/nginx/certs/*
+!/nginx/certs/.keep
