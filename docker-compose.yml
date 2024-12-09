@@ -1,0 +1,53 @@
+services:
+  db:
+    image: postgres:latest
+    env_file: .env
+    container_name: fac_dev_workshops_postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    command: "postgres -c 'max_connections=500'"
+    environment:
+      POSTGRES_DB: fac_dev_workshops_production
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d fac_dev_workshops_production -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    ports:
+      - "5432:5432"
+  rails:
+    build: .
+    container_name: fac_dev_workshops_rails
+    command: "bundle exec rails s -p 3000 -b '0.0.0.0'"
+    env_file: .env
+    environment:
+      RAILS_MASTER_KEY: $RAILS_MASTER_KEY
+      DB_HOST: db
+      DB_NAME: fac_dev_workshops_production
+      DB_USERNAME: postgres
+      DB_PASSWORD: $POSTGRES_PASSWORD
+      RAILS_ENV: production
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+  nginx:
+    image: "nginx:latest"
+    container_name: fac_dev_workshops_nginx
+    ports:
+      - 443:443
+      - 80:80
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/certs:/etc/ssl
+    restart: unless-stopped
+    depends_on:
+      - rails
+
+volumes:
+  postgres_data: {}
+networks:
+  default:
+    name: fac_dev_workshops
