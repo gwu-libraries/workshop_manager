@@ -1,15 +1,12 @@
-name: CI testing
+name: RSpec CI
 
 on:
   # allow running action manually
   workflow_dispatch:
-  # trigger on pull request to "master" branch
-  #pull_request:
-  #  branches:
-  #    - master
-  push:
+  # trigger on push to master branch
+  pull_request:
     branches:
-      - ci-workflow
+      - main
 
 jobs:
   CI:
