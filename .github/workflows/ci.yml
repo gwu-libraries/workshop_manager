@@ -21,6 +21,9 @@ jobs:
     # Checkout the repository code
     - name: Check out repository code
       uses: actions/checkout@v4
+    - name: Create env file
+      run: |
+        cp .env.example .env
     - name: Start Docker containers
       run: |
         docker compose up --wait

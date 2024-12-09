@@ -53,3 +53,5 @@ dump.rdb
 
 /nginx/certs/*
 !/nginx/certs/.keep
+
+!.env.example
