@@ -10,7 +10,5 @@ git checkout main
 git pull
 # Stop and remove containers
 docker-compose stop
-echo "Rebuilding Docker containers"
-docker-compose build
 echo "Restarting Docker containers"
 docker-compose up -d
