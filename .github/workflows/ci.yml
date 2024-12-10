@@ -31,6 +31,7 @@ jobs:
         with:
           ruby-version: '3.2.1' # Not needed with a .ruby-version file
       - run: bundle install
+      - run: bundle exec rails assets:precompile
       - run: bundle exec rails db:create
       - run: bundle exec rails db:migrate
       - run: bundle exec rspec
