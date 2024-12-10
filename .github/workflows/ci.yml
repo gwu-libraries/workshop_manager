@@ -14,25 +14,11 @@ jobs:
     permissions:
       packages: read
     steps:
-      - name: Create folders
-        run: |
-          mkdir -p /opt/workshops/
-          cd /opt/workshops
-      # Checkout the repository code
-      - name: Check out repository code
-        uses: actions/checkout@v4
-      - name: Create env file
-        run: |
-          cp .env.example .env
-      - name: Start Docker containers
-        run: |
-          docker compose up --wait
-      - name: Create dev/test databases
-        run: |
-          docker exec $(docker ps --filter 'name=rails' -q) bash -lc "bundle exec rails db:create RAILS_ENV=test"
-      - name: Migrate dev/test databases
-        run: |
-          docker exec $(docker ps --filter 'name=rails' -q) bash -lc "bundle exec rails db:migrate RAILS_ENV=test"
-      - name: Run RSpec tests
-        run: |
-          docker exec $(docker ps --filter 'name=rails' -q) bash -lc "bundle exec rspec RAILS_ENV=test"
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@ec02537da5712d66d4d50a0f33b7eb52773b5ed1
+        with:
+          ruby-version: '3.2' # Not needed with a .ruby-version file
+      - run: bundle install
+      - run: bundle exec rails db:create
+      - run: bundle exec rails db:migrate
+      - run: bundle exec rspec
