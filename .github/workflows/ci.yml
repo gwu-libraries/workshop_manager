@@ -11,28 +11,28 @@ on:
 jobs:
   CI:
     runs-on: ubuntu-latest
-    permissions: 
+    permissions:
       packages: read
     steps:
-    - name: Create folders
-      run: |
-        mkdir -p /opt/workshops/
-        cd /opt/workshops
-    # Checkout the repository code
-    - name: Check out repository code
-      uses: actions/checkout@v4
-    - name: Create env file
-      run: |
-        cp .env.example .env
-    - name: Start Docker containers
-      run: |
-        docker compose up --wait
-    - name: Create dev/test databases
-      run: |
-        docker exec $(docker ps --filter 'name=rails' -q) bash -lc "bundle exec rails db:create"
-    - name: Migrate dev/test databases
-      run: |
-        docker exec $(docker ps --filter 'name=rails' -q) bash -lc "bundle exec rails db:migrate"
-    - name: Run RSpec tests
-      run: |
-        docker exec $(docker ps --filter 'name=rails' -q) bash -lc "bundle exec rspec"
+      - name: Create folders
+        run: |
+          mkdir -p /opt/workshops/
+          cd /opt/workshops
+      # Checkout the repository code
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Create env file
+        run: |
+          cp .env.example .env
+      - name: Start Docker containers
+        run: |
+          docker compose up --wait
+      - name: Create dev/test databases
+        run: |
+          docker exec $(docker ps --filter 'name=rails' -q) bash -lc "bundle exec rails db:create RAILS_ENV=test"
+      - name: Migrate dev/test databases
+        run: |
+          docker exec $(docker ps --filter 'name=rails' -q) bash -lc "bundle exec rails db:migrate RAILS_ENV=test"
+      - name: Run RSpec tests
+        run: |
+          docker exec $(docker ps --filter 'name=rails' -q) bash -lc "bundle exec rspec RAILS_ENV=test"
