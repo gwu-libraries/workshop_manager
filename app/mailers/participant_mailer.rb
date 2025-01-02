@@ -13,6 +13,17 @@ class ParticipantMailer < ApplicationMailer
     mail(to: @participant.email, subject: "Registered for #{@workshop.title}")
   end
 
+  def workshop_application_received_email(workshop_id, participant_id)
+    @workshop = Workshop.find(workshop_id)
+    @participant = Participant.find(participant_id)
+    @message = "Application received for #{@workshop.title}"
+
+    mail(
+      to: @participant.email,
+      subject: "Application for #{@workshop.title} received!"
+    )
+  end
+
   def workshop_reminder_email_one_week(workshop_id, participant_id)
     @workshop = Workshop.find(workshop_id)
     @participant = Participant.find(participant_id)

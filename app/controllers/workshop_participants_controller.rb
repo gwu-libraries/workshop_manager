@@ -1,5 +1,5 @@
 class WorkshopParticipantsController < ApplicationController
-  include WorkshopParticipantNotifier
+  include ParticipantNotifier
 
   before_action :set_workshop_participant, only: %i[show edit update destroy]
   # before_action :require_login,

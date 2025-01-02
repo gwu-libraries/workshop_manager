@@ -36,4 +36,14 @@ class ParticipantMailerPreview < ActionMailer::Preview
       participant.id
     )
   end
+
+  def workshop_application_received_email
+    participant = Participant.last
+    workshop = Workshop.last
+
+    ParticipantMailer.workshop_application_received_email(
+      workshop.id,
+      participant.id
+    )
+  end
 end

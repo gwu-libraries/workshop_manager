@@ -1,4 +1,4 @@
-module WorkshopParticipantNotifier
+module ParticipantNotifier
   extend ActiveSupport::Concern
 
   included do
@@ -6,6 +6,7 @@ module WorkshopParticipantNotifier
                  only: [:create]
     after_action :schedule_workshop_reminder_notification, only: [:create]
     after_action :workshop_application_status_notification, only: [:update]
+    after_action :workshop_application_received_notification, only: [:apply]
   end
 
   private
@@ -44,6 +45,15 @@ module WorkshopParticipantNotifier
         }.stringify_keys
       )
     end
+  end
+
+  def workshop_application_received_notification
+    WorkshopApplicationReceivedEmailJob.perform_async(
+      {
+        workshop_id: @workshop_participant.workshop.id,
+        participant_id: @workshop_participant.participant.id
+      }.stringify_keys
+    )
   end
 
   def schedule_workshop_reminder_notification
