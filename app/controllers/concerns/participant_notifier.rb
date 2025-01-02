@@ -13,7 +13,7 @@ module ParticipantNotifier
 
   def workshop_participant_registration_notification
     if @workshop_participant.persisted?
-      WorkshopRegistrationEmailJob.perform_async(
+      WorkshopRegistrationReceivedEmailJob.perform_async(
         {
           workshop_id: @workshop_participant.workshop.id,
           participant_id: @workshop_participant.participant.id
