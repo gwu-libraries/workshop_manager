@@ -1,4 +1,5 @@
 class ParticipantMailer < ApplicationMailer
+  include WorkshopsHelper
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
@@ -16,12 +17,12 @@ class ParticipantMailer < ApplicationMailer
     @workshop = Workshop.find(workshop_id)
     @participant = Participant.find(participant_id)
     @message =
-      "Reminder that #{@workshop.title} is in one week at #{human_readable_time(@workshop.start_time)}"
+      "Reminder that #{@workshop.title} is in one week on #{human_readable_date(@workshop.start_time)} at #{human_readable_time(@workshop.start_time)}"
 
     mail(
       to: @participant.email,
       subject:
-        "Reminder: #{@workshop.title} at #{human_readable_time(@workshop.start_time)}"
+        "Reminder: #{@workshop.title} next week on #{human_readable_date(@workshop.start_time)} at #{human_readable_time(@workshop.start_time)}"
     )
   end
 
@@ -29,12 +30,12 @@ class ParticipantMailer < ApplicationMailer
     @workshop = Workshop.find(workshop_id)
     @participant = Participant.find(participant_id)
     @message =
-      "Reminder that #{@workshop.title} is in one day at #{human_readable_time(@workshop.start_time)}"
+      "Reminder that #{@workshop.title} is tomorrow at #{human_readable_time(@workshop.start_time)}"
 
     mail(
       to: @participant.email,
       subject:
-        "Reminder: #{@workshop.title} at #{human_readable_time(@workshop.start_time)}"
+        "Reminder: #{@workshop.title} tomorrow at #{human_readable_time(@workshop.start_time)}"
     )
   end
 
@@ -47,7 +48,7 @@ class ParticipantMailer < ApplicationMailer
     mail(
       to: @participant.email,
       subject:
-        "Reminder: #{@workshop.title} at #{human_readable_time(@workshop.start_time)}"
+        "Reminder: #{@workshop.title} today at #{human_readable_time(@workshop.start_time)}"
     )
   end
 
