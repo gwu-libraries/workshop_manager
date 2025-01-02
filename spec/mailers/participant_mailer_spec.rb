@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe ParticipantMailer, type: :mailer do
-  describe 'workshop_registration_email' do
+  describe 'registration_received_email' do
     let(:workshop) { FactoryBot.create(:future_workshop) }
     let(:participant) { FactoryBot.create(:participant) }
     let(:mail) do
-      ParticipantMailer.workshop_registration_email(workshop.id, participant.id)
+      ParticipantMailer.registration_received_email(workshop.id, participant.id)
     end
 
     it 'renders the headers' do

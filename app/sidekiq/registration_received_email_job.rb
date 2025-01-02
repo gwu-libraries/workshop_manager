@@ -1,9 +1,8 @@
-class WorkshopRejectedEmailJob
+class RegistrationReceivedEmailJob
   include Sidekiq::Job
-  # sidekiq_options queue: :mailer
 
   def perform(*args)
-    ParticipantMailer.workshop_rejected_email(
+    ParticipantMailer.registration_received_email(
       args[0]['workshop_id'],
       args[0]['participant_id']
     )

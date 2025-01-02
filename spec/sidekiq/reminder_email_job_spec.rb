@@ -22,15 +22,15 @@ RSpec.describe 'reminder emails', type: :job do
 
     participant = Participant.last
 
-    expect(WorkshopReminderEmailOneWeekJob).to have_enqueued_sidekiq_job(
+    expect(ReminderEmailOneWeekJob).to have_enqueued_sidekiq_job(
       { participant_id: participant.id, workshop_id: workshop_1.id }
     ).at(workshop_1.start_time - 1.weeks)
 
-    expect(WorkshopReminderEmailOneDayJob).to have_enqueued_sidekiq_job(
+    expect(ReminderEmailOneDayJob).to have_enqueued_sidekiq_job(
       { participant_id: participant.id, workshop_id: workshop_1.id }
     ).at(workshop_1.start_time - 1.days)
 
-    expect(WorkshopReminderEmailOneHourJob).to have_enqueued_sidekiq_job(
+    expect(ReminderEmailOneHourJob).to have_enqueued_sidekiq_job(
       { participant_id: participant.id, workshop_id: workshop_1.id }
     ).at(workshop_1.start_time - 1.hours)
   end
@@ -61,11 +61,11 @@ RSpec.describe 'reminder emails', type: :job do
 
     participant = Participant.last
 
-    expect(WorkshopReminderEmailOneWeekJob).to have_enqueued_sidekiq_job(
+    expect(ReminderEmailOneWeekJob).to have_enqueued_sidekiq_job(
       { participant_id: participant.id, workshop_id: workshop_1.id }
     ).at(workshop_1.start_time - 1.weeks)
 
-    expect(WorkshopReminderEmailOneDayJob).to have_enqueued_sidekiq_job(
+    expect(ReminderEmailOneDayJob).to have_enqueued_sidekiq_job(
       { participant_id: participant.id, workshop_id: workshop_1.id }
     ).at(workshop_1.start_time - 1.days)
   end
