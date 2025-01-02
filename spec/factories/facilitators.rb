@@ -2,8 +2,9 @@ FactoryBot.define do
   factory :facilitator do
     email { Faker::Internet.email }
     password { Faker::Internet.password }
-    name { Faker::Name.name }
+    profile_url { Faker::Internet.url }
     is_admin { false }
+    name { Faker::Name.name }
 
     factory :admin do
       is_admin { true }

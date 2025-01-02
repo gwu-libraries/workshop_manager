@@ -153,4 +153,13 @@ RSpec.describe 'workshops/show', type: :view do
 
     expect(page).to_not have_content('approve or reject?')
   end
+
+  it 'links to a facilitator profile when clicking a facilitator name' do
+    visit workshop_path(@future_registration_workshop)
+
+    expect(page).to have_link(
+      @facilitator_1.name,
+      href: @facilitator_1.profile_url
+    )
+  end
 end

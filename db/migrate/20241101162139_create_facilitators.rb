@@ -3,6 +3,7 @@ class CreateFacilitators < ActiveRecord::Migration[7.1]
     create_table :facilitators do |t|
       t.string :name
       t.boolean :is_admin
+      t.string :profile_url
 
       t.timestamps
     end
