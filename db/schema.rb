@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_18_173306) do
+ActiveRecord::Schema[8.0].define(version: 2024_11_18_173306) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension "pg_catalog.plpgsql"
 
   create_table "application_template_questions", force: :cascade do |t|
     t.bigint "application_template_id", null: false
@@ -31,6 +31,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_18_173306) do
   create_table "facilitators", force: :cascade do |t|
     t.string "name"
     t.boolean "is_admin"
+    t.string "profile_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "email", default: "", null: false
