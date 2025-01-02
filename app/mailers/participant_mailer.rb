@@ -12,11 +12,37 @@ class ParticipantMailer < ApplicationMailer
     mail(to: @participant.email, subject: "Registered for #{@workshop.title}")
   end
 
-  def workshop_reminder_email(workshop_id, participant_id)
+  def workshop_reminder_email_one_week(workshop_id, participant_id)
     @workshop = Workshop.find(workshop_id)
     @participant = Participant.find(participant_id)
     @message =
-      "Reminder that #{@workshop.title} is today at #{human_readable_time(@workshop.start_time)}"
+      "Reminder that #{@workshop.title} is in one week at #{human_readable_time(@workshop.start_time)}"
+
+    mail(
+      to: @participant.email,
+      subject:
+        "Reminder: #{@workshop.title} at #{human_readable_time(@workshop.start_time)}"
+    )
+  end
+
+  def workshop_reminder_email_one_day(workshop_id, participant_id)
+    @workshop = Workshop.find(workshop_id)
+    @participant = Participant.find(participant_id)
+    @message =
+      "Reminder that #{@workshop.title} is in one day at #{human_readable_time(@workshop.start_time)}"
+
+    mail(
+      to: @participant.email,
+      subject:
+        "Reminder: #{@workshop.title} at #{human_readable_time(@workshop.start_time)}"
+    )
+  end
+
+  def workshop_reminder_email_one_hour(workshop_id, participant_id)
+    @workshop = Workshop.find(workshop_id)
+    @participant = Participant.find(participant_id)
+    @message =
+      "Reminder that #{@workshop.title} is in one hour at #{human_readable_time(@workshop.start_time)}"
 
     mail(
       to: @participant.email,

@@ -1,5 +1,5 @@
 require 'rails_helper'
-RSpec.describe WorkshopReminderEmailJob, type: :job do
+RSpec.describe 'reminder emails', type: :job do
   xit 'can schedule multiple reminder emails' do
     facilitator_1 = FactoryBot.create(:facilitator)
     workshop_1 = FactoryBot.create(:future_registration_workshop)
@@ -22,15 +22,15 @@ RSpec.describe WorkshopReminderEmailJob, type: :job do
 
     participant = Participant.last
 
-    expect(WorkshopReminderEmailJob).to have_enqueued_sidekiq_job(
+    expect(WorkshopReminderEmailOneWeekJob).to have_enqueued_sidekiq_job(
       { participant_id: participant.id, workshop_id: workshop_1.id }
     ).at(workshop_1.start_time - 1.weeks)
 
-    expect(WorkshopReminderEmailJob).to have_enqueued_sidekiq_job(
+    expect(WorkshopReminderEmailOneDayJob).to have_enqueued_sidekiq_job(
       { participant_id: participant.id, workshop_id: workshop_1.id }
     ).at(workshop_1.start_time - 1.days)
 
-    expect(WorkshopReminderEmailJob).to have_enqueued_sidekiq_job(
+    expect(WorkshopReminderEmailOneHourJob).to have_enqueued_sidekiq_job(
       { participant_id: participant.id, workshop_id: workshop_1.id }
     ).at(workshop_1.start_time - 1.hours)
   end
@@ -61,11 +61,11 @@ RSpec.describe WorkshopReminderEmailJob, type: :job do
 
     participant = Participant.last
 
-    expect(WorkshopReminderEmailJob).to have_enqueued_sidekiq_job(
+    expect(WorkshopReminderEmailOneWeekJob).to have_enqueued_sidekiq_job(
       { participant_id: participant.id, workshop_id: workshop_1.id }
     ).at(workshop_1.start_time - 1.weeks)
 
-    expect(WorkshopReminderEmailJob).to have_enqueued_sidekiq_job(
+    expect(WorkshopReminderEmailOneDayJob).to have_enqueued_sidekiq_job(
       { participant_id: participant.id, workshop_id: workshop_1.id }
     ).at(workshop_1.start_time - 1.days)
   end

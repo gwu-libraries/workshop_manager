@@ -49,7 +49,7 @@ module WorkshopParticipantNotifier
   def schedule_workshop_reminder_notification
     if @workshop_participant.persisted?
       if reminder_option_params[:reminder_options].include? 'One week before'
-        WorkshopReminderEmailJob.perform_at(
+        WorkshopReminderEmailOneWeekJob.perform_at(
           (@workshop_participant.workshop.start_time - 1.weeks).round,
           {
             workshop_id: @workshop_participant.workshop.id,
@@ -59,7 +59,7 @@ module WorkshopParticipantNotifier
       end
 
       if reminder_option_params[:reminder_options].include? 'One day before'
-        WorkshopReminderEmailJob.perform_at(
+        WorkshopReminderEmailOneDayJob.perform_at(
           (@workshop_participant.workshop.start_time - 1.days).round,
           {
             workshop_id: @workshop_participant.workshop.id,
@@ -69,7 +69,7 @@ module WorkshopParticipantNotifier
       end
 
       if reminder_option_params[:reminder_options].include? 'One hour before'
-        WorkshopReminderEmailJob.perform_at(
+        WorkshopReminderEmailOneHourJob.perform_at(
           (@workshop_participant.workshop.start_time - 1.hours).round,
           {
             workshop_id: @workshop_participant.workshop.id,
