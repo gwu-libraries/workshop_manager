@@ -1,5 +1,5 @@
 require 'rails_helper'
-RSpec.describe WorkshopRegistrationEmailJob, type: :job do
+RSpec.describe RegistrationReceivedEmailJob, type: :job do
   it 'enqueues an email confirming registration when a participant registers' do
     facilitator_1 = FactoryBot.create(:facilitator)
     workshop_1 = FactoryBot.create(:future_registration_workshop)
@@ -16,10 +16,8 @@ RSpec.describe WorkshopRegistrationEmailJob, type: :job do
 
     click_on 'Submit Registration'
 
-    participant = Participant.last
-
-    expect(WorkshopRegistrationEmailJob).to have_enqueued_sidekiq_job(
-      { participant_id: participant.id, workshop_id: workshop_1.id }
+    expect(RegistrationReceivedEmailJob).to have_enqueued_sidekiq_job(
+      { participant_id: Participant.last.id, workshop_id: workshop_1.id }
     )
   end
 end

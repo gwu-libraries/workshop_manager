@@ -4,14 +4,14 @@
   <% when "application_required"%>
     <h3>Pending Applications</h3>
     <div id="pending-applications">
-      <%= render partial: "workshop_participants/approval_form",
+      <%= render partial: "workshop_participants/application_status_form",
                 collection: @workshop.workshop_participants.where(application_status: "pending").order('created_at asc'),
                 as: :workshop_participant %>
     </div>
 
     <h3>Waitlisted Applications</h3>
     <div id="waitlisted-applications">
-      <%= render partial: "workshop_participants/approval_form",
+      <%= render partial: "workshop_participants/application_status_form",
                 collection: @workshop.workshop_participants.where(application_status: "waitlisted").order('created_at asc'),
                 as: :workshop_participant %>
     </div>
@@ -22,7 +22,7 @@
   <% when "individual"%>
     <h3>Registered Participants</h3>
     <div id="registered-participants">
-      <%= render partial: "workshop_participants/attendance_form", 
+      <%= render partial: "workshop_participants/attendance_status_form", 
                 collection: @workshop.workshop_participants.order('created_at asc'),
                 as: :workshop_participant %>
     </div>

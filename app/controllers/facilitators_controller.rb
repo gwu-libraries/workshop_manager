@@ -23,8 +23,6 @@ class FacilitatorsController < ApplicationController
 
   # POST /facilitators
   def create
-    require 'pry'
-    binding.pry
     @facilitator = Facilitator.new(facilitator_params)
 
     respond_to do |format|
