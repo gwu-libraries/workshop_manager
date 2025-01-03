@@ -1,5 +1,5 @@
 require 'rails_helper'
-RSpec.describe WorkshopApplicationReceivedEmailJob, type: :job do
+RSpec.describe ApplicationReceivedEmailJob, type: :job do
   it 'enqueues an email confirming application recieved when a participant applies to a workshop' do
     facilitator_1 = FactoryBot.create(:facilitator)
     workshop_1 = FactoryBot.create(:future_application_workshop)
@@ -35,10 +35,8 @@ RSpec.describe WorkshopApplicationReceivedEmailJob, type: :job do
 
     click_on 'Submit Application'
 
-    participant = Participant.last
-
-    expect(WorkshopApplicationReceivedEmailJob).to have_enqueued_sidekiq_job(
-      { participant_id: participant.id, workshop_id: workshop_1.id }
+    expect(ApplicationReceivedEmailJob).to have_enqueued_sidekiq_job(
+      { participant_id: Participant.last.id, workshop_id: workshop_1.id }
     )
   end
 end

@@ -16,10 +16,8 @@ RSpec.describe RegistrationReceivedEmailJob, type: :job do
 
     click_on 'Submit Registration'
 
-    participant = Participant.last
-
     expect(RegistrationReceivedEmailJob).to have_enqueued_sidekiq_job(
-      { participant_id: participant.id, workshop_id: workshop_1.id }
+      { participant_id: Participant.last.id, workshop_id: workshop_1.id }
     )
   end
 end

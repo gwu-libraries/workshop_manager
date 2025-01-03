@@ -1,4 +1,4 @@
-class ApplicationpRejectedEmailJob
+class ApplicationRejectedEmailJob
   include Sidekiq::Job
   # sidekiq_options queue: :mailer
 

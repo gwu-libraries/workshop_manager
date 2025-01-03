@@ -63,14 +63,6 @@ class ParticipantMailer < ApplicationMailer
     )
   end
 
-  def application_waitlisted_email(workshop_id, participant_id)
-    @workshop = Workshop.find(workshop_id)
-    @participant = Participant.find(participant_id)
-    @message = "You have been waitlisted for #{@workshop.title}"
-
-    mail(to: @participant.email, subject: "Waitlisted: #{@workshop.title}")
-  end
-
   def application_accepted_email(workshop_id, participant_id)
     @workshop = Workshop.find(workshop_id)
     @participant = Participant.find(participant_id)
@@ -85,5 +77,13 @@ class ParticipantMailer < ApplicationMailer
     @message = "You have been rejected for #{@workshop.title}"
 
     mail(to: @participant.email, subject: "Rejected: #{@workshop.title}")
+  end
+
+  def application_waitlisted_email(workshop_id, participant_id)
+    @workshop = Workshop.find(workshop_id)
+    @participant = Participant.find(participant_id)
+    @message = "You have been waitlisted for #{@workshop.title}"
+
+    mail(to: @participant.email, subject: "Waitlisted: #{@workshop.title}")
   end
 end

@@ -5,7 +5,8 @@ module ParticipantNotifier
     after_action :application_received_notification, only: [:apply]
     after_action :registration_received_notification, only: [:create]
     after_action :schedule_reminder_notifications, only: [:create]
-    after_action :application_status_notifications, only: [:update]
+    after_action :application_status_notification,
+                 only: [:update_application_status]
   end
 
   private
@@ -30,7 +31,7 @@ module ParticipantNotifier
     )
   end
 
-  def application_status_notifications
+  def application_status_notification
     if workshop_participant_params[:application_status] == 'accepted'
       ApplicationAcceptedEmailJob.perform_async(
         {

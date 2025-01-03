@@ -1,4 +1,4 @@
-<%= turbo_frame_tag "workshop_participant_approval_form_#{workshop_participant.id}" do %>
+<%= turbo_frame_tag "workshop_participant_application_status_form_#{workshop_participant.id}" do %>
   <p>
     Name: <%= workshop_participant.participant.name %>
   </p>
@@ -14,15 +14,15 @@
     </p>
   <% end %>
 
-  <%= simple_form_for workshop_participant do |f| %>
+  <%= simple_form_for workshop_participant, url: '/workshop_participants/update_application_status' do |f| %>
     <%= f.hidden_field :application_status, value: "accepted" %>
     <%= f.submit "Accept participant application" %>
   <% end %>
-  <%= simple_form_for workshop_participant do |f| %>
+  <%= simple_form_for workshop_participant, url: '/workshop_participants/update_application_status' do |f| %>
     <%= f.hidden_field :application_status, value: "rejected" %>
     <%= f.submit "Reject participant application" %>
   <% end %>
-  <%= simple_form_for workshop_participant do |f| %>
+  <%= simple_form_for workshop_participant, url: '/workshop_participants/update_application_status' do |f| %>
     <%= f.hidden_field :application_status, value: "waitlisted" %>
     <%= f.submit "Waitlist participant application" %>
   <% end %>

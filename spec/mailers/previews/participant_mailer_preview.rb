@@ -14,6 +14,27 @@ class ParticipantMailerPreview < ActionMailer::Preview
     ParticipantMailer.application_received_email(workshop.id, participant.id)
   end
 
+  def application_accepted_email
+    participant = Participant.last
+    workshop = Workshop.last
+
+    ParticipantMailer.application_accepted_email(workshop.id, participant.id)
+  end
+
+  def application_rejected_email
+    participant = Participant.last
+    workshop = Workshop.last
+
+    ParticipantMailer.application_rejected_email(workshop.id, participant.id)
+  end
+
+  def application_waitlisted_email
+    participant = Participant.last
+    workshop = Workshop.last
+
+    ParticipantMailer.application_waitlisted_email(workshop.id, participant.id)
+  end
+
   def reminder_email_one_week
     participant = Participant.last
     workshop = Workshop.last
