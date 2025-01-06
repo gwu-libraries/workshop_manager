@@ -86,6 +86,8 @@ group :development, :test do
   gem 'syntax_tree-haml'
   gem 'syntax_tree-rbs'
   gem 'orderly'
+  gem "letter_opener"
+  gem 'letter_opener_web', '~> 3.0'
 end
 
 group :development do

@@ -22,5 +22,9 @@ Rails.application.routes.draw do
   root 'workshops#index'
 
   require 'sidekiq/web'
-  mount Sidekiq::Web => '/sidekiq'
+  unless Rails.env.production?
+    mount Sidekiq::Web => '/sidekiq'
+
+    mount LetterOpenerWeb::Engine, at: '/letter_opener'
+  end
 end
