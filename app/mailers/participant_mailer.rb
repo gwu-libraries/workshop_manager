@@ -10,7 +10,13 @@ class ParticipantMailer < ApplicationMailer
     @participant = Participant.find(participant_id)
     @message = "Thank you for registering for #{@workshop.title}!"
 
-    mail(to: @participant.email, subject: "Registered for #{@workshop.title}")
+    mail(
+      to: @participant.email,
+      subject: "Registered for #{@workshop.title}"
+    ) do |format|
+      format.text
+      format.html
+    end
   end
 
   def application_received_email(workshop_id, participant_id)
@@ -21,7 +27,10 @@ class ParticipantMailer < ApplicationMailer
     mail(
       to: @participant.email,
       subject: "Application for #{@workshop.title} received!"
-    )
+    ) do |format|
+      format.text
+      format.html
+    end
   end
 
   def reminder_email_one_week(workshop_id, participant_id)
@@ -34,7 +43,10 @@ class ParticipantMailer < ApplicationMailer
       to: @participant.email,
       subject:
         "Reminder: #{@workshop.title} next week on #{human_readable_date(@workshop.start_time)} at #{human_readable_time(@workshop.start_time)}"
-    )
+    ) do |format|
+      format.text
+      format.html
+    end
   end
 
   def reminder_email_one_day(workshop_id, participant_id)
@@ -47,7 +59,10 @@ class ParticipantMailer < ApplicationMailer
       to: @participant.email,
       subject:
         "Reminder: #{@workshop.title} tomorrow at #{human_readable_time(@workshop.start_time)}"
-    )
+    ) do |format|
+      format.text
+      format.html
+    end
   end
 
   def reminder_email_one_hour(workshop_id, participant_id)
@@ -60,7 +75,10 @@ class ParticipantMailer < ApplicationMailer
       to: @participant.email,
       subject:
         "Reminder: #{@workshop.title} today at #{human_readable_time(@workshop.start_time)}"
-    )
+    ) do |format|
+      format.text
+      format.html
+    end
   end
 
   def application_accepted_email(workshop_id, participant_id)
@@ -68,7 +86,13 @@ class ParticipantMailer < ApplicationMailer
     @participant = Participant.find(participant_id)
     @message = "You have been accepted for #{@workshop.title}"
 
-    mail(to: @participant.email, subject: "Accepted: #{@workshop.title}")
+    mail(
+      to: @participant.email,
+      subject: "Accepted: #{@workshop.title}"
+    ) do |format|
+      format.text
+      format.html
+    end
   end
 
   def application_rejected_email(workshop_id, participant_id)
@@ -76,7 +100,13 @@ class ParticipantMailer < ApplicationMailer
     @participant = Participant.find(participant_id)
     @message = "You have been rejected for #{@workshop.title}"
 
-    mail(to: @participant.email, subject: "Rejected: #{@workshop.title}")
+    mail(
+      to: @participant.email,
+      subject: "Rejected: #{@workshop.title}"
+    ) do |format|
+      format.text
+      format.html
+    end
   end
 
   def application_waitlisted_email(workshop_id, participant_id)
@@ -84,6 +114,12 @@ class ParticipantMailer < ApplicationMailer
     @participant = Participant.find(participant_id)
     @message = "You have been waitlisted for #{@workshop.title}"
 
-    mail(to: @participant.email, subject: "Waitlisted: #{@workshop.title}")
+    mail(
+      to: @participant.email,
+      subject: "Waitlisted: #{@workshop.title}"
+    ) do |format|
+      format.text
+      format.html
+    end
   end
 end

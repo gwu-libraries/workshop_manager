@@ -6,6 +6,6 @@ class ReminderEmailOneHourJob
     ParticipantMailer.reminder_email_one_hour(
       args[0]['workshop_id'],
       args[0]['participant_id']
-    )
+    ).deliver_now
   end
 end
