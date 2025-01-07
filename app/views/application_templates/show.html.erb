@@ -2,8 +2,10 @@
 
 <%= turbo_frame_tag "questions" do %>
   <h2>Questions</h2>
-  <% @application_template.questions.each do |question| %>
-    <%= render question %>
+  <% if @application_template.questions.present? %>
+    <% @application_template.questions.each do |question| %>
+      <%= render question %>
+    <% end %>
   <% end %>
 <% end %>
 

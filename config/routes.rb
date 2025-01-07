@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get '/workshops/pending', to: 'workshops#pending'
   resources :track_workshops
   resources :tracks
   resources :workshop_participants
@@ -9,6 +10,7 @@ Rails.application.routes.draw do
   resources :application_templates
   resources :workshop_application_templates
   resources :questions
+
   get '/dashboard', to: 'dashboard#show'
 
   post '/workshop_participants/apply', to: 'workshop_participants#apply'

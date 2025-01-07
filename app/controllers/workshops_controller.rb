@@ -4,7 +4,11 @@ class WorkshopsController < ApplicationController
 
   # GET /workshops
   def index
-    @workshops = Workshop.all
+    @workshops = Workshop.where(proposal_status: 'approved')
+  end
+
+  def pending
+    @workshops = Workshop.where(proposal_status: 'pending')
   end
 
   # GET /workshops/1
