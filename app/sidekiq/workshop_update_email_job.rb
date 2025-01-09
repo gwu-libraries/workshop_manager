@@ -1,9 +1,8 @@
-class ReminderEmailOneHourJob
+class WorkshopUpdateEmailJob
   include Sidekiq::Job
-  # sidekiq_options queue: :mailer
 
   def perform(*args)
-    ParticipantMailer.reminder_email_one_hour(
+    ParticipantMailer.workshop_update_email(
       args[0]['workshop_id'],
       args[0]['participant_id']
     ).deliver_now

@@ -64,6 +64,8 @@ gem 'jsbundling-rails', '~> 1.3'
 
 gem "sidekiq", "~> 7.3"
 
+gem 'icalendar'
+
 gem 'factory_bot_rails' # here for demo purposes
 
 gem 'faker' # here for demo purposes
@@ -84,6 +86,8 @@ group :development, :test do
   gem 'syntax_tree-haml'
   gem 'syntax_tree-rbs'
   gem 'orderly'
+  gem "letter_opener"
+  gem 'letter_opener_web', '~> 3.0'
 end
 
 group :development do

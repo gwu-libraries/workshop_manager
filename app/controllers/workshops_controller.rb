@@ -1,10 +1,16 @@
 class WorkshopsController < ApplicationController
+  include WorkshopChangesNotifier
+
   before_action :set_workshop, only: %i[show edit update destroy]
   # before_action :require_login, only: %i[new edit create update destroy]
 
   # GET /workshops
   def index
-    @workshops = Workshop.all
+    @workshops = Workshop.where(proposal_status: 'approved')
+  end
+
+  def pending
+    @workshops = Workshop.where(proposal_status: 'pending')
   end
 
   # GET /workshops/1

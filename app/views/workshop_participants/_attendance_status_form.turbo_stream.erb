@@ -3,12 +3,12 @@
     <%= @workshop_participant.participant.name %> - <%= @workshop_participant.participant.email %> 
     Present? <%= @workshop_participant.in_attendance ? "✅" : "❌" %>
 
-    <%= simple_form_for @workshop_participant, url: "/workshop_participants/update_attendance_status" do |f| %>
+    <%= simple_form_for @workshop_participant do |f| %>
       <%= f.hidden_field :in_attendance, value: true %>
       <%= f.submit "Mark present" %>
     <% end %>
 
-    <%= simple_form_for @workshop_participant, url: "/workshop_participants/update_attendance_status" do |f| %>
+    <%= simple_form_for @workshop_participant do |f| %>
       <%= f.hidden_field :in_attendance, value: false %>
       <%= f.submit "Mark absent" %>
     <% end %>

@@ -16,6 +16,11 @@
   </div>
 
   <div class="form-actions">
-    <%= f.submit "Propose Workshop" %>
+    <% case @workshop.proposal_status %>
+      <% when "pending" %>
+        <%= f.submit "Propose Workshop" %>
+      <% when "approved" %>
+        <%= f.submit "Edit Workshop" %>
+    <% end %>
   </div>
 <% end %>
