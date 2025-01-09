@@ -5,8 +5,7 @@ module ParticipantNotifier
     after_action :application_received_notification, only: [:apply]
     after_action :registration_received_notification, only: [:create]
     after_action :schedule_reminder_notifications, only: [:create]
-    after_action :application_status_notification,
-                 only: [:update_application_status]
+    after_action :application_status_notification, only: [:update]
   end
 
   private

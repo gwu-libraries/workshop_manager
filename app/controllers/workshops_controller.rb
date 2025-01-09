@@ -1,4 +1,6 @@
 class WorkshopsController < ApplicationController
+  include WorkshopChangesNotifier
+
   before_action :set_workshop, only: %i[show edit update destroy]
   # before_action :require_login, only: %i[new edit create update destroy]
 

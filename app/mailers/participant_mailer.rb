@@ -1,14 +1,81 @@
 class ParticipantMailer < ApplicationMailer
   include WorkshopsHelper
-  # Subject can be set in your I18n file at config/locales/en.yml
-  # with the following lookup:
-  #
-  #   en.participant_mailer.workshop_registration_email.subject
-  #
+
+  # before_action :set_workshop
+  # before_action :set_participant
+  # before_action :set_ical_event
+
+  def workshop_update_email(workshop_id, participant_id)
+    @workshop = Workshop.find(workshop_id)
+    @participant = Participant.find(participant_id)
+    @message = "Details for #{@workshop.title} have changed!"
+
+    ical = Icalendar::Calendar.new
+    ical.event do |event|
+      event.uid = @workshop.uuid
+      event.dtstart = @workshop.start_time
+      event.dtend = @workshop.end_time
+      event.sequence = Time.now.to_i
+      event.summary = @workshop.title
+      event.description = @workshop.description
+      event.location = @workshop.in_person_location
+      event.organizer =
+        Icalendar::Values::CalAddress.new(
+          "MAILTO:#{ENV['GMAIL_USERNAME']}",
+          cn: "\"Workshops TEST\""
+        )
+      event.attendee =
+        Icalendar::Values::CalAddress.new("mailto:#{@participant.email}")
+    end
+
+    ical.ip_method = 'REQUEST'
+
+    attachments['invite.ics'] = {
+      mime_type: 'text/calendar; method=REQUEST',
+      content: ical.to_ical
+    }
+
+    mail(
+      to: @participant.email,
+      subject: "Update to #{@workshop.title}"
+    ) do |format|
+      format.text
+      format.html
+    end
+  end
+
   def registration_received_email(workshop_id, participant_id)
     @workshop = Workshop.find(workshop_id)
     @participant = Participant.find(participant_id)
     @message = "Thank you for registering for #{@workshop.title}!"
+
+    ical = Icalendar::Calendar.new
+    ical.event do |event|
+      event.uid = @workshop.uuid
+      event.dtstart = @workshop.start_time
+      event.dtend = @workshop.end_time
+      event.sequence = Time.now.to_i
+      event.summary = @workshop.title
+      event.description = @workshop.description
+      event.location = @workshop.in_person_location
+      event.organizer =
+        Icalendar::Values::CalAddress.new(
+          "MAILTO:#{ENV['GMAIL_USERNAME']}",
+          cn: "\"Workshops TEST\""
+        )
+      event.attendee =
+        Icalendar::Values::CalAddress.new(
+          "mailto:#{@participant.email}",
+          partstat: 'accepted'
+        )
+    end
+
+    ical.ip_method = 'REQUEST'
+
+    attachments['invite.ics'] = {
+      mime_type: 'text/calendar; method=REQUEST',
+      content: ical.to_ical
+    }
 
     mail(
       to: @participant.email,
@@ -85,6 +152,33 @@ class ParticipantMailer < ApplicationMailer
     @workshop = Workshop.find(workshop_id)
     @participant = Participant.find(participant_id)
     @message = "You have been accepted for #{@workshop.title}"
+    ical = Icalendar::Calendar.new
+    ical.event do |event|
+      event.uid = @workshop.uuid
+      event.dtstart = @workshop.start_time
+      event.dtend = @workshop.end_time
+      event.sequence = Time.now.to_i
+      event.summary = @workshop.title
+      event.description = @workshop.description
+      event.location = @workshop.in_person_location
+      event.organizer =
+        Icalendar::Values::CalAddress.new(
+          "MAILTO:#{ENV['GMAIL_USERNAME']}}",
+          cn: "\"Workshops TEST\""
+        )
+      event.attendee =
+        Icalendar::Values::CalAddress.new(
+          "mailto:#{@participant.email}",
+          partstat: 'accepted'
+        )
+    end
+
+    ical.ip_method = 'REQUEST'
+
+    attachments['invite.ics'] = {
+      mime_type: 'text/calendar; method=REQUEST',
+      content: ical.to_ical
+    }
 
     mail(
       to: @participant.email,
@@ -122,4 +216,15 @@ class ParticipantMailer < ApplicationMailer
       format.html
     end
   end
+
+  # private
+
+  # def set_ical_event
+  # end
+
+  # def set_workshop
+  # end
+
+  # def set_participant
+  # end
 end

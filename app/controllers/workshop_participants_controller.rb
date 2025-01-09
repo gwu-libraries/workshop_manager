@@ -1,14 +1,7 @@
 class WorkshopParticipantsController < ApplicationController
   include ParticipantNotifier
 
-  before_action :set_workshop_participant,
-                only: %i[
-                  show
-                  edit
-                  update_application_status
-                  update_attendance_status
-                  destroy
-                ]
+  before_action :set_workshop_participant, only: %i[show edit update destroy]
   # before_action :require_login,
   #               only: %i[index show new edit create update destroy]
 
@@ -93,19 +86,8 @@ class WorkshopParticipantsController < ApplicationController
     end
   end
 
-  def update_application_status
-    respond_to do |format|
-      if @workshop_participant.update(workshop_participant_params)
-        format.turbo_stream {}
-        format.html { render workshop_path(@workshop_participant.workshop_id) }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-      end
-    end
-  end
-
   # PATCH/PUT /workshop_participants/1
-  def update_attendance_status
+  def update
     respond_to do |format|
       if @workshop_participant.update(workshop_participant_params)
         format.turbo_stream do
