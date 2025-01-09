@@ -7,7 +7,14 @@
     <%= f.hidden_field :workshop_id, value: @workshop.id %>
 
     <%= simple_fields_for :reminder_options do |n| %>
-      <%= n.input :reminder_options, as: :check_boxes, collection: ["One week before", "One day before", "One hour before"] %>
+      <% if (@workshop.start_time - 1.hour).past? %>
+      <% elsif (@workshop.start_time - 1.day).past? %>
+        <%= n.input :reminder_options, as: :check_boxes, collection: ["One hour before"] %>
+      <% elsif (@workshop.start_time - 1.week).past? %>
+        <%= n.input :reminder_options, as: :check_boxes, collection: ["One day before", "One hour before"] %>
+      <% else %>
+        <%= n.input :reminder_options, as: :check_boxes, collection: ["One week before", "One day before", "One hour before"] %>
+      <% end %>
     <% end %>
   </div>
 
