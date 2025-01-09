@@ -14,15 +14,15 @@
     </p>
   <% end %>
 
-  <%= simple_form_for workshop_participant, url: '/workshop_participants/update_application_status' do |f| %>
+  <%= simple_form_for workshop_participant do |f| %>
     <%= f.hidden_field :application_status, value: "accepted" %>
     <%= f.submit "Accept participant application" %>
   <% end %>
-  <%= simple_form_for workshop_participant, url: '/workshop_participants/update_application_status' do |f| %>
+  <%= simple_form_for workshop_participant do |f| %>
     <%= f.hidden_field :application_status, value: "rejected" %>
     <%= f.submit "Reject participant application" %>
   <% end %>
-  <%= simple_form_for workshop_participant, url: '/workshop_participants/update_application_status' do |f| %>
+  <%= simple_form_for workshop_participant do |f| %>
     <%= f.hidden_field :application_status, value: "waitlisted" %>
     <%= f.submit "Waitlist participant application" %>
   <% end %>

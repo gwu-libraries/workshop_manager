@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   get '/workshops/pending', to: 'workshops#pending'
+  post '/workshop_participants/apply', to: 'workshop_participants#apply'
   resources :track_workshops
   resources :tracks
   resources :workshop_participants
@@ -13,7 +14,6 @@ Rails.application.routes.draw do
 
   get '/dashboard', to: 'dashboard#show'
 
-  post '/workshop_participants/apply', to: 'workshop_participants#apply'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
