@@ -16,7 +16,7 @@ FactoryBot.define do
 
     attendance_modality { [0, 1].sample }
 
-    presentation_modality { [0, 1, 2].sample }
+    presentation_modality { 'hybrid' }
 
     registration_modality { [0, 1, 2].sample }
 
@@ -24,47 +24,62 @@ FactoryBot.define do
 
     factory :past_application_workshop do
       registration_modality { 'application_required' }
-      start_time { DateTime.now - rand(14).days - rand(4).hours }
+      start_time do
+        (DateTime.now - rand(14).days - rand(4).hours).beginning_of_hour
+      end
       end_time { start_time + 2.hours }
     end
 
     factory :past_registration_workshop do
       registration_modality { 'registration_required' }
-      start_time { DateTime.now - rand(14).days - rand(4).hours }
+      start_time do
+        (DateTime.now - rand(14).days - rand(4).hours).beginning_of_hour
+      end
       end_time { start_time + 2.hours }
     end
 
     factory :past_open_workshop do
       registration_modality { 'no_registration_required' }
-      start_time { DateTime.now - rand(14).days - rand(4).hours }
+      start_time do
+        (DateTime.now - rand(14).days - rand(4).hours).beginning_of_hour
+      end
       end_time { start_time + 2.hours }
     end
 
     factory :future_application_workshop do
       registration_modality { 'application_required' }
       attendance_modality { [0, 1].sample }
-      start_time { DateTime.now + rand(14).days - rand(4).hours }
+      start_time do
+        (DateTime.now + rand(14).days - rand(4).hours).beginning_of_hour
+      end
       end_time { start_time + 2.hours }
     end
 
     factory :future_registration_workshop do
       registration_modality { 'registration_required' }
+      presentation_modality { 'hybrid' }
       attendance_modality { [0, 1].sample }
-      start_time { DateTime.now + rand(14).days - rand(4).hours }
+      start_time do
+        (DateTime.now + rand(14).days - rand(4).hours).beginning_of_hour
+      end
       end_time { start_time + 2.hours }
     end
 
     factory :future_open_workshop do
       registration_modality { 'no_registration_required' }
       attendance_modality { [0, 1].sample }
-      start_time { DateTime.now + rand(14).days - rand(4).hours }
+      start_time do
+        (DateTime.now + rand(14).days - rand(4).hours).beginning_of_hour
+      end
       end_time { start_time + 2.hours }
     end
 
     factory :proposal_pending_workshop do
       proposal_status { 'pending' }
       # these should always be in the future
-      start_time { DateTime.now + rand(14).days - rand(4).hours }
+      start_time do
+        (DateTime.now + rand(14).days - rand(4).hours).beginning_of_hour
+      end
       end_time { start_time + 2.hours }
     end
 
@@ -73,12 +88,16 @@ FactoryBot.define do
     end
 
     factory :past_workshop do
-      start_time { DateTime.now - rand(14).days - rand(4).hours }
+      start_time do
+        (DateTime.now - rand(14).days - rand(4).hours).beginning_of_hour
+      end
       end_time { start_time + 2.hours }
     end
 
     factory :future_workshop do
-      start_time { DateTime.now + rand(14).days - rand(4).hours }
+      start_time do
+        (DateTime.now + rand(14).days - rand(4).hours).beginning_of_hour
+      end
       end_time { start_time + 2.hours }
     end
   end

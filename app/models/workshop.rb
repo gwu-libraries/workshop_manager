@@ -21,11 +21,41 @@ class Workshop < ApplicationRecord
   has_many :workshop_application_templates
   has_many :application_templates, through: :workshop_application_templates
 
+  after_update :send_timing_update_notification,
+               if: ->(workshop) do
+                 workshop.saved_change_to_start_time? ||
+                   workshop.saved_change_to_end_time?
+               end
+  after_update :send_location_update_notification,
+               if: ->(workshop) do
+                 workshop.saved_change_to_in_person_location? ||
+                   workshop.saved_change_to_virtual_location?
+               end
+
   def total_attendance
-    if self.attendance_modality == 'individual'
+    case self.attendance_modality
+    when 'individual'
       self.workshop_participants.where(in_attendance: true).count
-    elsif self.attendance_modality == 'collective'
+    when 'collective'
       self.in_person_attendance_count + self.virtual_attendance_count
+    end
+  end
+
+  private
+
+  def send_timing_update_notification
+    self.participants.each do |participant|
+      WorkshopTimingUpdateEmailJob.perform_async(
+        { workshop_id: self.id, participant_id: participant.id }.stringify_keys
+      )
+    end
+  end
+
+  def send_location_update_notification
+    self.participants.each do |participant|
+      WorkshopLocationUpdateEmailJob.perform_async(
+        { workshop_id: self.id, participant_id: participant.id }.stringify_keys
+      )
     end
   end
 end

@@ -5,10 +5,10 @@ class ParticipantMailer < ApplicationMailer
   # before_action :set_participant
   # before_action :set_ical_event
 
-  def workshop_update_email(workshop_id, participant_id)
+  def workshop_timing_update_email(workshop_id, participant_id)
     @workshop = Workshop.find(workshop_id)
     @participant = Participant.find(participant_id)
-    @message = "Details for #{@workshop.title} have changed!"
+    @message = "Start or end time for #{@workshop.title} has changed!"
 
     ical = Icalendar::Calendar.new
     ical.event do |event|
@@ -37,7 +37,46 @@ class ParticipantMailer < ApplicationMailer
 
     mail(
       to: @participant.email,
-      subject: "Update to #{@workshop.title}"
+      subject: "Time Update for #{@workshop.title}"
+    ) do |format|
+      format.text
+      format.html
+    end
+  end
+
+  def workshop_location_update_email(workshop_id, participant_id)
+    @workshop = Workshop.find(workshop_id)
+    @participant = Participant.find(participant_id)
+    @message = "Location for #{@workshop.title} has changed!"
+
+    ical = Icalendar::Calendar.new
+    ical.event do |event|
+      event.uid = @workshop.uuid
+      event.dtstart = @workshop.start_time
+      event.dtend = @workshop.end_time
+      event.sequence = Time.now.to_i
+      event.summary = @workshop.title
+      event.description = @workshop.description
+      event.location = @workshop.in_person_location
+      event.organizer =
+        Icalendar::Values::CalAddress.new(
+          "MAILTO:#{ENV['GMAIL_USERNAME']}",
+          cn: "\"Workshops TEST\""
+        )
+      event.attendee =
+        Icalendar::Values::CalAddress.new("mailto:#{@participant.email}")
+    end
+
+    ical.ip_method = 'REQUEST'
+
+    attachments['invite.ics'] = {
+      mime_type: 'text/calendar; method=REQUEST',
+      content: ical.to_ical
+    }
+
+    mail(
+      to: @participant.email,
+      subject: "Location Update for #{@workshop.title}"
     ) do |format|
       format.text
       format.html
