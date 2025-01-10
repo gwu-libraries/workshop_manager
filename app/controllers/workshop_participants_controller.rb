@@ -1,7 +1,10 @@
 class WorkshopParticipantsController < ApplicationController
-  include ParticipantNotifier
+  include ReminderEmailScheduler
 
   before_action :set_workshop_participant, only: %i[show edit update destroy]
+
+  after_action :registration_received_notification, only: :create
+  after_action :application_received_notification, only: :apply
   # before_action :require_login,
   #               only: %i[index show new edit create update destroy]
 
@@ -121,6 +124,28 @@ class WorkshopParticipantsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_workshop_participant
     @workshop_participant = WorkshopParticipant.find(params[:id])
+  end
+
+  def registration_received_notification
+    if @workshop_participant.persisted?
+      RegistrationReceivedEmailJob.perform_async(
+        {
+          workshop_id: @workshop_participant.workshop.id,
+          participant_id: @workshop_participant.participant.id
+        }.stringify_keys
+      )
+    end
+  end
+
+  def application_received_notification
+    if @workshop_participant.persisted?
+      ApplicationReceivedEmailJob.perform_async(
+        {
+          workshop_id: @workshop_participant.workshop.id,
+          participant_id: @workshop_participant.participant.id
+        }.stringify_keys
+      )
+    end
   end
 
   # Only allow a list of trusted parameters through.
