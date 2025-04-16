@@ -70,6 +70,12 @@ gem 'factory_bot_rails' # here for demo purposes
 
 gem 'faker' # here for demo purposes
 
+gem "tailwindcss-ruby", "~> 4.1"
+
+gem "tailwindcss-rails", "~> 4.2"
+
+gem 'simple_form-tailwind'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'capybara'
@@ -107,3 +113,4 @@ group :test do
   gem 'webdrivers'
   gem 'rspec-sidekiq'
 end
+

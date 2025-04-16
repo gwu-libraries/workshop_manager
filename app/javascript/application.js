@@ -5,4 +5,3 @@ import "vega"
 import "vega-lite"
 import "vega-embed"
 window.dispatchEvent(new Event("vega:load"))
-import * as bootstrap from "bootstrap"
