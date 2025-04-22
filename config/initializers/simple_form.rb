@@ -11,7 +11,7 @@ SimpleForm.setup do |config|
 
   # How the label text should be generated altogether with the required text.
   config.label_text = ->(label, required, _explicit_label) do
-    "#{label} #{required}"
+    "#{label.titleize} #{required}"
   end
 
   # Define the way to render check boxes / radio buttons with labels.
@@ -36,7 +36,7 @@ SimpleForm.setup do |config|
   # add validation classes to `input_field`
   config.input_field_error_class = 'border-red-500'
   config.input_field_valid_class = 'border-green-400'
-  config.label_class = 'text-sm font-medium text-gray-600'
+  config.label_class = 'text-sm font-medium text-black-600'
 
   # vertical forms
   #
@@ -52,7 +52,7 @@ SimpleForm.setup do |config|
     b.use :label, class: 'block', error_class: 'text-red-500'
     b.use :input,
           class:
-            'shadow appearance-none border border-gray-300 rounded w-full py-2 px-3 bg-white focus:outline-none focus:ring-0 focus:border-blue-500 text-gray-400 leading-6 transition-colors duration-200 ease-in-out',
+            'shadow appearance-none border border-gray-300 rounded w-full py-2 px-3 bg-white focus:outline-none focus:ring-0 focus:border-blue-500 text-black-400 leading-6 transition-colors duration-200 ease-in-out',
           error_class: 'border-red-500',
           valid_class: 'border-green-400'
     b.use :full_error,
