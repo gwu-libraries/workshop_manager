@@ -1,8 +1,4 @@
-<p style="color: green"><%= notice %></p>
-
-<h2>Upcoming Workshops</h2>
-
-<%= month_calendar(events: @workshops) do |date, workshops| %>
+ <%= month_calendar(events: @workshops) do |date, workshops| %>
   <%= date %>
 
   <% workshops.each do |workshop| %>

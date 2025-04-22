@@ -1,16 +1,9 @@
-<p style="color: green"><%= notice %></p>
-
 <%= render @workshop %>
 
-<% if current_facilitator.present? && current_facilitator.is_admin? %>
-  <%= render "admin_panel", workshop: @workshop %>
-<% end %>
+<%= render "admin_panel", workshop: @workshop if current_facilitator.present? && current_facilitator.is_admin? %>
+<%= render "facilitator_panel", workshop: @workshop if current_facilitator.present? %>
 
-<% if current_facilitator.present? %>
-  <%= render "facilitator_panel", workshop: @workshop %>
-<% end %>
-
-<% unless @workshop.end_time.past? %>
+<% unless @workshop.end_time.past? || current_facilitator.present? %>
   <% case @workshop.registration_modality %>
     <% when "registration_required" %>
       <%= render "workshop_participants/registration_form", workshop: @workshop %>
@@ -18,7 +11,3 @@
       <%= render "workshop_participants/application_form", application_template: @workshop.application_templates.first %>
   <% end %>
 <% end %>
-
-<%= link_to "Back to workshops", workshops_path %>
-
-
