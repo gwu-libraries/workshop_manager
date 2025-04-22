@@ -5,8 +5,8 @@ class WorkshopParticipantsController < ApplicationController
 
   after_action :registration_received_notification, only: :create
   after_action :application_received_notification, only: :apply
-  # before_action :require_login,
-  #               only: %i[index show new edit create update destroy]
+  before_action :require_login,
+                only: %i[index show new edit create update destroy]
 
   # GET /workshop_participants
   def index

@@ -1,14 +1,16 @@
 class WorkshopsController < ApplicationController
+  include Filterable
+
   before_action :set_workshop, only: %i[show edit update destroy]
-  # before_action :require_login, only: %i[new edit create update destroy]
+  before_action :require_login, only: %i[new edit create update destroy pending]
 
   # GET /workshops
   def index
-    @workshops = Workshop.where(proposal_status: 'approved')
+    @workshops = Workshop.approved
   end
 
   def pending
-    @workshops = Workshop.where(proposal_status: 'pending')
+    @workshops = Workshop.pending
   end
 
   # GET /workshops/1
@@ -114,6 +116,7 @@ class WorkshopsController < ApplicationController
       :proposal_status,
       :in_person_attendance_count,
       :virtual_attendance_count,
+      attachments: [],
       facilitator_ids: []
     )
   end

@@ -1,7 +1,7 @@
 class WorkshopFacilitatorsController < ApplicationController
   before_action :set_workshop_facilitator, only: %i[show edit update destroy]
-  # before_action :require_login,
-  #               only: %i[index show new edit create update destroy]
+  before_action :require_login,
+                only: %i[index show new edit create update destroy]
 
   # GET /workshop_facilitators
   def index
