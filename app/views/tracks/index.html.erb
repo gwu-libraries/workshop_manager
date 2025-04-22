@@ -1,7 +1,3 @@
-<p style="color: green"><%= notice %></p>
-
-<h1>Tracks</h1>
-
 <div id="tracks">
   <% @tracks.each do |track| %>
     <%= render track %>
@@ -10,5 +6,3 @@
     </p>
   <% end %>
 </div>
-
-<%= link_to "New track", new_track_path %>

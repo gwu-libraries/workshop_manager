@@ -1,22 +1,24 @@
-<h3>Apply for <%= @workshop.title %> </h3>
+<div class="max-w-4xl">
+  <h3>Apply for <%= @workshop.title %> </h3>
 
-<%= simple_form_for :workshop_participants, url: "/workshop_participants/apply" do |f| %>
-  <%= f.input :email %>
-  <%= f.input :name %>
-  <% application_template.questions.each do |question| %>
-    <% case question.question_format %>
-      <% when "short_answer" %>
-        <%= f.input "#{question.prompt}" %>
-      <% when "long_answer" %>
-        <%= f.input "#{question.prompt}", as: :text %>
-      <% when "true_false" %>
-        <%= f.input "#{question.prompt}", as: :radio_buttons, collection: ['true', 'false']%>
-      <% when "likert" %>
-        <%= f.input "#{question.prompt}", as: :radio_buttons, collection: ['1', '2', '3', '4', '5']%>
-    <% end %>
-  <% end%>
-  <%= f.hidden_field :workshop_id, value: @workshop.id %>
-  <div class="form-actions">
-    <%= f.submit "Submit Application" %>
-  </div>
-<% end %>
+  <%= simple_form_for :workshop_participants, url: "/workshop_participants/apply" do |f| %>
+    <%= f.input :email %>
+    <%= f.input :name %>
+    <% application_template.questions.each do |question| %>
+      <% case question.question_format %>
+        <% when "short_answer" %>
+          <%= f.input "#{question.prompt}" %>
+        <% when "long_answer" %>
+          <%= f.input "#{question.prompt}", as: :text %>
+        <% when "true_false" %>
+          <%= f.input "#{question.prompt}", as: :radio_buttons, collection: ['true', 'false']%>
+        <% when "likert" %>
+          <%= f.input "#{question.prompt}", as: :radio_buttons, collection: ['1', '2', '3', '4', '5']%>
+      <% end %>
+    <% end%>
+    <%= f.hidden_field :workshop_id, value: @workshop.id %>
+    <div class="form-actions">
+      <%= f.submit "Submit Application" %>
+    </div>
+  <% end %>
+</div>

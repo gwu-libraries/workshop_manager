@@ -1,24 +1,23 @@
 <h3>Register for <%= @workshop.title %></h3>
 
 <%= simple_form_for :workshop_participant, url: workshop_participants_path do |f| %>
-  <div class="form-inputs">
-    <%= f.input :email %>
-    <%= f.input :name %>
-    <%= f.hidden_field :workshop_id, value: @workshop.id %>
+  <%= f.input :email %>
+  <%= f.input :name %>
+  <%= f.hidden_field :workshop_id, value: @workshop.id %>
+  <%= f.label :reminder_options %>
 
-    <%= simple_fields_for :reminder_options do |n| %>
-      <% if (@workshop.start_time - 1.hour).past? %>
-      <% elsif (@workshop.start_time - 1.day).past? %>
-        <%= n.input :reminder_options, as: :check_boxes, collection: ["One hour before"] %>
-      <% elsif (@workshop.start_time - 1.week).past? %>
-        <%= n.input :reminder_options, as: :check_boxes, collection: ["One day before", "One hour before"] %>
-      <% else %>
-        <%= n.input :reminder_options, as: :check_boxes, collection: ["One week before", "One day before", "One hour before"] %>
-      <% end %>
+  <%= f.hint "We'll send you a reminder email at each time you select." %>
+  <%= simple_fields_for :reminder_options do |n| %>
+    <% if (@workshop.start_time - 1.hour).past? %>
+    <% elsif (@workshop.start_time - 1.day).past? %>
+      <%= n.input_field :reminder_options, as: :check_boxes, collection: ["One hour before"] %>
+    <% elsif (@workshop.start_time - 1.week).past? %>
+      <%= n.input_field :reminder_options, as: :check_boxes, collection: ["One day before", "One hour before"] %>
+    <% else %>
+      <%= n.input_field :reminder_options, as: :check_boxes, collection: ["One week before", "One day before", "One hour before"] %>
     <% end %>
-  </div>
+  <% end %>
 
-  <div class="form-actions">
-    <%= f.submit "Submit Registration" %>
-  </div>
+  <%= f.submit "Submit Registration", 
+                class: 'my-2 bg-blue-500 hover:bg-blue-700 text-white font-bold text-sm py-2 px-4 rounded' %>
 <% end %>

@@ -1,7 +1,6 @@
-<h3> Create Application Form for Workshop </h3>
+<h3> Create Application for Workshop </h3>
 
 <%= turbo_frame_tag "questions" do %>
-  <h2>Questions</h2>
   <% if @application_template.questions.present? %>
     <% @application_template.questions.each do |question| %>
       <%= render question %>
