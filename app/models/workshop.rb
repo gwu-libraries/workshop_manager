@@ -21,6 +21,13 @@ class Workshop < ApplicationRecord
   has_many :workshop_application_templates
   has_many :application_templates, through: :workshop_application_templates
 
+  has_many_attached :attachments
+
+  scope :pending, -> { where(proposal_status: 'pending') }
+  scope :approved, -> { where(proposal_status: 'approved') }
+  scope :upcoming, -> { where('start_time > ?', DateTime.now) }
+  scope :past, -> { where('end_time < ?', DateTime.now) }
+
   after_update :send_timing_update_notification,
                if: ->(workshop) do
                  workshop.saved_change_to_start_time? ||
