@@ -71,6 +71,10 @@ class WorkshopsController < ApplicationController
   def update
     respond_to do |format|
       if @workshop.update(workshop_params)
+        format.turbo_stream do
+          turbo_stream.replace 'group_attendance_form',
+                               partial: 'group_attendance_form'
+        end
         format.html do
           redirect_to @workshop, notice: 'Workshop was successfully updated.'
         end
