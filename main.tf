@@ -191,21 +191,21 @@ resource "aws_instance" "prod_web_server" {
   sudo chown -R ubuntu:ubuntu /opt/workshops
   cd /opt/workshops
 
-  git clone https://github.com/gwu-libraries/fac_dev_workshops.git
+  git clone https://github.com/gwu-libraries/workshop_manager.git
 
-  sudo chown -R ubuntu:ubuntu /opt/workshops/fac_dev_workshops
+  sudo chown -R ubuntu:ubuntu /opt/workshops/workshop_manager
 
-  cd /opt/workshops/fac_dev_workshops
+  cd /opt/workshops/workshop_manager
 
   sudo cp .env.example .env
 
   sudo chown ubuntu:ubuntu .env
 
-  openssl req -x509 -newkey rsa:4096 -keyout /opt/workshops/fac_dev_workshops/nginx/certs/key.pem -out /opt/workshops/fac_dev_workshops/nginx/certs/certificate.pem -sha256 -days 3650 -nodes -subj "/C=XX/ST=StateName/L=CityName/O=CompanyName/OU=CompanySectionName/CN=CommonNameOrHostname"
+  openssl req -x509 -newkey rsa:4096 -keyout /opt/workshops/workshop_manager/nginx/certs/key.pem -out /opt/workshops/workshop_manager/nginx/certs/certificate.pem -sha256 -days 3650 -nodes -subj "/C=XX/ST=StateName/L=CityName/O=CompanyName/OU=CompanySectionName/CN=CommonNameOrHostname"
 
   docker compose up -d
 
-  docker exec -d fac_dev_workshops_rails sh -c "bundle exec rails db:create; bundle exec rails db:migrate; bundle exec rails db:seed"
+  docker exec -d workshop_manager_rails sh -c "bundle exec rails db:create; bundle exec rails db:migrate; bundle exec rails db:seed"
   EOF
 
   tags = {
