@@ -18,8 +18,8 @@ class Workshop < ApplicationRecord
   has_many :workshop_participants, dependent: :destroy
   has_many :participants, through: :workshop_participants
 
-  has_many :workshop_application_templates
-  has_many :application_templates, through: :workshop_application_templates
+  has_one :application_form
+  has_one :feedback_form
 
   has_many_attached :attachments
 

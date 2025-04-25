@@ -5,6 +5,17 @@ class WorkshopParticipant < ApplicationRecord
   belongs_to :workshop
   belongs_to :participant
 
+  scope :pending,
+        -> { where(application_status: 'pending').order('created_at asc') }
+  scope :accepted,
+        -> { where(application_status: 'accepted').order('created_at asc') }
+  scope :rejected,
+        -> { where(application_status: 'rejected').order('created_at asc') }
+  scope :waitlisted,
+        -> { where(application_status: 'waitlisted').order('created_at asc') }
+  scope :in_attendance,
+        -> { where(in_attendance: 'true').order('created_at asc') }
+
   after_update :send_application_status_notification,
                if: ->(workshop_participant) do
                  workshop_participant.saved_change_to_application_status?
