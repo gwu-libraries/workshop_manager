@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_22_014845) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_25_015000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+  enable_extension "pgcrypto"
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -42,18 +43,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_22_014845) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "application_template_questions", force: :cascade do |t|
-    t.bigint "application_template_id", null: false
+  create_table "application_form_questions", force: :cascade do |t|
+    t.bigint "application_form_id", null: false
     t.bigint "question_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["application_template_id"], name: "idx_on_application_template_id_63e6caaa85"
-    t.index ["question_id"], name: "index_application_template_questions_on_question_id"
+    t.index ["application_form_id"], name: "index_application_form_questions_on_application_form_id"
+    t.index ["question_id"], name: "index_application_form_questions_on_question_id"
   end
 
-  create_table "application_templates", force: :cascade do |t|
+  create_table "application_forms", force: :cascade do |t|
+    t.bigint "workshop_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["workshop_id"], name: "index_application_forms_on_workshop_id"
   end
 
   create_table "facilitators", force: :cascade do |t|
@@ -69,6 +72,22 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_22_014845) do
     t.datetime "remember_created_at"
     t.index ["email"], name: "index_facilitators_on_email", unique: true
     t.index ["reset_password_token"], name: "index_facilitators_on_reset_password_token", unique: true
+  end
+
+  create_table "feedback_form_questions", force: :cascade do |t|
+    t.bigint "feedback_form_id", null: false
+    t.bigint "question_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["feedback_form_id"], name: "index_feedback_form_questions_on_feedback_form_id"
+    t.index ["question_id"], name: "index_feedback_form_questions_on_question_id"
+  end
+
+  create_table "feedback_forms", force: :cascade do |t|
+    t.bigint "workshop_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["workshop_id"], name: "index_feedback_forms_on_workshop_id"
   end
 
   create_table "participants", force: :cascade do |t|
@@ -99,15 +118,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_22_014845) do
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "workshop_application_templates", force: :cascade do |t|
-    t.bigint "workshop_id", null: false
-    t.bigint "application_template_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["application_template_id"], name: "idx_on_application_template_id_080c9fac35"
-    t.index ["workshop_id"], name: "index_workshop_application_templates_on_workshop_id"
   end
 
   create_table "workshop_facilitators", force: :cascade do |t|
@@ -144,6 +154,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_22_014845) do
     t.string "in_person_location"
     t.datetime "start_time"
     t.datetime "end_time"
+    t.boolean "use_feedback_form", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
@@ -151,12 +162,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_22_014845) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "application_template_questions", "application_templates"
-  add_foreign_key "application_template_questions", "questions"
+  add_foreign_key "application_form_questions", "application_forms"
+  add_foreign_key "application_form_questions", "questions"
+  add_foreign_key "application_forms", "workshops"
+  add_foreign_key "feedback_form_questions", "feedback_forms"
+  add_foreign_key "feedback_form_questions", "questions"
+  add_foreign_key "feedback_forms", "workshops"
   add_foreign_key "track_workshops", "tracks"
   add_foreign_key "track_workshops", "workshops"
-  add_foreign_key "workshop_application_templates", "application_templates"
-  add_foreign_key "workshop_application_templates", "workshops"
   add_foreign_key "workshop_facilitators", "facilitators"
   add_foreign_key "workshop_facilitators", "workshops"
   add_foreign_key "workshop_participants", "participants"
