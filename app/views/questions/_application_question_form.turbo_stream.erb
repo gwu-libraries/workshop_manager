@@ -7,10 +7,10 @@
 
     <%= f.label :prompt %>
     <%= f.input_field :prompt,
-                      class: 'flex w-full shadow appearance-none border border-gray-300 rounded w-full p-2 bg-white focus:outline-none focus:border-blue-500 text-gray-400 leading-4 transition-colors duration-200 ease-in-out' %>
+                      class: 'flex shadow appearance-none border border-gray-300 rounded w-full p-2 bg-white focus:outline-none focus:border-blue-500 text-gray-400 leading-4 transition-colors duration-200 ease-in-out' %>
   
-    <%= f.hidden_field :application_template_id, 
-                      value: @application_template.id %>
+    <%= f.hidden_field :application_form_id, 
+                      value: @application_form.id %>
 
     <%= f.submit "Save question", class: 'my-2 bg-blue-500 hover:bg-blue-700 text-white font-bold 
                                           text-sm py-2 px-4 rounded' %>
