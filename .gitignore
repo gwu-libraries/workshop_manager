@@ -55,3 +55,6 @@ dump.rdb
 !/nginx/certs/.keep
 
 !.env.example
+
+terraform*
+.terraform*

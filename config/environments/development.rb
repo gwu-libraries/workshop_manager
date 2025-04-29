@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'active_support/core_ext/integer/time'
 
 Rails.application.configure do
@@ -79,7 +81,12 @@ Rails.application.configure do
 
   config.action_mailer.raise_delivery_errors = true
 
-  config.action_mailer.delivery_method = :letter_opener
+  # config.action_mailer.delivery_method = :letter_opener
 
   config.action_mailer.perform_deliveries = true
+
+  config.active_job.queue_adapter = :test
+
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.delivery_method = :test
 end

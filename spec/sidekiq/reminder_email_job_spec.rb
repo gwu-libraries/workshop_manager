@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 RSpec.describe 'reminder emails', type: :job do
   xit 'can schedule multiple reminder emails' do

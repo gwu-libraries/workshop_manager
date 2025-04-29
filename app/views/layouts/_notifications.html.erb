@@ -1,0 +1,5 @@
+<%= notice %>
+
+<% if current_facilitator.present? && current_facilitator.is_admin? %>
+  There are <%= Workshop.pending.count %> workshop proposals awaiting approval. 
+<% end %>

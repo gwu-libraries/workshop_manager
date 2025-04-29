@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 RSpec.describe WorkshopLocationUpdateEmailJob, type: :job do
   before(:each) do
@@ -28,7 +30,7 @@ RSpec.describe WorkshopLocationUpdateEmailJob, type: :job do
   it 'enqueues update emails for all participants of a workshop when the in-person location is changed' do
     fill_in 'workshop_in_person_location', with: 'A new location'
 
-    click_on 'Edit Workshop'
+    click_on 'Save Changes'
 
     @workshop_participants.each do |p|
       expect(WorkshopLocationUpdateEmailJob).to have_enqueued_sidekiq_job(
@@ -40,7 +42,7 @@ RSpec.describe WorkshopLocationUpdateEmailJob, type: :job do
   it 'enqueues update emails for all participants of a workshop when the virtual location is changed' do
     fill_in 'workshop_virtual_location', with: 'A new location'
 
-    click_on 'Edit Workshop'
+    click_on 'Save Changes'
 
     @workshop_participants.each do |p|
       expect(WorkshopLocationUpdateEmailJob).to have_enqueued_sidekiq_job(
@@ -52,7 +54,7 @@ RSpec.describe WorkshopLocationUpdateEmailJob, type: :job do
   it 'does not enqueue update emails for all participants of a workshop when the start time is changed' do
     select '01', from: 'workshop_start_time_5i'
 
-    click_on 'Edit Workshop'
+    click_on 'Save Changes'
 
     @workshop_participants.each do |p|
       expect(WorkshopLocationUpdateEmailJob).to_not have_enqueued_sidekiq_job(
@@ -64,7 +66,7 @@ RSpec.describe WorkshopLocationUpdateEmailJob, type: :job do
   it 'does not enqueue update emails for all participants of a workshop when the end time is changed' do
     select '01', from: 'workshop_end_time_5i'
 
-    click_on 'Edit Workshop'
+    click_on 'Save Changes'
 
     @workshop_participants.each do |p|
       expect(WorkshopLocationUpdateEmailJob).to_not have_enqueued_sidekiq_job(

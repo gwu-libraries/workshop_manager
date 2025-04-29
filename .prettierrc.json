@@ -8,5 +8,25 @@
   "rubyModifier": true,
   "rubySingleQuote": true,
   "rubyToProc": false,
-  "plugins": ["@prettier/plugin-ruby"]
-}
+  "plugins": ["@prettier/plugin-ruby"],
+  "overrides": [
+    {
+      "files": "*.erb",
+      "options": {
+        "parser": "html"
+      }
+    },
+    {
+      "files": "erb",
+      "options": {
+        "parser": "html"
+      }
+    },
+    {
+      "files": "*.html.erb",
+      "options": {
+        "parser": "html"
+      }
+    }
+  ]
+}  

@@ -1,24 +1,21 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>FacDevWorkshops</title>
+    <title>Workshop Manager</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
   <body>
-    <% if current_facilitator.present? %>
-      <p>
-        Signed in as <%= current_facilitator.name %> - <%= button_to "Sign out", destroy_facilitator_session_path, method: :delete %>
-      </p>
-    <% else %>
-      <%= link_to "Facilitator sign in", new_facilitator_session_path %>
-    <% end %>
-
-    <%= yield %>
+    <%= render "layouts/notifications"%>
+    <%= render "layouts/navbar"%>
+    <div class ="mx-auto m-3 p-2">
+      <%= yield %>
+    </div>
   </body>
 </html>

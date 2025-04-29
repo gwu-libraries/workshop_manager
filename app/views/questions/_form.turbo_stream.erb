@@ -1,8 +1,0 @@
-<%= turbo_stream.append "new-question-form" %>
-  <%= simple_fields_for Question.new do |f| %>
-    <%= f.input :prompt %>
-    <%= f.input :question_format, as: :radio_buttons, collection: ['true_false', 'likert', 'short_answer', 'long_answer'] %>
-    <%= f.hidden_field :workshop_id, value: @workshop.id %>
-    <%= f.submit "Save question" %>
-  <% end %>
-<% end %>

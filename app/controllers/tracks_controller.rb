@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TracksController < ApplicationController
   before_action :set_track, only: %i[show edit update destroy]
   # before_action :require_login, only: %i[new edit create update destroy]
@@ -8,8 +10,7 @@ class TracksController < ApplicationController
   end
 
   # GET /tracks/1
-  def show
-  end
+  def show; end
 
   # GET /tracks/new
   def new
@@ -17,8 +18,7 @@ class TracksController < ApplicationController
   end
 
   # GET /tracks/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /tracks
   def create

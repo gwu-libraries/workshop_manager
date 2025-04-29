@@ -1,25 +1,11 @@
-<div id="<%= dom_id track %>">
-  <h1> <%= track.title %> </h1>
-  <br>
-  <h3>
-    Workshops
-  </h3>
-  <% track.workshops.each do |workshop| %>
-    <p>
-      <%= link_to "#{workshop.title}", workshop_path(workshop) %>
-    </p>
-    <p>
-      <%= workshop.description %>
-    </p>
-    
-    <p>
-      Date: <%= human_readable_date(workshop.start_time) %>
-    </p>
-    <p>
-      Start time: <%= human_readable_time(workshop.start_time) %>
-    </p>
-    <p>
-      End time: <%= human_readable_time(workshop.end_time) %>
-    </p>
-  <% end %>
-</div>
+<h1> <%= track.title %> Workshops </h1>
+  <p>
+    <b>
+      <%= link_to "Show calendar for this track", track %>
+    </b>
+  </p>
+<% track.workshops.each do |workshop| %>
+  <p>
+    <%= link_to "#{workshop.title}", workshop_path(workshop) %>
+  </p>
+<% end %>

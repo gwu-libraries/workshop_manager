@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :track do
-    sequence(:title) { |n| "Workshop Track #{n}" }
+    title { Faker::Science.science }
 
     description do
       Faker::Lorem.paragraph(

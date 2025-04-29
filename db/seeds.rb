@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This file should ensure the existence of records required to run the application in every environment (production,
 # development, test). The code here should be idempotent so that it can be executed at any point in every environment.
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
@@ -13,19 +15,27 @@ require 'faker'
 puts 'Seeding development database...'
 
 # Create an admin user
-admin =
-  FactoryBot.create(:admin, email: 'admin@example.com', password: 'pjassword')
+FactoryBot.create(:admin, email: 'admin@example.com', password: 'password')
 
-non_admin_facilitator =
+# this user is added as a facilitator to all workshops
+fac =
   FactoryBot.create(
     :facilitator,
     email: 'facilitator@example.com',
-    password: 'pjassword'
+    password: 'password'
+  )
+
+# this user is NOT added to any workshops as a facilitator
+not_fac =
+  FactoryBot.create(
+    :facilitator,
+    email: 'notfacilitator@example.com',
+    password: 'password'
   )
 
 # Create 4 other facilitators
 facilitators = []
-4.times { facilitators << FactoryBot.create(:facilitator) }
+20.times { facilitators << FactoryBot.create(:facilitator) }
 
 past_workshops_registration_required = []
 5.times do
@@ -71,19 +81,20 @@ Workshop.all.each do |workshop|
         facilitator_id: facilitator.id
       )
     end
+
+  WorkshopFacilitator.create(workshop_id: workshop.id, facilitator_id: fac.id)
 end
 
 # Create 30 participants
 participants = []
 30.times { participants << FactoryBot.create(:participant) }
 
-# Add application_templates to workshops that require an application
+# Add application_forms to workshops that require an application
 [
   past_workshops_application_required,
   future_workshops_application_required
 ].flatten.each do |workshop|
-  at = ApplicationTemplate.create
-
+  af = workshop.application_form
   questions = []
   2.times do
     questions << FactoryBot.create(:short_answer_question)
@@ -93,21 +104,15 @@ participants = []
   end
 
   questions.each do |q|
-    ApplicationTemplateQuestion.create(
+    ApplicationFormQuestion.create(
       question_id: q.id,
-      application_template_id: at.id
+      application_form_id: af.id
     )
   end
-
-  wat =
-    WorkshopApplicationTemplate.create(
-      application_template_id: at.id,
-      workshop_id: workshop.id
-    )
 end
 
 future_workshops_application_required.each do |workshop|
-  questions = workshop.application_templates.first.questions
+  questions = workshop.application_form.questions
 
   participants = []
   10.times { participants << FactoryBot.create(:participant) }
@@ -126,8 +131,32 @@ future_workshops_application_required.each do |workshop|
   end
 end
 
-FactoryBot.create(:proposal_pending_workshop)
+10.times { FactoryBot.create(:proposal_pending_workshop) }
 
+4.times do
+  track = FactoryBot.create(:track)
+
+  ws = Workshop.all.sample(5)
+
+  ws.each do |workshop|
+    TrackWorkshop.create(track_id: track.id, workshop_id: workshop.id)
+  end
+end
+
+FeedbackForm.all.each do |ff|
+  questions = []
+  questions << FactoryBot.create(:short_answer_question)
+  questions << FactoryBot.create(:long_answer_question)
+  questions << FactoryBot.create(:likert_question)
+  questions << FactoryBot.create(:true_false_question)
+
+  questions.each do |question|
+    FeedbackFormQuestion.create(
+      feedback_form_id: ff.id,
+      question_id: question.id
+    )
+  end
+end
 # Add participants to past workshops, randomize if they are marked as in_attendance or not
 # Add random selection of facilitators to past workshops
 # past_workshops.each do |pw|
@@ -158,7 +187,7 @@ FactoryBot.create(:proposal_pending_workshop)
 
 # future_workshops.each do |workshop|
 #   if workshop.registration_modality == 'application_required'
-#     questions = workshop.application_templates.first.questions
+#     questions = workshop.application_form.questions
 #     workshop.workshop_participants.each do |wp|
 #       responses = {}
 #       questions.each { |q| responses[q.prompt] = Faker::Lorem.sentence }

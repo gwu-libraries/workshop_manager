@@ -1,26 +1,91 @@
+<div class="max-w-4xl">
 <%= simple_form_for @workshop do |f| %>
-  <div class="form-inputs">
-    <%= f.input :title %>
-    <%= f.input :description %>
-    <%= f.input :presentation_modality, as: :radio_buttons, collection: ['in_person', 'virtual', 'hybrid']%>
-    <%= f.input :virtual_location %>
-    <%= f.input :in_person_location %>
-    <%= f.input :attendance_modality, as: :radio_buttons, collection: ['individual', 'collective'] %>
-    <%= f.input :registration_modality, as: :radio_buttons, collection: ['no_registration_required', 'registration_required', 'application_required'] %>
-    <%= f.input :start_time, as: :datetime %>
-    <%= f.input :end_time, as: :datetime %>
+  <%= f.input :title,
+              required: true,
+              error: "Title is required",
+              placeholder: "Insert workshop title",
+              legend_tag: false %>
+    
+  <%= f.text_area :description,
+                  placeholder: "Insert a brief description of the workshop",
+                  class: 'flex w-full shadow appearance-none border border-gray-300 
+                          rounded p-2 bg-white focus:outline-none focus:border-blue-500 
+                          text-black-400 leading-4 transition-colors duration-200 ease-in-out' %>
+
+  <div class='block text-m font-large text-black'>
+    Facilitators
   </div>
 
-  <div class="facilitators-input">
-    <%= f.association :facilitators, label_method: :name, include_blank: false, as: :check_boxes %>
+  <div class='m-2 h-48 overflow-y-scroll border border-gray-300'>
+    <%= f.association :facilitators, 
+                      include_blank: false, 
+                      as: :check_boxes,
+                      legend_tag: false %>
   </div>
 
-  <div class="form-actions">
-    <% case @workshop.proposal_status %>
-      <% when "pending" %>
-        <%= f.submit "Propose Workshop" %>
-      <% when "approved" %>
-        <%= f.submit "Edit Workshop" %>
-    <% end %>
+  <%= f.label :presentation_modality %>
+  <%= f.hint "Will this workshop be offered in-person, online, or both?" %>
+  <%= f.input_field :presentation_modality, 
+                    as: :select, 
+                    collection: ['in_person', 'virtual', 'hybrid'],
+                    required: true,
+                    class: "bg-white border border-gray-300 text-black
+                            text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 
+                            block w-full p-2.5
+                            shadow" %>
+                            
+
+  <%= f.input :virtual_location,
+              placeholder: "If offered virtually, what is the link to join?",
+              class: 'flex shadow appearance-none border border-gray-300 rounded 
+                      w-full p-2 bg-white focus:outline-none focus:border-blue-500 
+                      text-gray-400 leading-4 transition-colors duration-200 ease-in-out' %>
+
+  <%= f.input :in_person_location,
+              placeholder: "If offered in-person, where is it happening?",
+              class: 'flex shadow appearance-none border border-gray-300 
+                      rounded w-full p-2 bg-white focus:outline-none focus:border-blue-500 
+                      text-gray-400 leading-4 transition-colors duration-200 ease-in-out' %>
+
+  <%= f.label :attendance_modality, class: "text-lg font-medium text-gray-600" %>
+  <%= f.hint "If you need to collect attendance information for each participant, select 'individual'. \n\n
+              If you plan to track only total attendance numbers, select 'collective'." %>
+  <%= f.input_field :attendance_modality,
+                    as: :radio_buttons, 
+                    collection: ['individual', 'collective'],
+                    required: true %>
+
+  <%= f.label :registration_modality %>
+  <%= f.hint "If the workshop requires participants to apply, select 'Application Required' - you will create the application questionairre on the next page. 
+              If registration is required but admission is automatic, select 'Registration Required'. \n
+              If no registration is required, select 'No Registration Required'" %>
+  <%= f.input_field :registration_modality,
+                    as: :radio_buttons, 
+                    collection: ['no_registration_required', 'registration_required', 'application_required'],
+                    required: true %>
+
+  <%= f.input :start_time, 
+              as: :datetime, 
+              required: true %>
+
+  <%= f.input :end_time, 
+              as: :datetime, 
+              required: true %>
+
+  <div class='block text-lg text-black'>
+    Attachments
   </div>
+  <%= f.hint "Attach files for workshop participants to download." %>
+  <%= f.file_field :attachments, multiple: true %>
+
+ <br>             
+  <% case @workshop.proposal_status %>
+    <% when "pending" %>
+      <%= f.submit "Propose Workshop", class: 'my-2 bg-blue-500 hover:bg-blue-700 text-white 
+                                               font-bold text-sm py-2 px-4 rounded' %>
+    <% when "approved" %>
+      <%= f.submit "Save Changes", class: 'my-2 bg-blue-500 hover:bg-blue-700 text-white font-bold 
+                                            text-sm py-2 px-4 rounded' %>
+  <% end %>
 <% end %>
+</div>

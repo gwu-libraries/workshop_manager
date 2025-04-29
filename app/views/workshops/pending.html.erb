@@ -1,12 +1,12 @@
-<p style="color: green"><%= notice %></p>
-
-<h2>Upcoming Workshops</h2>
-
-<%= month_calendar(events: @workshops) do |date, workshops| %>
+<h1>
+  Pending Workshops
+</h1>
+ 
+ <%= month_calendar(events: @workshops) do |date, workshops| %>
   <%= date %>
 
   <% workshops.each do |workshop| %>
-      <div>
+      <div class="max-w-sm m-1 p-2 bg-red-200 border border-red-200 rounded-lg shadow-sm">
         <%= link_to workshop.title, workshop_path(workshop.id) %>
         <br>
         <%= "#{human_readable_time(workshop.start_time)} - #{human_readable_time(workshop.end_time)}" %>

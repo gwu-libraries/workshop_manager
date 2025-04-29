@@ -1,19 +1,22 @@
+# frozen_string_literal: true
+
 class WorkshopsController < ApplicationController
+  include Filterable
+
   before_action :set_workshop, only: %i[show edit update destroy]
-  # before_action :require_login, only: %i[new edit create update destroy]
+  before_action :require_login, only: %i[new edit create update destroy pending]
 
   # GET /workshops
   def index
-    @workshops = Workshop.where(proposal_status: 'approved')
+    @workshops = Workshop.approved
   end
 
   def pending
-    @workshops = Workshop.where(proposal_status: 'pending')
+    @workshops = Workshop.pending
   end
 
   # GET /workshops/1
-  def show
-  end
+  def show; end
 
   # GET /workshops/new
   def new
@@ -21,8 +24,7 @@ class WorkshopsController < ApplicationController
   end
 
   # GET /workshops/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /workshops
   def create
@@ -37,27 +39,10 @@ class WorkshopsController < ApplicationController
         )
       end
 
-    if @workshop.save
-      if @workshop.registration_modality == 'application_required'
-        @application_template = ApplicationTemplate.create()
-        @workshop_application_template =
-          WorkshopApplicationTemplate.create(
-            workshop_id: @workshop.id,
-            application_template_id: @application_template.id
-          )
-      end
-    end
-
     respond_to do |format|
       if @workshop.save
-        if @workshop.registration_modality == 'application_required'
-          format.html do
-            redirect_to application_template_path(@application_template)
-          end
-        else
-          format.html do
-            redirect_to @workshop, notice: 'Workshop was successfully created.'
-          end
+        format.html do
+          redirect_to @workshop, notice: 'Workshop was successfully created.'
         end
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -69,6 +54,11 @@ class WorkshopsController < ApplicationController
   def update
     respond_to do |format|
       if @workshop.update(workshop_params)
+        format.turbo_stream do
+          turbo_stream.replace 'group_attendance_form',
+                               partial: 'group_attendance_form'
+          turbo_stream.replace 'proposal_status', partial: 'proposal_status'
+        end
         format.html do
           redirect_to @workshop, notice: 'Workshop was successfully updated.'
         end
@@ -114,6 +104,7 @@ class WorkshopsController < ApplicationController
       :proposal_status,
       :in_person_attendance_count,
       :virtual_attendance_count,
+      attachments: [],
       facilitator_ids: []
     )
   end

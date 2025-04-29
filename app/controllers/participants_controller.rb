@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ParticipantsController < ApplicationController
   before_action :set_participant, only: %i[show edit update destroy]
   # before_action :require_login, only: %i[index show edit update destroy]
@@ -8,8 +10,7 @@ class ParticipantsController < ApplicationController
   end
 
   # GET /participants/1
-  def show
-  end
+  def show; end
 
   # GET /participants/new
   def new
@@ -17,8 +18,7 @@ class ParticipantsController < ApplicationController
   end
 
   # GET /participants/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /participants
   def create

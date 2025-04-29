@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe 'workshops/show', type: :view do
@@ -37,7 +39,7 @@ RSpec.describe 'workshops/show', type: :view do
     @facilitator_1 = FactoryBot.create(:facilitator)
     @facilitator_2 = FactoryBot.create(:facilitator)
 
-    @application_template = ApplicationTemplate.create
+    @application_form = ApplicationForm.create
     @true_false_question = FactoryBot.create(:true_false_question)
     @short_answer_question = FactoryBot.create(:short_answer_question)
     @long_answer_question = FactoryBot.create(:long_answer_question)
@@ -49,8 +51,8 @@ RSpec.describe 'workshops/show', type: :view do
       @long_answer_question,
       @likert_question
     ].each do |q|
-      ApplicationTemplateQuestion.create(
-        application_template_id: @application_template.id,
+      ApplicationFormQuestion.create(
+        application_form_id: @application_form.id,
         question_id: q.id
       )
     end
@@ -62,10 +64,7 @@ RSpec.describe 'workshops/show', type: :view do
       @future_registration_workshop,
       @past_registration_workshop
     ].each do |workshop|
-      WorkshopApplicationTemplate.create(
-        workshop_id: workshop.id,
-        application_template_id: @application_template.id
-      )
+      ApplicationForm.create(workshop_id: workshop.id)
 
       WorkshopFacilitator.create(
         workshop_id: workshop.id,

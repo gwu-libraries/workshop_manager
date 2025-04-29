@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateTrackWorkshops < ActiveRecord::Migration[7.1]
   def change
     create_table :track_workshops do |t|

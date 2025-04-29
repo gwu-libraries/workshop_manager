@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 RSpec.describe WorkshopTimingUpdateEmailJob, type: :job do
   before(:each) do
@@ -29,7 +31,7 @@ RSpec.describe WorkshopTimingUpdateEmailJob, type: :job do
     # select a specific minute here since it's always an hour
     select '01', from: 'workshop_start_time_5i'
 
-    click_on 'Edit Workshop'
+    click_on 'Save Changes'
 
     @workshop_participants.each do |p|
       expect(WorkshopTimingUpdateEmailJob).to have_enqueued_sidekiq_job(
@@ -42,7 +44,7 @@ RSpec.describe WorkshopTimingUpdateEmailJob, type: :job do
     # select a specific minute here since it's always an hour
     select '01', from: 'workshop_end_time_5i'
 
-    click_on 'Edit Workshop'
+    click_on 'Save Changes'
 
     @workshop_participants.each do |p|
       expect(WorkshopTimingUpdateEmailJob).to have_enqueued_sidekiq_job(
@@ -54,7 +56,7 @@ RSpec.describe WorkshopTimingUpdateEmailJob, type: :job do
   it 'does not enqueue update emails for all participants of a workshop when the in-person location is changed' do
     fill_in 'In person location', with: 'A new location'
 
-    click_on 'Edit Workshop'
+    click_on 'Save Changes'
 
     @workshop_participants.each do |p|
       expect(WorkshopTimingUpdateEmailJob).to_not have_enqueued_sidekiq_job(
@@ -66,7 +68,7 @@ RSpec.describe WorkshopTimingUpdateEmailJob, type: :job do
   it 'does not enqueue update emails for all participants of a workshop when the virtual location is changed' do
     fill_in 'Virtual location', with: 'A new location'
 
-    click_on 'Edit Workshop'
+    click_on 'Save Changes'
 
     @workshop_participants.each do |p|
       expect(WorkshopTimingUpdateEmailJob).to_not have_enqueued_sidekiq_job(
@@ -78,7 +80,7 @@ RSpec.describe WorkshopTimingUpdateEmailJob, type: :job do
   it 'does not enqueue update emails for all participants of a workshop when the description is changed' do
     fill_in 'Description', with: 'A new description'
 
-    click_on 'Edit Workshop'
+    click_on 'Save Changes'
 
     @workshop_participants.each do |p|
       expect(WorkshopTimingUpdateEmailJob).to_not have_enqueued_sidekiq_job(
