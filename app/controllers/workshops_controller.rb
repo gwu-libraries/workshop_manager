@@ -39,24 +39,10 @@ class WorkshopsController < ApplicationController
         )
       end
 
-    if @workshop.save
-      if @workshop.registration_modality == 'application_required'
-        @application_form = ApplicationForm.create(workshop_id: @workshop.id)
-      end
-
-      @feedback_form = FeedbackForm.create(workshop_id: @workshop.id) if @workshop.use_feedback_form?
-    end
-
     respond_to do |format|
       if @workshop.save
-        if @workshop.registration_modality == 'application_required'
-          format.html { redirect_to application_form_path(@application_form) }
-        elsif @workshop.use_feedback_form?
-          format.html { redirect_to edit_feedback_form_path(@feedback_form) }
-        else
-          format.html do
-            redirect_to @workshop, notice: 'Workshop was successfully created.'
-          end
+        format.html do
+          redirect_to @workshop, notice: 'Workshop was successfully created.'
         end
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -118,7 +104,6 @@ class WorkshopsController < ApplicationController
       :proposal_status,
       :in_person_attendance_count,
       :virtual_attendance_count,
-      :use_feedback_form,
       attachments: [],
       facilitator_ids: []
     )

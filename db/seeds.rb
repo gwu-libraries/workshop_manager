@@ -17,11 +17,21 @@ puts 'Seeding development database...'
 # Create an admin user
 FactoryBot.create(:admin, email: 'admin@example.com', password: 'password')
 
-FactoryBot.create(
-  :facilitator,
-  email: 'facilitator@example.com',
-  password: 'password'
-)
+# this user is added as a facilitator to all workshops
+fac =
+  FactoryBot.create(
+    :facilitator,
+    email: 'facilitator@example.com',
+    password: 'password'
+  )
+
+# this user is NOT added to any workshops as a facilitator
+not_fac =
+  FactoryBot.create(
+    :facilitator,
+    email: 'notfacilitator@example.com',
+    password: 'password'
+  )
 
 # Create 4 other facilitators
 facilitators = []
@@ -71,6 +81,8 @@ Workshop.all.each do |workshop|
         facilitator_id: facilitator.id
       )
     end
+
+  WorkshopFacilitator.create(workshop_id: workshop.id, facilitator_id: fac.id)
 end
 
 # Create 30 participants
@@ -82,8 +94,7 @@ participants = []
   past_workshops_application_required,
   future_workshops_application_required
 ].flatten.each do |workshop|
-  af = ApplicationForm.create(workshop_id: workshop.id)
-
+  af = workshop.application_form
   questions = []
   2.times do
     questions << FactoryBot.create(:short_answer_question)
@@ -128,9 +139,21 @@ end
   ws = Workshop.all.sample(5)
 
   ws.each do |workshop|
-    TrackWorkshop.create(
-      track_id: track.id,
-      workshop_id: workshop.id
+    TrackWorkshop.create(track_id: track.id, workshop_id: workshop.id)
+  end
+end
+
+FeedbackForm.all.each do |ff|
+  questions = []
+  questions << FactoryBot.create(:short_answer_question)
+  questions << FactoryBot.create(:long_answer_question)
+  questions << FactoryBot.create(:likert_question)
+  questions << FactoryBot.create(:true_false_question)
+
+  questions.each do |question|
+    FeedbackFormQuestion.create(
+      feedback_form_id: ff.id,
+      question_id: question.id
     )
   end
 end

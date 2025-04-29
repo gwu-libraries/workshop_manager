@@ -10,8 +10,9 @@ Rails.application.routes.draw do
   resources :workshop_facilitators
   devise_for :facilitators
   resources :workshops
-  resources :application_forms, only: %i[show]
-  resources :feedback_forms, only: %i[show edit new]
+  resources :application_forms, only: %i[edit]
+  resources :feedback_forms, only: %i[show edit]
+  resources :feedback_form_responses, only: %i[create]
   resources :questions
 
   get '/dashboard', to: 'dashboard#show'

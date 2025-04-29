@@ -30,14 +30,14 @@ module ReminderEmailScheduler
       )
     end
 
-    return unless reminder_option_params[:reminder_options].include? 'One hour before'
-
-    ReminderEmailOneHourJob.perform_at(
-      (@workshop_participant.workshop.start_time - 1.hours).round,
-      {
-        workshop_id: @workshop_participant.workshop.id,
-        participant_id: @workshop_participant.participant.id
-      }.stringify_keys
-    )
+    if reminder_option_params[:reminder_options].include? 'One hour before'
+      ReminderEmailOneHourJob.perform_at(
+        (@workshop_participant.workshop.start_time - 1.hours).round,
+        {
+          workshop_id: @workshop_participant.workshop.id,
+          participant_id: @workshop_participant.participant.id
+        }.stringify_keys
+      )
+    end
   end
 end

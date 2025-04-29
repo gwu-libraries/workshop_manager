@@ -15,7 +15,6 @@ class CreateWorkshops < ActiveRecord::Migration[7.1]
       t.string :in_person_location
       t.datetime :start_time
       t.datetime :end_time
-      t.boolean :use_feedback_form, default: false
 
       t.timestamps
     end

@@ -84,10 +84,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_29_012739) do
   end
 
   create_table "feedback_form_responses", force: :cascade do |t|
-    t.bigint "workshop_id", null: false
+    t.bigint "feedback_form_id", null: false
+    t.jsonb "response_data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["workshop_id"], name: "index_feedback_form_responses_on_workshop_id"
+    t.index ["feedback_form_id"], name: "index_feedback_form_responses_on_feedback_form_id"
   end
 
   create_table "feedback_forms", force: :cascade do |t|
@@ -161,7 +162,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_29_012739) do
     t.string "in_person_location"
     t.datetime "start_time"
     t.datetime "end_time"
-    t.boolean "use_feedback_form", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
@@ -174,7 +174,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_29_012739) do
   add_foreign_key "application_forms", "workshops"
   add_foreign_key "feedback_form_questions", "feedback_forms"
   add_foreign_key "feedback_form_questions", "questions"
-  add_foreign_key "feedback_form_responses", "workshops"
+  add_foreign_key "feedback_form_responses", "feedback_forms"
   add_foreign_key "feedback_forms", "workshops"
   add_foreign_key "track_workshops", "tracks"
   add_foreign_key "track_workshops", "workshops"

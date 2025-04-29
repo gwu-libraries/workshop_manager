@@ -30,6 +30,9 @@ class Workshop < ApplicationRecord
   scope :upcoming, -> { where('start_time > ?', DateTime.now) }
   scope :past, -> { where('end_time < ?', DateTime.now) }
 
+  after_create :create_feedback_form
+  after_create :create_application_form
+
   after_update :send_timing_update_notification,
                if: lambda { |workshop|
                  workshop.saved_change_to_start_time? ||
@@ -51,6 +54,16 @@ class Workshop < ApplicationRecord
   end
 
   private
+
+  def create_application_form
+    if self.registration_modality == 'application_required'
+      ApplicationForm.create(workshop_id: self.id)
+    end
+  end
+
+  def create_feedback_form
+    FeedbackForm.create(workshop_id: self.id)
+  end
 
   def send_timing_update_notification
     participants.each do |participant|

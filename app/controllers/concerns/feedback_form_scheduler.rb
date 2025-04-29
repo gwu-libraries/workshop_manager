@@ -10,8 +10,6 @@ module FeedbackFormScheduler
   private
 
   def schedule_feedback_emails
-    return unless @workshop_participant.workshop.use_feedback_form?
-
     FeedbackFormEmailJob.perform_at(
       @workshop_participant.workshop.end_time,
       {

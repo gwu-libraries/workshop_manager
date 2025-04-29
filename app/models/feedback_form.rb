@@ -5,4 +5,6 @@ class FeedbackForm < ApplicationRecord
 
   has_many :feedback_form_questions
   has_many :questions, through: :feedback_form_questions
+
+  has_many :feedback_form_responses
 end

@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-class FeedbackFormResponses < ApplicationRecord
+class FeedbackFormResponse < ApplicationRecord
   belongs_to :feedback_form
 end
