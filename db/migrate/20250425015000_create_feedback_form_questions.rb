@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateFeedbackFormQuestions < ActiveRecord::Migration[7.1]
   def change
     create_table :feedback_form_questions do |t|

@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 RSpec.describe ApplicationReceivedEmailJob, type: :job do
   it 'enqueues an email confirming application recieved when a participant applies to a workshop' do
     facilitator_1 = FactoryBot.create(:facilitator)
     workshop_1 = FactoryBot.create(:future_application_workshop)
-    at = ApplicationTemplate.create
+    at = ApplicationForm.create
     questions = []
     questions << FactoryBot.create(:short_answer_question)
     questions << FactoryBot.create(:long_answer_question)
@@ -11,17 +13,13 @@ RSpec.describe ApplicationReceivedEmailJob, type: :job do
     questions << FactoryBot.create(:true_false_question)
 
     questions.each do |q|
-      ApplicationTemplateQuestion.create(
+      ApplicationFormQuestion.create(
         question_id: q.id,
-        application_template_id: at.id
+        application_form_id: at.id
       )
     end
 
-    wat =
-      WorkshopApplicationTemplate.create(
-        application_template_id: at.id,
-        workshop_id: workshop_1.id
-      )
+    ApplicationForm.create(workshop_id: workshop_1.id)
 
     WorkshopFacilitator.create(
       facilitator_id: facilitator_1.id,

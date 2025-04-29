@@ -1,15 +1,17 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   get '/workshops/pending', to: 'workshops#pending'
   post '/workshop_participants/apply', to: 'workshop_participants#apply'
-  resources :track_workshops
+  # resources :track_workshops
   resources :tracks
   resources :workshop_participants
   resources :participants
   resources :workshop_facilitators
   devise_for :facilitators
   resources :workshops
-  resources :application_templates
-  resources :workshop_application_templates
+  resources :application_forms, only: %i[show]
+  resources :feedback_forms, only: %i[show edit new]
   resources :questions
 
   get '/dashboard', to: 'dashboard#show'

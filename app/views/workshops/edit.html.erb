@@ -1,4 +1,4 @@
-<h1>Editing workshop</h1>
+<h1>Editing <%= @workshop.title %></h1>
 
 <%= render "form", workshop: @workshop %>
 
@@ -6,5 +6,4 @@
 
 <div>
   <%= link_to "Show this workshop", @workshop %> |
-  <%= link_to "Back to workshops", workshops_path %>
 </div>

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class WorkshopParticipant < ApplicationRecord
   enum :application_status,
        { pending: 0, accepted: 1, rejected: 2, waitlisted: 3 }
@@ -17,33 +19,31 @@ class WorkshopParticipant < ApplicationRecord
         -> { where(in_attendance: 'true').order('created_at asc') }
 
   after_update :send_application_status_notification,
-               if: ->(workshop_participant) do
-                 workshop_participant.saved_change_to_application_status?
-               end
+               if: lambda(&:saved_change_to_application_status?)
 
   private
 
   def send_application_status_notification
-    case self.application_status
+    case application_status
     when 'accepted'
       ApplicationAcceptedEmailJob.perform_async(
         {
-          workshop_id: self.workshop.id,
-          participant_id: self.participant.id
+          workshop_id: workshop.id,
+          participant_id: participant.id
         }.stringify_keys
       )
     when 'rejected'
       ApplicationRejectedEmailJob.perform_async(
         {
-          workshop_id: self.workshop.id,
-          participant_id: self.participant.id
+          workshop_id: workshop.id,
+          participant_id: participant.id
         }.stringify_keys
       )
     when 'waitlisted'
       ApplicationWaitlistedEmailJob.perform_async(
         {
-          workshop_id: self.workshop.id,
-          participant_id: self.participant.id
+          workshop_id: workshop.id,
+          participant_id: participant.id
         }.stringify_keys
       )
     end

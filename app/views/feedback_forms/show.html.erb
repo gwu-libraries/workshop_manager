@@ -1,0 +1,12 @@
+<div class ="w-full m-3">
+  <h1>Feedback Form for <%= @feedback_form.workshop.title %></h1>
+
+  <%# This needs to be a form a la workshop_participants/_application_form %>
+
+  <% if @feedback_form.questions.present? %>
+    <% @feedback_form.questions.each do |question| %>
+        <%= render question %>
+    <% end %>
+  <% end %>
+
+</div>

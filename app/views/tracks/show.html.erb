@@ -1,8 +1,31 @@
-<%= render @track %>
+<div class="w-full p-2">
+  <h1>
+    <%= @track.title %> Workshops
+  </h1>
+  <%= month_calendar(events: @track.workshops) do |date, workshops| %>
+    <%= date %>
+    <% workshops.each do |workshop| %>
+      <div class="max-w-sm m-1 p-2 bg-white border border-gray-200 rounded-lg shadow-sm">
+        <%= link_to workshop.title, workshop_path(workshop.id), class: "no-underline text-l font-bold tracking-tight text-gray-900" %>
+        <br>
+        <%= "#{human_readable_time(workshop.start_time)} - #{human_readable_time(workshop.end_time)}" %>
+        <br>
+        <% case workshop.presentation_modality %>
+          <% when "virtual"%>
+            <div>Location: 🖥️</div>
+          <% when "in_person"%>
+            <div>Location: 📚</div>
+          <% when "hybrid" %>
+            <div>Location: 📚 or 🖥️</div>
+        <% end %>
 
-<div>
-  <%= link_to "Edit this track", edit_track_path(@track) %> |
-  <%= link_to "Back to tracks", tracks_path %>
-
-  <%= button_to "Destroy this track", @track, method: :delete %>
+        <% case workshop.registration_modality %>
+          <% when "application_required"%>
+            <div> Application Required </div>
+          <% when "registration_required"%>
+            <div> Registration Required </div>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
 </div>

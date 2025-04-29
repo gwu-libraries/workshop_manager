@@ -1,13 +1,24 @@
 <%= render @workshop %>
 
-<%= render "admin_panel", workshop: @workshop if current_facilitator.present? && current_facilitator.is_admin? %>
-<%= render "facilitator_panel", workshop: @workshop if current_facilitator.present? %>
+<% if current_facilitator.present? %>
+  <span>
+    <%= link_to "Edit Workshop", edit_workshop_path(@workshop), class: "bg-white hover:bg-blue-200 text-blue-700 font-semibold hover:text-black py-2 px-2 border border-blue-500 hover:border-transparent rounded" %>
+  </span>
+  <% if @workshop.use_feedback_form? %>
+    <%= link_to "Edit feedback form", edit_feedback_form_path(@workshop.feedback_form), class: "bg-white hover:bg-blue-200 text-blue-700 font-semibold hover:text-black py-2 px-2 border border-blue-500 hover:border-transparent rounded" %>
+  <% end %>
+  <%= render "pending_applications", workshop: @workshop %>
+  <% if current_facilitator.is_admin? %>
+    <%= render "workshops/proposal_status", workshop: @workshop %>
+  <% end %>
+<% end %>
+
 
 <% unless @workshop.end_time.past? || current_facilitator.present? %>
   <% case @workshop.registration_modality %>
     <% when "registration_required" %>
       <%= render "workshop_participants/registration_form", workshop: @workshop %>
     <% when "application_required"%>
-      <%= render "workshop_participants/application_form", application_template: @workshop.application_templates.first %>
+      <%= render "workshop_participants/application_form", application_form: @workshop.application_form %>
   <% end %>
 <% end %>

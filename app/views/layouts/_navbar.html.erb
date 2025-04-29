@@ -1,9 +1,11 @@
-<nav class="border-gray-200 bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+<nav class="border-gray-200 bg-gray-800">
   <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
     <span>
       <%= link_to "View Workshop Calendar", workshops_path, class: "no-underline bg-white hover:bg-blue-200 font-semibold hover:text-black py-2 px-2 border border-blue-500 hover:border-transparent rounded flex items-center space-x-3 rtl:space-x-reverse" %>
     </span>
-
+    <span>
+      <%= link_to "View Workshop Tracks", tracks_path, class: "no-underline bg-white hover:bg-blue-200 font-semibold hover:text-black py-2 px-2 border border-blue-500 hover:border-transparent rounded flex items-center space-x-3 rtl:space-x-reverse" %>
+    </span>
     <% if current_facilitator.present? %>
       <span>
         <%= link_to "Create a Workshop Track", new_track_path, class: "no-underline bg-white hover:bg-blue-200 font-semibold hover:text-black py-2 px-2 border border-blue-500 hover:border-transparent rounded" %>

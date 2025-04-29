@@ -1,13 +1,26 @@
+# frozen_string_literal: true
+
 class QuestionsController < ApplicationController
   def create
     @question =
-      Question.create(question_params.except(:application_template_id))
+      Question.create(
+        question_params.except(:application_form_id, :feedback_form_id)
+      )
 
     if @question.save
-      ApplicationTemplateQuestion.create(
-        question_id: @question.id,
-        application_template_id: question_params[:application_template_id]
-      )
+      if question_params[:application_form].present?
+        ApplicationFormQuestion.create(
+          question_id: @question.id,
+          application_form_id: question_params[:application_form_id]
+        )
+      end
+
+      if question_params[:feedback_form_id].present?
+        FeedbackFormQuestion.create(
+          question_id: @question.id,
+          feedback_form_id: question_params[:feedback_form_id]
+        )
+      end
     end
 
     respond_to do |format|
@@ -30,7 +43,8 @@ class QuestionsController < ApplicationController
 
   def question_params
     params.require(:question).permit(
-      :application_template_id,
+      :application_form_id,
+      :feedback_form_id,
       :prompt,
       :question_format
     )

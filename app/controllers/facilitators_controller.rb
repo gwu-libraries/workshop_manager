@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FacilitatorsController < ApplicationController
   before_action :set_facilitator, only: %i[show edit update destroy]
   before_action :require_login,
@@ -9,8 +11,7 @@ class FacilitatorsController < ApplicationController
   end
 
   # GET /facilitators/1
-  def show
-  end
+  def show; end
 
   # GET /facilitators/new
   def new
@@ -18,8 +19,7 @@ class FacilitatorsController < ApplicationController
   end
 
   # GET /facilitators/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /facilitators
   def create

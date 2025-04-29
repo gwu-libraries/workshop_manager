@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module WorkshopsHelper
   def human_readable_time(datetime)
     datetime.strftime('%l:%M %p').strip

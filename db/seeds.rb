@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This file should ensure the existence of records required to run the application in every environment (production,
 # development, test). The code here should be idempotent so that it can be executed at any point in every environment.
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
@@ -13,15 +15,13 @@ require 'faker'
 puts 'Seeding development database...'
 
 # Create an admin user
-admin =
-  FactoryBot.create(:admin, email: 'admin@example.com', password: 'pjassword')
+FactoryBot.create(:admin, email: 'admin@example.com', password: 'password')
 
-non_admin_facilitator =
-  FactoryBot.create(
-    :facilitator,
-    email: 'facilitator@example.com',
-    password: 'pjassword'
-  )
+FactoryBot.create(
+  :facilitator,
+  email: 'facilitator@example.com',
+  password: 'password'
+)
 
 # Create 4 other facilitators
 facilitators = []
@@ -121,6 +121,19 @@ future_workshops_application_required.each do |workshop|
 end
 
 10.times { FactoryBot.create(:proposal_pending_workshop) }
+
+4.times do
+  track = FactoryBot.create(:track)
+
+  ws = Workshop.all.sample(5)
+
+  ws.each do |workshop|
+    TrackWorkshop.create(
+      track_id: track.id,
+      workshop_id: workshop.id
+    )
+  end
+end
 # Add participants to past workshops, randomize if they are marked as in_attendance or not
 # Add random selection of facilitators to past workshops
 # past_workshops.each do |pw|

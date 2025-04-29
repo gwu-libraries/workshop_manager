@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationAcceptedEmailJob
   include Sidekiq::Job
   # sidekiq_options queue: :mailer

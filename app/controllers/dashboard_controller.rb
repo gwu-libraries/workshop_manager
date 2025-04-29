@@ -1,7 +1,7 @@
-class DashboardController < ApplicationController
+# frozen_string_literal: true
 
-  before_action :require_login,
-  only: %i[show]
+class DashboardController < ApplicationController
+  before_action :require_login, only: %i[show]
   def show
     # all workshops
 
@@ -18,7 +18,7 @@ class DashboardController < ApplicationController
       result << {
         category: w.title,
         group: 'attended',
-        value: w.workshop_participants.where(in_attendance: true).count
+        value: w.workshop_participants.in_attendance.count
       }
     end
 

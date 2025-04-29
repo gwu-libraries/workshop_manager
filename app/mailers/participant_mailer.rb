@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ParticipantMailer < ApplicationMailer
   include WorkshopsHelper
 
@@ -22,7 +24,7 @@ class ParticipantMailer < ApplicationMailer
       event.organizer =
         Icalendar::Values::CalAddress.new(
           "MAILTO:#{ENV['GMAIL_USERNAME']}",
-          cn: "\"Workshops TEST\""
+          cn: '"Workshops TEST"'
         )
       event.attendee =
         Icalendar::Values::CalAddress.new("mailto:#{@participant.email}")
@@ -61,7 +63,7 @@ class ParticipantMailer < ApplicationMailer
       event.organizer =
         Icalendar::Values::CalAddress.new(
           "MAILTO:#{ENV['GMAIL_USERNAME']}",
-          cn: "\"Workshops TEST\""
+          cn: '"Workshops TEST"'
         )
       event.attendee =
         Icalendar::Values::CalAddress.new("mailto:#{@participant.email}")
@@ -100,7 +102,7 @@ class ParticipantMailer < ApplicationMailer
       event.organizer =
         Icalendar::Values::CalAddress.new(
           "MAILTO:#{ENV['GMAIL_USERNAME']}",
-          cn: "\"Workshops TEST\""
+          cn: '"Workshops TEST"'
         )
       event.attendee =
         Icalendar::Values::CalAddress.new(
@@ -203,7 +205,7 @@ class ParticipantMailer < ApplicationMailer
       event.organizer =
         Icalendar::Values::CalAddress.new(
           "MAILTO:#{ENV['GMAIL_USERNAME']}}",
-          cn: "\"Workshops TEST\""
+          cn: '"Workshops TEST"'
         )
       event.attendee =
         Icalendar::Values::CalAddress.new(
@@ -250,6 +252,22 @@ class ParticipantMailer < ApplicationMailer
     mail(
       to: @participant.email,
       subject: "Waitlisted: #{@workshop.title}"
+    ) do |format|
+      format.text
+      format.html
+    end
+  end
+
+  def feedback_form_email(feedback_form_id, participant_id)
+    @feedback_form = FeedbackForm.find(feedback_form_id)
+    @participant = Participant.find(participant_id)
+
+    @message =
+      "Please complete feedback form for #{@feedback_form.workshop.title}"
+
+    mail(
+      to: @participant.email,
+      subject: "Feedback form for #{@feedback_form.workshop.title}"
     ) do |format|
       format.text
       format.html

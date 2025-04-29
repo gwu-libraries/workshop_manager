@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :question do
     prompt { "What's your favorite kind of " }
@@ -20,7 +22,7 @@ FactoryBot.define do
 
     factory :likert_question do
       prompt do
-        "Scale of 1-5, how do you feel about #{Faker::Food.vegetables}?"
+        "Scale of 1 to 5, how do you feel about #{Faker::Food.vegetables}?"
       end
       question_format { 'likert' }
     end

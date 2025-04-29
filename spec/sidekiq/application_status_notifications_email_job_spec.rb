@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 # test manually for now - functionality is working, tests are not, need to figure out a test setup.
@@ -8,7 +10,7 @@ RSpec.describe 'application status emails job', type: :job do
     @workshop_1 = FactoryBot.create(:future_application_workshop)
     @participant_1 = FactoryBot.create(:participant)
     @participant_2 = FactoryBot.create(:participant)
-    @at = ApplicationTemplate.create
+    @at = ApplicationForm.create
     @questions = []
     @questions << FactoryBot.create(:short_answer_question)
     @questions << FactoryBot.create(:long_answer_question)
@@ -16,16 +18,13 @@ RSpec.describe 'application status emails job', type: :job do
     @questions << FactoryBot.create(:true_false_question)
 
     @questions.each do |q|
-      ApplicationTemplateQuestion.create(
+      ApplicationFormQuestion.create(
         question_id: q.id,
-        application_template_id: @at.id
+        application_form_id: @at.id
       )
     end
 
-    WorkshopApplicationTemplate.create(
-      application_template_id: @at.id,
-      workshop_id: @workshop_1.id
-    )
+    ApplicationForm.create(workshop_id: @workshop_1.id)
 
     WorkshopFacilitator.create(
       facilitator_id: @facilitator_1.id,

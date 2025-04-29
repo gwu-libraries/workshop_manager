@@ -9,11 +9,11 @@
   <%= f.text_area :description,
                   placeholder: "Insert a brief description of the workshop",
                   class: 'flex w-full shadow appearance-none border border-gray-300 
-                          rounded w-full p-2 bg-white focus:outline-none focus:border-blue-500 
+                          rounded p-2 bg-white focus:outline-none focus:border-blue-500 
                           text-black-400 leading-4 transition-colors duration-200 ease-in-out' %>
 
-  <div class='my-1 ml-3 block text-sm font-large text-black'>
-    Facilitator
+  <div class='block text-m font-large text-black'>
+    Facilitators
   </div>
 
   <div class='m-2 h-48 overflow-y-scroll border border-gray-300'>
@@ -29,27 +29,25 @@
                     as: :select, 
                     collection: ['in_person', 'virtual', 'hybrid'],
                     required: true,
-                    class: "bg-white border border-gray-300 text-gray-900 text-black
-                            text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 
-                            block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 
-                            dark:placeholder-gray-400 dark:text-white 
-                            dark:focus:ring-blue-500 dark:focus:border-blue-500
+                    class: "bg-white border border-gray-300 text-black
+                            text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 
+                            block w-full p-2.5
                             shadow" %>
                             
 
   <%= f.input :virtual_location,
               placeholder: "If offered virtually, what is the link to join?",
-              class: 'flex w-full shadow appearance-none border border-gray-300 rounded 
+              class: 'flex shadow appearance-none border border-gray-300 rounded 
                       w-full p-2 bg-white focus:outline-none focus:border-blue-500 
                       text-gray-400 leading-4 transition-colors duration-200 ease-in-out' %>
 
   <%= f.input :in_person_location,
               placeholder: "If offered in-person, where is it happening?",
-              class: 'flex w-full shadow appearance-none border border-gray-300 
+              class: 'flex shadow appearance-none border border-gray-300 
                       rounded w-full p-2 bg-white focus:outline-none focus:border-blue-500 
                       text-gray-400 leading-4 transition-colors duration-200 ease-in-out' %>
 
-  <%= f.label :attendance_modality, class: "text-sm font-medium text-gray-600" %>
+  <%= f.label :attendance_modality, class: "text-lg font-medium text-gray-600" %>
   <%= f.hint "If you need to collect attendance information for each participant, select 'individual'. \n\n
               If you plan to track only total attendance numbers, select 'collective'." %>
   <%= f.input_field :attendance_modality,
@@ -74,16 +72,25 @@
               as: :datetime, 
               required: true %>
 
+  <%= f.hint "If you opt to use a feedback form, you will be prompted to create a feedback form that will be emailed to participants at the workshop end time." %>
+
+  <%= f.input :use_feedback_form, 
+              as: :boolean,
+              legend_tag: false %>
+
+  <div class='block text-lg text-black'>
+    Attachments
+  </div>
+  <%= f.hint "Attach files for workshop participants to download." %>
   <%= f.file_field :attachments, multiple: true %>
 
-  <br>
-              
+ <br>             
   <% case @workshop.proposal_status %>
     <% when "pending" %>
       <%= f.submit "Propose Workshop", class: 'my-2 bg-blue-500 hover:bg-blue-700 text-white 
                                                font-bold text-sm py-2 px-4 rounded' %>
     <% when "approved" %>
-      <%= f.submit "Edit Workshop", class: 'my-2 bg-blue-500 hover:bg-blue-700 text-white font-bold 
+      <%= f.submit "Save Changes", class: 'my-2 bg-blue-500 hover:bg-blue-700 text-white font-bold 
                                             text-sm py-2 px-4 rounded' %>
   <% end %>
 <% end %>

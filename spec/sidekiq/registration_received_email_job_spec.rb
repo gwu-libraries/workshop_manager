@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 RSpec.describe RegistrationReceivedEmailJob, type: :job do
   it 'enqueues an email confirming registration when a participant registers' do

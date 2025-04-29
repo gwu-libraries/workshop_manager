@@ -1,11 +1,14 @@
+
+<div class="max-w-4xl">
+
 <h3>Register for <%= @workshop.title %></h3>
 
 <%= simple_form_for :workshop_participant, url: workshop_participants_path do |f| %>
   <%= f.input :email %>
   <%= f.input :name %>
   <%= f.hidden_field :workshop_id, value: @workshop.id %>
-  <%= f.label :reminder_options %>
 
+  <%= f.label :reminder_options %>
   <%= f.hint "We'll send you a reminder email at each time you select." %>
   <%= simple_fields_for :reminder_options do |n| %>
     <% if (@workshop.start_time - 1.hour).past? %>
@@ -17,7 +20,8 @@
       <%= n.input_field :reminder_options, as: :check_boxes, collection: ["One week before", "One day before", "One hour before"] %>
     <% end %>
   <% end %>
-
   <%= f.submit "Submit Registration", 
                 class: 'my-2 bg-blue-500 hover:bg-blue-700 text-white font-bold text-sm py-2 px-4 rounded' %>
 <% end %>
+
+</div>

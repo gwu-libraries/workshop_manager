@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateFacilitators < ActiveRecord::Migration[7.1]
   def change
     create_table :facilitators do |t|

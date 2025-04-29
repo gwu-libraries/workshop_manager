@@ -1,20 +1,22 @@
 <%= turbo_stream.replace "group_attendance_form" do %>
-  <%= turbo_frame_tag "group_attendance_form" do%>
-    <%= simple_form_for @workshop do |f| %>
-      <% case @workshop.presentation_modality %>
-        <% when "in_person" %>
-            <%= f.input :in_person_attendance_count, 
-                        :input_html => {:onchange => "this.form.requestSubmit()"} %>
-        <% when "virtual" %>
-            <%= f.input :virtual_attendance_count, 
-                        :input_html => {:onchange => "this.form.requestSubmit()"} %>
-        <% when "hybrid" %>
-            <%= f.input :virtual_attendance_count, 
-                        :input_html => {:onchange => "this.form.requestSubmit()"},
-                        method: :update %>
-            <%= f.input :in_person_attendance_count, 
-                        :input_html => {:onchange => "this.form.requestSubmit()"} %>
+  <%= turbo_frame_tag "group_attendance_form" do %>
+    <div class="max-w-4xl">
+      <%= simple_form_for @workshop do |f| %>
+        <% case @workshop.presentation_modality %>
+          <% when "in_person" %>
+              <%= f.input :in_person_attendance_count, 
+                          :input_html => {:onchange => "this.form.requestSubmit()"} %>
+          <% when "virtual" %>
+              <%= f.input :virtual_attendance_count, 
+                          :input_html => {:onchange => "this.form.requestSubmit()"} %>
+          <% when "hybrid" %>
+              <%= f.input :virtual_attendance_count, 
+                          :input_html => {:onchange => "this.form.requestSubmit()"},
+                          method: :update %>
+              <%= f.input :in_person_attendance_count, 
+                          :input_html => {:onchange => "this.form.requestSubmit()"} %>
+        <% end %>
       <% end %>
-    <% end %>
+    </div>
   <% end %>
 <% end %>

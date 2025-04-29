@@ -1,38 +1,45 @@
-<div id="<%= dom_id workshop %>">
-  <h1> <%= @workshop.title %> </h1>
-  <br>
-  <% @workshop.facilitators.each do |facilitator| %>
-    <p>
-      <%= link_to facilitator.name, facilitator.profile_url, :target =>  "_blank" %>
-    </p>
-  <% end %>
+<h1> <%= @workshop.title %> </h1>
 
-  <h3>Description</h3>
-  <p>
-    <%= @workshop.description %>
-  </p>
+<br>
 
-  <h3>Time and Date</h3>
-  <p>
-    Date: <%= human_readable_date(@workshop.start_time) %>
-  </p>
-  <p>
-    Start time: <%= human_readable_time(@workshop.start_time) %>
-  </p>
-  <p>
-    End time: <%= human_readable_time(@workshop.end_time) %>
-  </p>
+<% @workshop.facilitators.each do |facilitator| %>
+  <span class="m-2 p-2 text-xl text-center space-y-2 sm:text-left border">
+    🧑 <%= link_to facilitator.name, facilitator.profile_url, :target =>  "_blank", class: "text-lg text-black font-semibold" %>
+  </span>
+<% end %>
 
-  <h3>Location</h3>
+<br>
+<br>
+<br>
 
+<p>
+  <%= @workshop.description %>
+</p>
+<p>
+  <b>Date:</b> <%= human_readable_date(@workshop.start_time) %>
+</p>
+<p>
+  <b>Time:</b> <%= human_readable_time(@workshop.start_time) %> - <%= human_readable_time(@workshop.end_time) %>
+</p>
+
+<% case @workshop.presentation_modality %>
+<% when "hybrid" %>
+  <p>
+    <b>Virtual Location:</b> <%= @workshop.virtual_location %>
+  </p>
+  <p>
+    <b>In Person Location:</b> <%= @workshop.in_person_location %>
+  </p>
+<% when "virtual" %>
   <p>
     Virtual Location: <%= @workshop.virtual_location %>
   </p>
+<% when "in_person" %>
   <p>
     In Person Location: <%= @workshop.in_person_location %>
   </p>
+<% end %>
 
-  <% @workshop.attachments.each_with_index do |attachment, idx| %>
-    <%= link_to "Download attachment #{idx + 1}", rails_blob_path(attachment, disposition: "attachment") %>
-  <% end %>
-</div>
+<% @workshop.attachments.each_with_index do |attachment, idx| %>
+  <%= link_to "Download attachment #{idx + 1}", rails_blob_path(attachment, disposition: "attachment") %>
+<% end %>

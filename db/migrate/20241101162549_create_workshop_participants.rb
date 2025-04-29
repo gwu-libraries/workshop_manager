@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateWorkshopParticipants < ActiveRecord::Migration[7.1]
   def change
     create_table :workshop_participants do |t|

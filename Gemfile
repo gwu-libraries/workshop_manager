@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 ruby '3.2.1'
@@ -29,7 +31,7 @@ gem 'stimulus-rails'
 # gem 'jbuilder'
 
 # Use Redis adapter to run Action Cable in production
-gem "redis", ">= 4.0.1"
+gem 'redis', '>= 4.0.1'
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
@@ -62,7 +64,7 @@ gem 'cssbundling-rails', '~> 1.4'
 
 gem 'jsbundling-rails', '~> 1.3'
 
-gem "sidekiq", "~> 7.3"
+gem 'sidekiq', '~> 7.3'
 
 gem 'icalendar'
 
@@ -70,32 +72,32 @@ gem 'factory_bot_rails' # here for demo purposes
 
 gem 'faker' # here for demo purposes
 
-gem "tailwindcss-ruby", "~> 4.1"
+gem 'tailwindcss-ruby', '~> 4.1'
 
-gem "tailwindcss-rails", "~> 4.2"
+gem 'tailwindcss-rails', '~> 4.2'
 
 gem 'simple_form-tailwind'
 
-gem "image_processing", ">= 1.2"
+gem 'image_processing', '>= 1.2'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'capybara'
   gem 'database_cleaner'
   gem 'launchy'
+  gem 'letter_opener'
+  gem 'letter_opener_web', '~> 3.0'
+  gem 'orderly'
+  gem 'prettier_print'
   gem 'pry'
   gem 'rspec-rails'
   gem 'shoulda-matchers'
   gem 'simplecov'
-  gem 'vcr'
-  gem 'webmock'
-  gem 'prettier_print'
   gem 'syntax_tree'
   gem 'syntax_tree-haml'
   gem 'syntax_tree-rbs'
-  gem 'orderly'
-  gem "letter_opener"
-  gem 'letter_opener_web', '~> 3.0'
+  gem 'vcr'
+  gem 'webmock'
 end
 
 group :development do
@@ -111,8 +113,7 @@ end
 
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
+  gem 'rspec-sidekiq'
   gem 'selenium-webdriver'
   gem 'webdrivers'
-  gem 'rspec-sidekiq'
 end
-

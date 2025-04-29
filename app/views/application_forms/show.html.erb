@@ -1,0 +1,13 @@
+<div class="max-w-4xl">
+  <h3> Create Application Form for <%= @application_form.workshop.title %> </h3>
+
+  <%= turbo_frame_tag "questions" do %>
+    <% if @application_form.questions.present? %>
+      <% @application_form.questions.each do |question| %>
+        <%= render question %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <%= render "questions/application_question_form", application_form: @application_form %>
+</div>

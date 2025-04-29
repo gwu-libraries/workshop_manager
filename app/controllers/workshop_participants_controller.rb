@@ -1,12 +1,15 @@
+# frozen_string_literal: true
+
 class WorkshopParticipantsController < ApplicationController
   include ReminderEmailScheduler
+  include FeedbackFormScheduler
 
   before_action :set_workshop_participant, only: %i[show edit update destroy]
 
   after_action :registration_received_notification, only: :create
   after_action :application_received_notification, only: :apply
-  before_action :require_login,
-                only: %i[index show new edit create update destroy]
+  # before_action :require_login,
+  #               only: %i[ new edit create update destroy]
 
   # GET /workshop_participants
   def index
@@ -14,8 +17,7 @@ class WorkshopParticipantsController < ApplicationController
   end
 
   # GET /workshop_participants/1
-  def show
-  end
+  def show; end
 
   # GET /workshop_participants/new
   def new
@@ -23,10 +25,10 @@ class WorkshopParticipantsController < ApplicationController
   end
 
   # GET /workshop_participants/1/edit
-  def edit
-  end
+  def edit; end
 
-  def apply # no one is happy about this, fix it, but whatever for now. Should be part of "Application" and "WorkshopParticipantApplication"
+  # no one is happy about this, fix it, but whatever for now. Should be part of "Application" and "WorkshopParticipantApplication"
+  def apply
     @participant =
       Participant.find_or_create_by(
         name: params[:workshop_participants][:name],
@@ -37,8 +39,8 @@ class WorkshopParticipantsController < ApplicationController
 
     application_responses =
       params[:workshop_participants]
-        .except(:email, :name, :workshop_id)
-        .each { |key, value| application_responses[key] = value }
+      .except(:email, :name, :workshop_id)
+      .each { |key, value| application_responses[key] = value }
 
     @workshop_participant =
       WorkshopParticipant.create(
@@ -62,7 +64,8 @@ class WorkshopParticipantsController < ApplicationController
   end
 
   # POST /workshop_participants
-  def create # this is used for registering, not applying
+  # this is used for registering, not applying
+  def create
     @participant =
       Participant.find_or_create_by(
         name: workshop_participant_params[:name],
@@ -127,25 +130,25 @@ class WorkshopParticipantsController < ApplicationController
   end
 
   def registration_received_notification
-    if @workshop_participant.persisted?
-      RegistrationReceivedEmailJob.perform_async(
-        {
-          workshop_id: @workshop_participant.workshop.id,
-          participant_id: @workshop_participant.participant.id
-        }.stringify_keys
-      )
-    end
+    return unless @workshop_participant.persisted?
+
+    RegistrationReceivedEmailJob.perform_async(
+      {
+        workshop_id: @workshop_participant.workshop.id,
+        participant_id: @workshop_participant.participant.id
+      }.stringify_keys
+    )
   end
 
   def application_received_notification
-    if @workshop_participant.persisted?
-      ApplicationReceivedEmailJob.perform_async(
-        {
-          workshop_id: @workshop_participant.workshop.id,
-          participant_id: @workshop_participant.participant.id
-        }.stringify_keys
-      )
-    end
+    return unless @workshop_participant.persisted?
+
+    ApplicationReceivedEmailJob.perform_async(
+      {
+        workshop_id: @workshop_participant.workshop.id,
+        participant_id: @workshop_participant.participant.id
+      }.stringify_keys
+    )
   end
 
   # Only allow a list of trusted parameters through.

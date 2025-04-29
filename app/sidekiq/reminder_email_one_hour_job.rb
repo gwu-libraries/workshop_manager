@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ReminderEmailOneHourJob
   include Sidekiq::Job
   # sidekiq_options queue: :mailer

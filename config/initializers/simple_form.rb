@@ -10,9 +10,9 @@ SimpleForm.setup do |config|
   config.boolean_label_class = ''
 
   # How the label text should be generated altogether with the required text.
-  config.label_text = ->(label, required, _explicit_label) do
+  config.label_text = lambda { |label, required, _explicit_label|
     "#{label.titleize} #{required}"
-  end
+  }
 
   # Define the way to render check boxes / radio buttons with labels.
   config.boolean_style = :inline

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationForm < ApplicationRecord
   belongs_to :workshop
 

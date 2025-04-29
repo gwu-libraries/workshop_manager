@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Workshop, type: :model do
@@ -18,29 +20,26 @@ RSpec.describe Workshop, type: :model do
         FactoryBot.create(:future_workshop, attendance_modality: 'individual')
       participant_1 = FactoryBot.create(:participant)
       participant_2 = FactoryBot.create(:participant)
-      participant_3 = FactoryBot.create(:participant)
+      FactoryBot.create(:participant)
 
       # two attending
-      workshop_participant_1 =
-        WorkshopParticipant.create(
-          workshop_id: workshop_1.id,
-          participant_id: participant_1.id,
-          in_attendance: true
-        )
-      workshop_participant_2 =
-        WorkshopParticipant.create(
-          workshop_id: workshop_1.id,
-          participant_id: participant_2.id,
-          in_attendance: true
-        )
+      WorkshopParticipant.create(
+        workshop_id: workshop_1.id,
+        participant_id: participant_1.id,
+        in_attendance: true
+      )
+      WorkshopParticipant.create(
+        workshop_id: workshop_1.id,
+        participant_id: participant_2.id,
+        in_attendance: true
+      )
 
       # one not attending
-      workshop_participant_2 =
-        WorkshopParticipant.create(
-          workshop_id: workshop_1.id,
-          participant_id: participant_2.id,
-          in_attendance: false
-        )
+      WorkshopParticipant.create(
+        workshop_id: workshop_1.id,
+        participant_id: participant_2.id,
+        in_attendance: false
+      )
 
       expect(workshop_1.total_attendance).to eq(2)
     end

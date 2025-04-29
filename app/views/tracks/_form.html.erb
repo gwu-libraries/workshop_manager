@@ -1,6 +1,6 @@
 <div class="max-w-4xl">
   <%= simple_form_for(@track) do |f| %>
-    <%= f.hint "A 'Workshop Track' is a grouping of thematically similar workshops." %>
+    <%= f.hint "A 'Workshop Track' is a grouping of thematically similar workshops (e.g. Python Camp, Course Design Institute)." %>
 
     <%= f.input :title,
                 required: true,
@@ -11,7 +11,7 @@
     <%= f.input :description,
                 placeholder: "Insert description of workshop track" %>
 
-    <div class='my-1 ml-3 block text-sm font-large text-black'>
+    <div class='block text-sm font-large text-black'>
       Workshops
     </div>
 

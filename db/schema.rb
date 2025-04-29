@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_25_015000) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_29_012739) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -81,6 +81,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_25_015000) do
     t.datetime "updated_at", null: false
     t.index ["feedback_form_id"], name: "index_feedback_form_questions_on_feedback_form_id"
     t.index ["question_id"], name: "index_feedback_form_questions_on_question_id"
+  end
+
+  create_table "feedback_form_responses", force: :cascade do |t|
+    t.bigint "workshop_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["workshop_id"], name: "index_feedback_form_responses_on_workshop_id"
   end
 
   create_table "feedback_forms", force: :cascade do |t|
@@ -167,6 +174,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_25_015000) do
   add_foreign_key "application_forms", "workshops"
   add_foreign_key "feedback_form_questions", "feedback_forms"
   add_foreign_key "feedback_form_questions", "questions"
+  add_foreign_key "feedback_form_responses", "workshops"
   add_foreign_key "feedback_forms", "workshops"
   add_foreign_key "track_workshops", "tracks"
   add_foreign_key "track_workshops", "workshops"

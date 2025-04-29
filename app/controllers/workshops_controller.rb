@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class WorkshopsController < ApplicationController
   include Filterable
 
@@ -14,8 +16,7 @@ class WorkshopsController < ApplicationController
   end
 
   # GET /workshops/1
-  def show
-  end
+  def show; end
 
   # GET /workshops/new
   def new
@@ -23,8 +24,7 @@ class WorkshopsController < ApplicationController
   end
 
   # GET /workshops/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /workshops
   def create
@@ -41,21 +41,18 @@ class WorkshopsController < ApplicationController
 
     if @workshop.save
       if @workshop.registration_modality == 'application_required'
-        @application_template = ApplicationTemplate.create()
-        @workshop_application_template =
-          WorkshopApplicationTemplate.create(
-            workshop_id: @workshop.id,
-            application_template_id: @application_template.id
-          )
+        @application_form = ApplicationForm.create(workshop_id: @workshop.id)
       end
+
+      @feedback_form = FeedbackForm.create(workshop_id: @workshop.id) if @workshop.use_feedback_form?
     end
 
     respond_to do |format|
       if @workshop.save
         if @workshop.registration_modality == 'application_required'
-          format.html do
-            redirect_to application_template_path(@application_template)
-          end
+          format.html { redirect_to application_form_path(@application_form) }
+        elsif @workshop.use_feedback_form?
+          format.html { redirect_to edit_feedback_form_path(@feedback_form) }
         else
           format.html do
             redirect_to @workshop, notice: 'Workshop was successfully created.'
@@ -74,6 +71,7 @@ class WorkshopsController < ApplicationController
         format.turbo_stream do
           turbo_stream.replace 'group_attendance_form',
                                partial: 'group_attendance_form'
+          turbo_stream.replace 'proposal_status', partial: 'proposal_status'
         end
         format.html do
           redirect_to @workshop, notice: 'Workshop was successfully updated.'
@@ -120,6 +118,7 @@ class WorkshopsController < ApplicationController
       :proposal_status,
       :in_person_attendance_count,
       :virtual_attendance_count,
+      :use_feedback_form,
       attachments: [],
       facilitator_ids: []
     )
