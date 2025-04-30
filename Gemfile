@@ -80,6 +80,8 @@ gem 'simple_form-tailwind'
 
 gem 'image_processing', '>= 1.2'
 
+gem 'bootstrap', '~> 5.3.3'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'capybara'

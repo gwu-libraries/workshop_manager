@@ -10,3 +10,4 @@ pin_all_from 'app/javascript/controllers', under: 'controllers'
 pin 'vega', to: 'vega.js'
 pin 'vega-lite', to: 'vega-lite.js'
 pin 'vega-embed', to: 'vega-embed.js'
+pin "bootstrap", to: "bootstrap.min.js"
