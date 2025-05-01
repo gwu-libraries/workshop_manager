@@ -134,7 +134,17 @@ end
 10.times { FactoryBot.create(:proposal_pending_workshop) }
 
 4.times do
-  track = FactoryBot.create(:track)
+  track = FactoryBot.create(:approved_track)
+
+  ws = Workshop.all.sample(5)
+
+  ws.each do |workshop|
+    TrackWorkshop.create(track_id: track.id, workshop_id: workshop.id)
+  end
+end
+
+4.times do
+  track = FactoryBot.create(:pending_track)
 
   ws = Workshop.all.sample(5)
 

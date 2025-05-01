@@ -1,0 +1,6 @@
+<% @tracks.each do |track| %>
+  <%= render track %>
+  <% if current_facilitator.present? && current_facilitator.is_admin? %>
+    <%= render "proposal_status", track: track %>
+  <% end %>
+<% end %>

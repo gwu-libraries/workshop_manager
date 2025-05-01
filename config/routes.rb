@@ -2,6 +2,7 @@
 
 Rails.application.routes.draw do
   get '/workshops/pending', to: 'workshops#pending'
+  get '/tracks/pending', to: 'tracks#pending'
   post '/workshop_participants/apply', to: 'workshop_participants#apply'
   # resources :track_workshops
   resources :tracks
