@@ -2,15 +2,20 @@
 
 class TracksController < ApplicationController
   before_action :set_track, only: %i[show edit update destroy]
-  # before_action :require_login, only: %i[new edit create update destroy]
+  before_action :require_login, only: %i[pending]
 
   # GET /tracks
   def index
-    @tracks = Track.all
+    @tracks = Track.approved
+  end
+
+  def pending
+    @tracks = Track.pending
   end
 
   # GET /tracks/1
-  def show; end
+  def show
+  end
 
   # GET /tracks/new
   def new
@@ -18,7 +23,8 @@ class TracksController < ApplicationController
   end
 
   # GET /tracks/1/edit
-  def edit; end
+  def edit
+  end
 
   # POST /tracks
   def create
@@ -39,6 +45,9 @@ class TracksController < ApplicationController
   def update
     respond_to do |format|
       if @track.update(track_params)
+        format.turbo_stream do
+          turbo_stream.replace 'proposal_status', partial: 'proposal_status'
+        end
         format.html do
           redirect_to @track, notice: 'Track was successfully updated.'
         end
@@ -70,6 +79,11 @@ class TracksController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def track_params
-    params.require(:track).permit(:title, :description, workshop_ids: [])
+    params.require(:track).permit(
+      :title,
+      :description,
+      :proposal_status,
+      workshop_ids: []
+    )
   end
 end

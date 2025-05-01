@@ -11,5 +11,19 @@ FactoryBot.define do
         random_sentences_to_add: 4
       )
     end
+
+    proposal_status { [0, 1].sample }
+
+    factory :pending_track do
+      proposal_status { 'pending' }
+    end
+
+    factory :approved_track do
+      proposal_status { 'approved' }
+    end
+
+    factory :rejected_track do
+      proposal_status { 'rejected' }
+    end
   end
 end

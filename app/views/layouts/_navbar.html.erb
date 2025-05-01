@@ -8,7 +8,10 @@
     </span>
     <% if current_facilitator.present? %>
       <span>
-        <%= link_to "Create a Workshop Track", new_track_path, class: "no-underline bg-white hover:bg-blue-200 font-semibold hover:text-black py-2 px-2 border border-blue-500 hover:border-transparent rounded" %>
+        <%= link_to "Propose a Workshop Track", new_track_path, class: "no-underline bg-white hover:bg-blue-200 font-semibold hover:text-black py-2 px-2 border border-blue-500 hover:border-transparent rounded" %>
+      </span>
+      <span>
+        <%= link_to "View Pending Workshop Tracks", "/tracks/pending", class: "no-underline bg-white hover:bg-blue-200 font-semibold hover:text-black py-2 px-2 border border-blue-500 hover:border-transparent rounded" %>
       </span>
       <span>
         <%= link_to "View Pending Workshops", "/workshops/pending", class: "no-underline bg-white hover:bg-blue-200 font-semibold hover:text-black py-2 px-2 border border-blue-500 hover:border-transparent rounded" %>

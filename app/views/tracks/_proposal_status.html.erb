@@ -1,0 +1,25 @@
+<%# TODO: whymst isnt' turbo frame working %>
+  <% case track.proposal_status %>
+    <% when 'pending' %>
+      <span>
+        Track status is pending - approve or reject?
+      </span>
+
+      <span>
+        <%= simple_form_for track do |f| %>
+          <%= f.hidden_field :proposal_status, value: 'approved' %>
+          <%= f.submit "Approve this track", class: "text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2" %>
+        <% end %>
+      </span>
+
+      <span>
+        <%= simple_form_for track do |f| %>
+          <%= f.hidden_field :proposal_status, value: 'rejected' %>
+          <%= f.submit "Reject this tracm", class: "text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2" %>
+        <% end %>
+      </span>
+    <% when 'approved' %>
+      <p> This track has been confirmed! <p>
+    <% when 'rejected' %>
+      <p> This track proposal has been rejected. <p>
+  <% end %>
