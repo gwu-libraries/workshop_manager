@@ -10,34 +10,27 @@ RSpec.describe Workshop, type: :model do
     it { should have_many :workshop_facilitators }
     it { should have_many(:facilitators).through(:workshop_facilitators) }
 
-    it { should have_many :workshop_participants }
-    it { should have_many(:participants).through(:workshop_participants) }
+    it { should have_many(:participants) }
   end
 
   describe 'methods' do
     it 'can return a total attendance count with an individual attendance modality' do
       workshop_1 =
         FactoryBot.create(:future_workshop, attendance_modality: 'individual')
-      participant_1 = FactoryBot.create(:participant)
-      participant_2 = FactoryBot.create(:participant)
-      FactoryBot.create(:participant)
 
       # two attending
-      WorkshopParticipant.create(
-        workshop_id: workshop_1.id,
-        participant_id: participant_1.id,
-        in_attendance: true
-      )
-      WorkshopParticipant.create(
-        workshop_id: workshop_1.id,
-        participant_id: participant_2.id,
-        in_attendance: true
-      )
+      2.times do
+        FactoryBot.create(
+          :participant,
+          workshop_id: workshop_1.id,
+          in_attendance: true
+        )
+      end
 
       # one not attending
-      WorkshopParticipant.create(
+      FactoryBot.create(
+        :participant,
         workshop_id: workshop_1.id,
-        participant_id: participant_2.id,
         in_attendance: false
       )
 

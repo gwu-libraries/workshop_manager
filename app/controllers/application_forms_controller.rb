@@ -1,22 +1,28 @@
-# frozen_string_literal: true
-
 class ApplicationFormsController < ApplicationController
-  before_action :require_login, only: %i[show edit]
-  before_action :set_application_form, only: %i[show edit]
+  def create
+    @form = ApplicationForm.new(params)
 
-  def show
-  end
-
-  def edit
+    respond_to do |format|
+      if @form.save
+        format.turbo_stream { turbo_stream.replace 'application_form', 'beep' }
+        format.html do
+          redirect_to workshop_path(@form.workshop_id),
+                      notice:
+                        'Your application is pending! Check your email for more information.'
+        end
+      else
+        format.html { render :new, status: :unprocessable_entity }
+      end
+    end
   end
 
   private
 
-  def set_application_form
-    @application_form = ApplicationForm.find(application_forms_params[:id])
-  end
-
-  def application_forms_params
-    params.permit(:id)
-  end
+  # def application_form_params
+  #   params.require(:participant_application_form).permit(
+  #     :name,
+  #     :email,
+  #     :workshop_id,
+  #   )
+  # end
 end

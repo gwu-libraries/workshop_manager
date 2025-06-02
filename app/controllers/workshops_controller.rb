@@ -4,7 +4,7 @@ class WorkshopsController < ApplicationController
   include Filterable
 
   before_action :set_workshop, only: %i[show edit update destroy]
-  before_action :require_login, only: %i[new edit create update destroy pending]
+  before_action :require_login, only: %i[new edit update destroy pending]
 
   # GET /workshops
   def index
@@ -16,38 +16,15 @@ class WorkshopsController < ApplicationController
   end
 
   # GET /workshops/1
-  def show; end
+  def show
+  end
 
   # GET /workshops/new
   def new
-    @workshop = Workshop.new
   end
 
   # GET /workshops/1/edit
-  def edit; end
-
-  # POST /workshops
-  def create
-    @workshop = Workshop.new(workshop_params)
-
-    workshop_params[:facilitator_ids]
-      .reject(&:empty?)
-      .each do |facilitator_id|
-        WorkshopFacilitator.create(
-          workshop_id: @workshop.id,
-          facilitator_id: facilitator_id
-        )
-      end
-
-    respond_to do |format|
-      if @workshop.save
-        format.html do
-          redirect_to @workshop, notice: 'Workshop was successfully created.'
-        end
-      else
-        format.html { render :new, status: :unprocessable_entity }
-      end
-    end
+  def edit
   end
 
   # PATCH/PUT /workshops/1

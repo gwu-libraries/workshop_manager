@@ -1,20 +1,22 @@
 <% case @workshop.registration_modality %>
   <% when "application_required"%>
-    <%= render partial: "workshop_participants/application_status_form",
-              collection: @workshop.workshop_participants.pending.order('created_at asc'),
-              as: :workshop_participant %>
+    <%= render partial: "participants/application_status_form",
+              # todo fix fix fix
+              collection: @workshop.participants.pending.order('created_at asc'),
+              as: :participant %>
 
-    <%= render partial: "workshop_participants/application_status_form",
-              collection: @workshop.workshop_participants.waitlisted,
-              as: :workshop_participant %>
+    <%= render partial: "participants/application_status_form",
+              collection: @workshop.participants.waitlisted,
+              as: :participant %>
 <% end %>
 
 
 <% case @workshop.attendance_modality %>
   <% when "individual"%>
-    <%= render partial: "workshop_participants/attendance_status_form", 
-              collection: @workshop.workshop_participants.accepted.order('created_at asc'),
-              as: :workshop_participant %>
+    <%= render partial: "participants/attendance_status_form", 
+              # todo fix fix fix
+              collection: @workshop.participants.accepted.order('created_at asc'),
+              as: :participant %>
   <% when "collective" %>
     <%= render partial: "workshops/group_attendance_form" %>
 <% end %>

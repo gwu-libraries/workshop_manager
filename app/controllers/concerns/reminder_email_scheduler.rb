@@ -8,34 +8,34 @@ module ReminderEmailScheduler
   private
 
   def schedule_reminder_notifications
-    return unless @workshop_participant.persisted?
+    return unless @participant.persisted?
 
     if reminder_option_params[:reminder_options].include? 'One week before'
       ReminderEmailOneWeekJob.perform_at(
-        (@workshop_participant.workshop.start_time - 1.weeks).round,
+        (@participant.workshop.start_time - 1.weeks).round,
         {
-          workshop_id: @workshop_participant.workshop.id,
-          participant_id: @workshop_participant.participant.id
+          workshop_id: @participant.workshop.id,
+          participant_id: @participant.id
         }.stringify_keys
       )
     end
 
     if reminder_option_params[:reminder_options].include? 'One day before'
       ReminderEmailOneDayJob.perform_at(
-        (@workshop_participant.workshop.start_time - 1.days).round,
+        (@participant.workshop.start_time - 1.days).round,
         {
-          workshop_id: @workshop_participant.workshop.id,
-          participant_id: @workshop_participant.participant.id
+          workshop_id: @participant.workshop.id,
+          participant_id: @participant.id
         }.stringify_keys
       )
     end
 
     if reminder_option_params[:reminder_options].include? 'One hour before'
       ReminderEmailOneHourJob.perform_at(
-        (@workshop_participant.workshop.start_time - 1.hours).round,
+        (@participant.workshop.start_time - 1.hours).round,
         {
-          workshop_id: @workshop_participant.workshop.id,
-          participant_id: @workshop_participant.participant.id
+          workshop_id: @participant.workshop.id,
+          participant_id: @participant.id
         }.stringify_keys
       )
     end

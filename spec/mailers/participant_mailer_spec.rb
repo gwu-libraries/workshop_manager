@@ -5,7 +5,9 @@ require 'rails_helper'
 RSpec.describe ParticipantMailer, type: :mailer do
   describe 'registration_received_email' do
     let(:workshop) { FactoryBot.create(:future_workshop) }
-    let(:participant) { FactoryBot.create(:participant) }
+    let(:participant) do
+      FactoryBot.create(:participant, workshop_id: workshop.id)
+    end
     let(:mail) do
       ParticipantMailer.registration_received_email(workshop.id, participant.id)
     end

@@ -258,7 +258,7 @@ class ParticipantMailer < ApplicationMailer
     end
   end
 
-  def feedback_form_email(feedback_form_id, participant_id)
+  def feedback_email(feedback_form_id, participant_id)
     @feedback_form = FeedbackForm.find(feedback_form_id)
     @participant = Participant.find(participant_id)
 

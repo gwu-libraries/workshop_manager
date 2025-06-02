@@ -9,12 +9,14 @@
     <%= link_to "Edit Workshop", edit_workshop_path(@workshop), class: "bg-white hover:bg-blue-200 text-blue-700 font-semibold hover:text-black py-2 px-2 border border-blue-500 hover:border-transparent rounded" %>
   </span>
   <span>
-    <%= link_to "Edit feedback form", edit_feedback_form_path(@workshop.feedback_form), class: "bg-white hover:bg-blue-200 text-blue-700 font-semibold hover:text-black py-2 px-2 border border-blue-500 hover:border-transparent rounded" %>
+    <%# TODO FIX ME %>
+    <%# link_to "Edit feedback form", edit_feedback_form_path(@workshop.feedback_form), class: "bg-white hover:bg-blue-200 text-blue-700 font-semibold hover:text-black py-2 px-2 border border-blue-500 hover:border-transparent rounded" %>
   </span>
   <% if @workshop.registration_modality == "application_required" %>
-    <span>
-      <%= link_to "Edit application form", edit_application_form_path(@workshop.application_form), class: "bg-white hover:bg-blue-200 text-blue-700 font-semibold hover:text-black py-2 px-2 border border-blue-500 hover:border-transparent rounded" %>
-    </span>
+  <%# TODO FIX ME %>
+    <%# <span> %>
+      <%# link_to "Edit application form", edit_application_form_path(@workshop.application_form), class: "bg-white hover:bg-blue-200 text-blue-700 font-semibold hover:text-black py-2 px-2 border border-blue-500 hover:border-transparent rounded" %>
+    <%# </span> %>
     <%= render "pending_applications", workshop: @workshop %>
   <% end %>
 <% end %>
@@ -22,8 +24,8 @@
 <% unless @workshop.end_time.past? || current_facilitator.present? %>
   <% case @workshop.registration_modality %>
     <% when "registration_required" %>
-      <%= render "workshop_participants/registration_form", workshop: @workshop %>
+      <%= render "forms/registration_form", workshop: @workshop %>
     <% when "application_required"%>
-      <%= render "workshop_participants/application_form", application_form: @workshop.application_form %>
+      <%= render "forms/application_form", workshop: @workshop %>
   <% end %>
 <% end %>

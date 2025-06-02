@@ -1,0 +1,16 @@
+<%= turbo_stream.replace "participant_attendance_status_form_#{@participant.id}" do %>
+  <%= turbo_frame_tag "participant_attendance_status_form_#{@participant.id}" do %>
+    <%= @participant.name %> - <%= @participant.email %> 
+    Present? <%= @participant.in_attendance ? "✅" : "❌" %>
+
+    <%= simple_form_for @participant do |f| %>
+      <%= f.hidden_field :in_attendance, value: true %>
+      <%= f.submit "Mark present" %>
+    <% end %>
+
+    <%= simple_form_for @participant do |f| %>
+      <%= f.hidden_field :in_attendance, value: false %>
+      <%= f.submit "Mark absent" %>
+    <% end %>
+  <% end %>
+<% end%>

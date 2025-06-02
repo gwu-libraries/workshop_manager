@@ -52,7 +52,7 @@ FactoryBot.define do
       registration_modality { 'application_required' }
       attendance_modality { [0, 1].sample }
       start_time do
-        (DateTime.now + rand(14).days - rand(4).hours).beginning_of_hour
+        (DateTime.now + rand(14...20).days - rand(4).hours).beginning_of_hour
       end
       end_time { start_time + 2.hours }
     end
@@ -62,7 +62,7 @@ FactoryBot.define do
       presentation_modality { 'hybrid' }
       attendance_modality { [0, 1].sample }
       start_time do
-        (DateTime.now + rand(14).days - rand(4).hours).beginning_of_hour
+        (DateTime.now + rand(14...20).days - rand(4).hours).beginning_of_hour
       end
       end_time { start_time + 2.hours }
     end
@@ -71,7 +71,7 @@ FactoryBot.define do
       registration_modality { 'no_registration_required' }
       attendance_modality { [0, 1].sample }
       start_time do
-        (DateTime.now + rand(14).days - rand(4).hours).beginning_of_hour
+        (DateTime.now + rand(14...20).days - rand(4).hours).beginning_of_hour
       end
       end_time { start_time + 2.hours }
     end
@@ -80,7 +80,7 @@ FactoryBot.define do
       proposal_status { 'pending' }
       # these should always be in the future
       start_time do
-        (DateTime.now + rand(14).days - rand(4).hours).beginning_of_hour
+        (DateTime.now + rand(14...20).days - rand(4).hours).beginning_of_hour
       end
       end_time { start_time + 2.hours }
     end
@@ -98,7 +98,7 @@ FactoryBot.define do
 
     factory :future_workshop do
       start_time do
-        (DateTime.now + rand(14).days - rand(4).hours).beginning_of_hour
+        (DateTime.now + rand(14...20).days - rand(4).hours).beginning_of_hour
       end
       end_time { start_time + 2.hours }
     end

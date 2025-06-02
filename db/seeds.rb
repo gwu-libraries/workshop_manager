@@ -33,10 +33,11 @@ not_fac =
     password: 'password'
   )
 
-# Create 4 other facilitators
+# Create 20 other facilitators
 facilitators = []
 20.times { facilitators << FactoryBot.create(:facilitator) }
 
+# Create 5 workshops requiring registration that have already occurred
 past_workshops_registration_required = []
 5.times do
   past_workshops_registration_required << FactoryBot.create(
@@ -44,6 +45,7 @@ past_workshops_registration_required = []
   )
 end
 
+# Create 5 workshops requiring application that have already occurred
 past_workshops_application_required = []
 5.times do
   past_workshops_application_required << FactoryBot.create(
@@ -51,9 +53,11 @@ past_workshops_application_required = []
   )
 end
 
+# Create 5 open workshops that have already occurred
 past_workshops_open = []
 5.times { past_workshops_open << FactoryBot.create(:past_open_workshop) }
 
+# Create 5 workshops requiring registration that are in the future
 future_workshops_registration_required = []
 5.times do
   future_workshops_registration_required << FactoryBot.create(
@@ -61,6 +65,7 @@ future_workshops_registration_required = []
   )
 end
 
+# Create 5 workshops requiring application that are in the future
 future_workshops_application_required = []
 5.times do
   future_workshops_application_required << FactoryBot.create(
@@ -68,10 +73,11 @@ future_workshops_application_required = []
   )
 end
 
+# Create 5 open workshops that are in the future
 future_workshops_open = []
 5.times { future_workshops_open << FactoryBot.create(:future_open_workshop) }
 
-# Assign two facilitators to each workshop
+# Assign two non-descript facilitators to each workshop
 Workshop.all.each do |workshop|
   facilitators
     .sample(2)
@@ -82,127 +88,46 @@ Workshop.all.each do |workshop|
       )
     end
 
+  # Assign the facilitator@example.com account to all workshops
   WorkshopFacilitator.create(workshop_id: workshop.id, facilitator_id: fac.id)
+
+  # Create 10 participants for each workshop
+  10.times { FactoryBot.create(:participant, workshop_id: workshop.id) }
 end
 
-# Create 30 participants
-participants = []
-30.times { participants << FactoryBot.create(:participant) }
-
-# Add application_forms to workshops that require an application
-[
-  past_workshops_application_required,
-  future_workshops_application_required
-].flatten.each do |workshop|
-  af = workshop.application_form
-  questions = []
-  2.times do
-    questions << FactoryBot.create(:short_answer_question)
-    questions << FactoryBot.create(:long_answer_question)
-    questions << FactoryBot.create(:likert_question)
-    questions << FactoryBot.create(:true_false_question)
-  end
-
-  questions.each do |q|
-    ApplicationFormQuestion.create(
-      question_id: q.id,
-      application_form_id: af.id
-    )
-  end
+# create an application question of each type for workshops requiring applications
+Workshop.application_required.each do |workshop|
+  FactoryBot.create(:aq_true_false_question, workshop_id: workshop.id)
+  FactoryBot.create(:aq_short_answer_question, workshop_id: workshop.id)
+  FactoryBot.create(:aq_long_answer_question, workshop_id: workshop.id)
+  FactoryBot.create(:aq_likert_question, workshop_id: workshop.id)
 end
 
-future_workshops_application_required.each do |workshop|
-  questions = workshop.application_form.questions
-
-  participants = []
-  10.times { participants << FactoryBot.create(:participant) }
-
-  participants.each do |participant|
-    application_responses = {}
-    questions.each do |q|
-      application_responses[q.prompt] = Faker::Lorem.sentence
-    end
-    WorkshopParticipant.create(
-      workshop_id: workshop.id,
-      participant_id: participant.id,
-      application_status: 'pending',
-      application_responses: application_responses
-    )
-  end
-end
-
-10.times { FactoryBot.create(:proposal_pending_workshop) }
-
+# create four approved tracks, add five approved workshops to the track
 4.times do
   track = FactoryBot.create(:approved_track)
 
-  ws = Workshop.all.sample(5)
+  ws = Workshop.approved.sample(5)
 
   ws.each do |workshop|
     TrackWorkshop.create(track_id: track.id, workshop_id: workshop.id)
   end
 end
 
+# Create four pending tracks, add five approved workshops to the track
 4.times do
   track = FactoryBot.create(:pending_track)
 
-  ws = Workshop.all.sample(5)
+  ws = Workshop.approved.sample(5)
 
   ws.each do |workshop|
     TrackWorkshop.create(track_id: track.id, workshop_id: workshop.id)
   end
 end
 
-FeedbackForm.all.each do |ff|
-  questions = []
-  questions << FactoryBot.create(:short_answer_question)
-  questions << FactoryBot.create(:long_answer_question)
-  questions << FactoryBot.create(:likert_question)
-  questions << FactoryBot.create(:true_false_question)
-
-  questions.each do |question|
-    FeedbackFormQuestion.create(
-      feedback_form_id: ff.id,
-      question_id: question.id
-    )
-  end
+Workshop.all.each do |workshop|
+  FactoryBot.create(:fq_true_false_question, workshop_id: workshop.id)
+  FactoryBot.create(:fq_short_answer_question, workshop_id: workshop.id)
+  FactoryBot.create(:fq_long_answer_question, workshop_id: workshop.id)
+  FactoryBot.create(:fq_likert_question, workshop_id: workshop.id)
 end
-# Add participants to past workshops, randomize if they are marked as in_attendance or not
-# Add random selection of facilitators to past workshops
-# past_workshops.each do |pw|
-#   participants
-#     .sample(rand(participants.count))
-#     .each do |part|
-#       WorkshopParticipant.create(
-#         workshop_id: pw.id,
-#         participant_id: part.id,
-#         in_attendance: [true, false].sample
-#       )
-#     end
-# end
-
-# Add participants to future workshops, mark as not in_attendance by default
-# Add random selection of facilitators to future workshops
-# future_workshops.each do |fw|
-#   participants
-#     .sample(rand(participants.count))
-#     .each do |part|
-#       WorkshopParticipant.create(
-#         workshop_id: fw.id,
-#         participant_id: part.id,
-#         in_attendance: false
-#       )
-#     end
-# end
-
-# future_workshops.each do |workshop|
-#   if workshop.registration_modality == 'application_required'
-#     questions = workshop.application_form.questions
-#     workshop.workshop_participants.each do |wp|
-#       responses = {}
-#       questions.each { |q| responses[q.prompt] = Faker::Lorem.sentence }
-#       wp.application_responses = responses
-#       wp.application_status = 'pending'
-#     end
-#   end
-# end
