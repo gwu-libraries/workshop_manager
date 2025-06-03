@@ -17,8 +17,6 @@ RSpec.describe ApplicationReceivedEmailJob, type: :job do
 
     visit "/workshops/#{workshop_1.id}"
 
-    save_and_open_page
-
     fill_in 'application_form_name', with: 'Professor Test'
     fill_in 'application_form_email', with: 'testing@example.com'
 
