@@ -4,10 +4,19 @@ class WorkshopProposalFormsController < ApplicationController
 
     respond_to do |format|
       if @form.save
-        format.html do
-          redirect_to root_url,
-                      notice:
-                        'Workshop proposal created! An admin will review it.'
+        if @form.registration_modality == 'application_required'
+          # this needs to redirect to the application_f
+          format.html do
+            redirect_to root_url,
+                        notice:
+                          'Workshop proposal created! An admin will review it.'
+          end
+        else
+          format.html do
+            redirect_to root_url,
+                        notice:
+                          'Workshop proposal created! An admin will review it.'
+          end
         end
       else
         format.html { render :new, status: :unprocessable_entity }

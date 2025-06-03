@@ -14,7 +14,10 @@ class RegistrationFormsController < ApplicationController
                         'Your registration was successful! Check your email for more information.'
         end
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html do
+          redirect_to workshop_path(@form.workshop_id),
+                      status: :unprocessable_entity
+        end
       end
     end
   end

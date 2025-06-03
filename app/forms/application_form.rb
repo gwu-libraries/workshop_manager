@@ -36,5 +36,12 @@ class ApplicationForm
         value: response
       )
     end
+
+    ApplicationReceivedEmailJob.perform_async(
+      {
+        workshop_id: participant.workshop_id,
+        participant_id: participant.id
+      }.stringify_keys
+    )
   end
 end

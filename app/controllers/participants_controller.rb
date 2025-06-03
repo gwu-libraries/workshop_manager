@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 
 class ParticipantsController < ApplicationController
-  include ReminderEmailScheduler
   include FeedbackEmailScheduler
 
   before_action :set_participant, only: %i[update destroy]
 
-  after_action :registration_received_notification, only: :create
   after_action :application_received_notification, only: :apply
   # before_action :require_login,
   #               only: %i[ new edit create update destroy]
@@ -50,25 +48,8 @@ class ParticipantsController < ApplicationController
     @participant = Participant.find(params[:id])
   end
 
-  def registration_received_notification
-    return unless @participant.persisted?
-    RegistrationReceivedEmailJob.perform_async(
-      {
-        workshop_id: @participant.workshop.id,
-        participant_id: @participant.id
-      }.stringify_keys
-    )
-  end
-
   def application_received_notification
     return unless @participant.persisted?
-
-    ApplicationReceivedEmailJob.perform_async(
-      {
-        workshop_id: @participant.workshop.id,
-        participant_id: @participant.id
-      }.stringify_keys
-    )
   end
 
   # Only allow a list of trusted parameters through.

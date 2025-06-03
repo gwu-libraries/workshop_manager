@@ -1,6 +1,8 @@
 class WorkshopProposalForm
   include ActiveModel::Model
 
+  attr_reader :registration_modality
+
   def initialize(params)
     @title = params[:title]
     @description = params[:description]
