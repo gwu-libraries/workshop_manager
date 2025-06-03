@@ -66,6 +66,8 @@ gem 'jsbundling-rails', '~> 1.3'
 
 gem 'sidekiq', '~> 7.3'
 
+gem 'sidekiq-failures'
+
 gem 'icalendar'
 
 gem 'factory_bot_rails' # here for demo purposes
