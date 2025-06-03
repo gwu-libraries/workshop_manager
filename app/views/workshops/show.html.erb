@@ -1,31 +1,42 @@
+<%= render @workshop %>
+
+<%# TODO this is a nightmare %>
 <% if current_facilitator.present? && current_facilitator.is_admin? %>
   <%= render "workshops/proposal_status", workshop: @workshop %>
 <% end %>
 
-<%= render @workshop %>
-
-<% if current_facilitator.present? %>
-  <span>
-    <%= link_to "Edit Workshop", edit_workshop_path(@workshop), class: "bg-white hover:bg-blue-200 text-blue-700 font-semibold hover:text-black py-2 px-2 border border-blue-500 hover:border-transparent rounded" %>
-  </span>
-  <span>
-    <%# TODO FIX ME %>
-    <%# link_to "Edit feedback form", edit_feedback_form_path(@workshop.feedback_form), class: "bg-white hover:bg-blue-200 text-blue-700 font-semibold hover:text-black py-2 px-2 border border-blue-500 hover:border-transparent rounded" %>
-  </span>
-  <% if @workshop.registration_modality == "application_required" %>
-  <%# TODO FIX ME %>
-    <%# <span> %>
-      <%# link_to "Edit application form", edit_application_form_path(@workshop.application_form), class: "bg-white hover:bg-blue-200 text-blue-700 font-semibold hover:text-black py-2 px-2 border border-blue-500 hover:border-transparent rounded" %>
-    <%# </span> %>
-    <%= render "pending_applications", workshop: @workshop %>
-  <% end %>
+<% if current_facilitator.present? && @workshop.end_time.future? %>
+    <span>
+      <%= link_to "Edit Workshop", edit_workshop_path(@workshop), 
+                                   class: "bg-white hover:bg-blue-200 text-blue-700 font-semibold 
+                                           hover:text-black py-2 px-2 border border-blue-500 
+                                           hover:border-transparent rounded" %>
+    </span>
+    <span>
+      <%# TODO FIX ME %>
+      <%# link_to "Edit feedback form", edit_feedback_form_path(@workshop.feedback_form), class: "bg-white hover:bg-blue-200 text-blue-700 font-semibold hover:text-black py-2 px-2 border border-blue-500 hover:border-transparent rounded" %>
+    </span>
 <% end %>
 
-<% unless @workshop.end_time.past? || current_facilitator.present? %>
-  <% case @workshop.registration_modality %>
-    <% when "registration_required" %>
-      <%= render "forms/registration_form", workshop: @workshop %>
-    <% when "application_required"%>
-      <%= render "forms/application_form", workshop: @workshop %>
-  <% end %>
+<% if current_facilitator.present? && @workshop.registration_modality == "application_required" && @workshop.end_time.future? %>
+  <%= render "pending_applications", workshop: @workshop %>
+<% end %>
+
+<% if current_facilitator.present? && @workshop.attendance_modality == "individual" %>
+  <%= render partial: "participants/attendance_status_form", 
+            # todo fix fix fix
+            collection: @workshop.participants.accepted.order('created_at asc'),
+            as: :participant %>
+<% end %>
+
+<% if current_facilitator.present? && @workshop.attendance_modality == "collective" %>
+  <%= render partial: "workshops/group_attendance_form" %>
+<% end %>
+
+<% if !current_facilitator.present? && @workshop.registration_modality == "registration_required" && @workshop.end_time.future? %>
+  <%= render "forms/registration_form", workshop: @workshop %>
+<% end %>
+
+<% if !current_facilitator.present? && @workshop.registration_modality == "application_required" && @workshop.end_time.future? %>
+  <%= render "forms/application_form", workshop: @workshop %>
 <% end %>
