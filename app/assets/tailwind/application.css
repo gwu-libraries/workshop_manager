@@ -38,6 +38,10 @@ a:not(nav a):not(a.btn):hover {
   min-height: 6.5rem;
 }
 
+.scrollbox input[type="checkbox"] {
+  margin-right: 0.2rem;
+}
+
 #error_explanation {
   font-size: 0.8rem;
   margin-block: 0.5rem;

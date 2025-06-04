@@ -2,24 +2,24 @@
 <%= simple_form_for :workshop_proposal_form, url: workshop_proposal_forms_path do |f| %>
   <%= f.input :title,
               required: true,
-              error: "Title is required",
               placeholder: "Insert workshop title",
-              legend_tag: false %>
+              legend_tag: false,
+              class: 'text-black border-black' %>
     
   <%= f.text_area :description,
                   placeholder: "Insert a brief description of the workshop",
-                  class: 'flex resize-none w-full h-32 border border-black bg-stone-50 p-2 focus:outline-none focus:border-emerald-800 
+                  class: 'flex resize-none w-full h-32 border border-black bg-stone-50 p-2 mb-4 focus:outline-none focus:border-emerald-800 
                           text-black-400 leading-4 transition-colors duration-200 ease-in-out' %>
 
-  <div class='block text-m font-large text-black'>
+  <div class='block text-base text-black'>
     Facilitators
   </div>
 
-  <div class='h-48 overflow-y-scroll border border-black bg-stone-50 text-black px-4'>
+  <div class='scrollbox flex flex-col h-48 overflow-y-scroll border border-black bg-stone-50 text-black px-4 py-2 mb-4'>
     <%= f.collection_check_boxes :facilitator_ids, Facilitator.all.order(:name), :id, :name %>
   </div>
 
-  <%= f.label :presentation_modality %>
+  <%= f.label :presentation_modality, class: "text-base" %>
   <%= f.hint "Will this workshop be offered in-person, online, or both?" %>
   <%= f.input_field :presentation_modality, 
                     as: :select, 
@@ -41,7 +41,7 @@
                       rounded w-full p-2 bg-white focus:outline-none focus:border-blue-500 
                       text-gray-400 leading-4 transition-colors duration-200 ease-in-out' %>
 
-  <%= f.label :attendance_modality, class: "text-lg font-medium text-gray-600" %>
+  <%= f.label :attendance_modality, class: "text-base" %>
   <%= f.hint "If you need to collect attendance information for each participant, select 'individual'. \n\n
               If you plan to track only total attendance numbers, select 'collective'." %>
   <%= f.input_field :attendance_modality,
@@ -49,7 +49,7 @@
                     collection: ['individual', 'collective'],
                     required: true %>
 
-  <%= f.label :registration_modality %>
+  <%= f.label :registration_modality, class: "text-base" %>
   <%= f.hint "If the workshop requires participants to apply, select 'Application Required' - you will create the application questionairre on the next page. 
               If registration is required but admission is automatic, select 'Registration Required'. \n
               If no registration is required, select 'No Registration Required'" %>
@@ -70,11 +70,11 @@
               class: "flex border border-black bg-stone-50 p-2 focus:outline-none focus:border-emerald-800 
                           text-black-400 leading-4 transition-colors duration-200 ease-in-out" %>
 
-  <div class='block text-lg text-black'>
+  <div class='block text-base text-black'>
     Attachments
   </div>
   <%= f.hint "Attach files for workshop participants to download." %>
-  <%= f.file_field :attachments, multiple: true %>
+  <%= f.file_field :attachments, multiple: true, class: "mb-4" %>
 
  <br>             
     <%= f.submit "Submit", class: 'w-full bg-orange-50 hover:bg-black font-semibold text-black hover:text-orange-50 py-2 px-2 border border-black hover:border-black border-4 border-double rounded shadow-md' %>
