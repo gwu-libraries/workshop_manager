@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :track do
-    title { Faker::Science.science }
+    title { Faker::Science.unique.science }
 
     description do
       Faker::Lorem.paragraph(
