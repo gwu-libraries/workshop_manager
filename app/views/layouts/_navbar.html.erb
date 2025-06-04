@@ -1,31 +1,37 @@
-<nav class="border-gray-200 bg-gray-800">
-  <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-    <span>
-      <%= link_to "View Workshop Calendar", workshops_path, class: "no-underline bg-white hover:bg-blue-200 font-semibold hover:text-black py-2 px-2 border border-blue-500 hover:border-transparent rounded flex items-center space-x-3 rtl:space-x-reverse" %>
-    </span>
-    <span>
-      <%= link_to "View Workshop Tracks", tracks_path, class: "no-underline bg-white hover:bg-blue-200 font-semibold hover:text-black py-2 px-2 border border-blue-500 hover:border-transparent rounded flex items-center space-x-3 rtl:space-x-reverse" %>
-    </span>
-    <% if current_facilitator.present? %>
+<nav class="firstnav sticky top-0 border-b bg-orange-50 flex flex-col items-center">
+    <div class="py-4 px-6 max-w-screen-xl flex flex-wrap items-center justify-end gap-6 mx-auto max-w-6xl w-full">
       <span>
-        <%= link_to "Propose a Workshop Track", new_track_path, class: "no-underline bg-white hover:bg-blue-200 font-semibold hover:text-black py-2 px-2 border border-blue-500 hover:border-transparent rounded" %>
+        <%= link_to "View Workshop Calendar", workshops_path, class: "text-black font-semibold no-underline hover:underline hover:decoration-double flex items-center space-x-3 rtl:space-x-reverse" %>
       </span>
       <span>
-        <%= link_to "View Pending Workshop Tracks", "/tracks/pending", class: "no-underline bg-white hover:bg-blue-200 font-semibold hover:text-black py-2 px-2 border border-blue-500 hover:border-transparent rounded" %>
+        <%= link_to "View Workshop Tracks", tracks_path, class: "text-black font-semibold no-underline hover:underline hover:decoration-double flex items-center space-x-3 rtl:space-x-reverse" %>
       </span>
-      <span>
-        <%= link_to "View Pending Workshops", "/workshops/pending", class: "no-underline bg-white hover:bg-blue-200 font-semibold hover:text-black py-2 px-2 border border-blue-500 hover:border-transparent rounded" %>
-      </span>
-      <span>
-        <%= link_to "Propose a new workshop", new_workshop_path, class: "no-underline bg-white hover:bg-blue-200 font-semibold hover:text-black py-2 px-2 border border-blue-500 hover:border-transparent rounded" %>
-      </span>
-      <span>
-        <%= button_to "Sign out", destroy_facilitator_session_path, method: :delete, class: "no-underline bg-white hover:bg-red-200 text-red-700 font-semibold hover:text-black py-2 px-2 border border-red-500 hover:border-transparent rounded" %>
-      </span>
-    <% else %>
-      <span>
-        <%= link_to "Facilitator sign in", new_facilitator_session_path, class: "bg-white hover:bg-blue-200 font-semibold hover:text-black py-2 px-2 border border-blue-500 hover:border-transparent rounded" %>
-      </span>
+      <% if current_facilitator.present? %>
+        <span>
+          <%= button_to "Sign out", destroy_facilitator_session_path, method: :delete, class: "navbtn btn bg-orange-50 hover:bg-black font-semibold text-black hover:text-orange-50 py-2 px-2 border border-black hover:border-black border-4 border-double rounded shadow-md" %>
+        </span>
+      <% else %>
+        <span>
+          <%= button_to "Facilitator sign in", new_facilitator_session_path, class: "navbtn btn bg-orange-50 hover:bg-black font-semibold text-black hover:text-orange-50 py-2 px-2 border border-black hover:border-black border-4 border-double rounded shadow-md" %>
+        </span>
+      <% end %>
+    </div>
+  <% if current_facilitator.present? %>
+    <div class="w-full p-2 text-stone-50 bg-black">
+      <div class="flex flex-wrap gap-6 items-center justify-end mx-auto max-w-screen-xl max-w-6xl w-full">
+            <span>
+            <%= link_to "Propose a Workshop Track", new_track_path, class: "text-stone-50 font-semibold no-underline hover:underline hover:decoration-double flex items-center space-x-3 rtl:space-x-reverse" %>
+          </span>
+          <span>
+            <%= link_to "View Pending Workshop Tracks", "/tracks/pending", class: "text-stone-50 font-semibold no-underline hover:underline hover:decoration-double flex items-center space-x-3 rtl:space-x-reverse" %>
+          </span>
+          <span>
+            <%= link_to "View Pending Workshops", "/workshops/pending", class: "text-stone-50 font-semibold no-underline hover:underline hover:decoration-double flex items-center space-x-3 rtl:space-x-reverse" %>
+          </span>
+          <span>
+            <%= link_to "Propose a new workshop", new_workshop_path, class: "text-stone-50 font-semibold no-underline hover:underline hover:decoration-double flex items-center space-x-3 rtl:space-x-reverse" %>
+          </span>
+        </div>
+    </div>
     <% end %>
-  </div>
 </nav>

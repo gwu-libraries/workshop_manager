@@ -1,1 +1,55 @@
 @import "tailwindcss";
+
+body {
+  min-height: 100vh;
+  scrollbar-gutter: stable;
+}
+
+nav .navbtn {
+  margin-block: -0.5rem;
+}
+
+a:not(nav a):not(a.btn) {
+  color: var(--color-emerald-800);
+  text-decoration: none;
+}
+
+a:not(nav a):not(a.btn):hover {
+  text-decoration: underline;
+  text-decoration-color: var(--color-black);
+}
+
+.prev-month:not(.prev-month > *),
+.next-month:not(.prev-month > *)  {
+  color: var(--color-stone-400);
+}
+
+.prev-month .workshop,
+.next-month .workshop {
+  color: var(--color-gray-900);
+}
+
+.day {
+  min-height: 12rem;
+  height: 12rem;
+}
+
+.card-header {
+  min-height: 6.5rem;
+}
+
+#error_explanation {
+  font-size: 0.8rem;
+  margin-block: 0.5rem;
+}
+
+#group_attendance_form {
+  width: 100% !important;
+  padding-inline: 1rem;
+}
+
+@media (width >= 64rem) {
+  .workshop-contain {
+    height: calc(100vh - 12rem);
+  }
+}

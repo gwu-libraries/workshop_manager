@@ -5,17 +5,18 @@
   <%= render "workshops/proposal_status", workshop: @workshop %>
 <% end %>
 
+<<<<<<< HEAD
 <% if current_facilitator.present? && @workshop.end_time.future? %>
-    <span>
+<div class="flex flex-col gap-2 px-2 items-end lg:border-l lg:border-dashed">
+  <div class="py-4">
       <%= link_to "Edit Workshop", edit_workshop_path(@workshop), 
-                                   class: "bg-white hover:bg-blue-200 text-blue-700 font-semibold 
-                                           hover:text-black py-2 px-2 border border-blue-500 
-                                           hover:border-transparent rounded" %>
-    </span>
-    <span>
+                                   class: "btn my-4 bg-orange-50 hover:bg-black font-semibold text-black hover:text-orange-50 py-2 px-2 border border-black hover:border-black border-4 border-double rounded shadow-md" %>
+    </div>
+    <div class="py-4">
       <%# TODO FIX ME %>
-      <%# link_to "Edit feedback form", edit_feedback_form_path(@workshop.feedback_form), class: "bg-white hover:bg-blue-200 text-blue-700 font-semibold hover:text-black py-2 px-2 border border-blue-500 hover:border-transparent rounded" %>
-    </span>
+      <%# link_to "Edit feedback form", edit_feedback_form_path(@workshop.feedback_form), class: "btn my-4 bg-orange-50 hover:bg-black font-semibold text-black hover:text-orange-50 py-2 px-2 border border-black hover:border-black border-4 border-double rounded shadow-md" %>
+    </div>
+  </div>
 <% end %>
 
 <% if current_facilitator.present? && @workshop.registration_modality == "application_required" && @workshop.end_time.future? %>
