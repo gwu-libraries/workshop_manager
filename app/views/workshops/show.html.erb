@@ -1,11 +1,13 @@
 <%= render @workshop %>
 
 <%# TODO this is a nightmare %>
+<%= render @workshop %>
+
+<%# TODO this is a nightmare %>
 <% if current_facilitator.present? && current_facilitator.is_admin? %>
   <%= render "workshops/proposal_status", workshop: @workshop %>
 <% end %>
 
-<<<<<<< HEAD
 <% if current_facilitator.present? && @workshop.end_time.future? %>
 <div class="flex flex-col gap-2 px-2 items-end lg:border-l lg:border-dashed">
   <div class="py-4">

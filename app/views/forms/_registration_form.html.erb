@@ -13,11 +13,19 @@
     <%= simple_fields_for :reminder_options do |n| %>
       <% if (@workshop.start_time - 1.hour).past? %>
       <% elsif (@workshop.start_time - 1.day).past? %>
-        <%= n.input_field :reminder_options, as: :check_boxes, collection: ["One hour before"] %>
+        <%= n.input_field :reminder_options,
+                          as: :check_boxes, 
+                          collection: ["One hour before"] %>
       <% elsif (@workshop.start_time - 1.week).past? %>
-        <%= n.input_field :reminder_options, as: :check_boxes, collection: ["One day before", "One hour before"] %>
+        <%= n.input_field :reminder_options,
+                          as: :check_boxes,
+                          collection: ["One day before", "One hour before"] %>
       <% else %>
-        <%= n.input_field :reminder_options, as: :check_boxes, collection: ["One week before", "One day before", "One hour before"] %>
+        <%= n.input_field :reminder_options,
+                          as: :check_boxes,
+                          collection: ["One week before", 
+                                      "One day before",
+                                      "One hour before"] %>
       <% end %>
     <% end %>
     <%= f.submit "Submit Registration", 
