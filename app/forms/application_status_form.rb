@@ -7,9 +7,6 @@ class ApplicationStatusForm
     @participant_id = params[:participant_id]
     @workshop_id = params[:workshop_id]
     @application_status = params[:application_status]
-
-    require 'pry'
-    binding.pry
   end
 
   def save(params = {})
