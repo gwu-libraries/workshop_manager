@@ -1,6 +1,7 @@
 <%# TODO: whymst isnt' turbo frame working %>
   <% case @workshop.proposal_status %>
     <% when 'pending' %>
+    <div class="flex flex-col gap-2">
       <span>
         Workshop proposal status is pending - approve or reject?
       </span>
@@ -8,18 +9,23 @@
       <span>
         <%= simple_form_for @workshop do |f| %>
           <%= f.hidden_field :proposal_status, value: 'approved' %>
-          <%= f.submit "Approve this workshop", class: "text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2" %>
+          <%= f.submit "Approve this workshop", class: "bg-orange-50 hover:bg-black font-semibold text-emerald-600 hover:text-orange-50 py-2 px-2 border border-black hover:border-black border-4 border-double rounded shadow-md" %>
         <% end %>
       </span>
 
       <span>
         <%= simple_form_for @workshop do |f| %>
           <%= f.hidden_field :proposal_status, value: 'rejected' %>
-          <%= f.submit "Reject this workshop", class: "text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2" %>
+          <%= f.submit "Reject this workshop", class: "bg-orange-50 hover:bg-black font-semibold text-red hover:text-orange-50 py-2 px-2 border border-black hover:border-black border-4 border-double rounded shadow-md" %>
         <% end %>
       </span>
+      </div>
     <% when 'approved' %>
+    <div class="flex flex-col gap-2">
       <p> This workshop has been confirmed! <p>
+        </div>
     <% when 'rejected' %>
+    <div class="flex flex-col gap-2">
       <p> This workshop proposal has been rejected. <p>
+        </div>
   <% end %>

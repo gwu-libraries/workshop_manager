@@ -1,3 +1,12 @@
-<% @tracks.each do |track| %>
-  <%= render track %>
-<% end %>
+<div class="w-full h-full">
+  <div class="heading px-4 pb-4 pt-8 mb-2">
+    <h1 class="pt-2 pl-2 max-sm:text-4xl text-6xl">
+      Workshop Tracks
+    </h1>
+  </div>
+  <div class="all-tracks flex flex-wrap justify-center">
+  <% @tracks.each do |track| %>
+    <%= render track %>
+  <% end %>
+  </div>
+</div>

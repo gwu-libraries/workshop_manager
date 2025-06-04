@@ -1,0 +1,47 @@
+<div class="simple-calendar">
+  <div class="calendar-heading flex flex-row max-lg:flex-col justify-center items-center">
+    <div class="heading flex-2 p-4 mb-2">
+      <h1 class="max-sm:text-4xl text-6xl">
+        <% if local_assigns[:tracktitle] %>
+          <%= tracktitle %> Track Calendar
+        <% elsif local_assigns[:pending] %>
+          Pending Workshops
+        <% else %>
+          Workshop Calendar
+        <% end %>
+      </h1>
+    </div>
+    <div class="controls flex-1 p-4 mb-2 text-center">
+      <time datetime="<%= start_date.strftime('%Y-%m') %>" class="calendar-title text-3xl"><%= t('date.month_names')[start_date.month] %> <%= start_date.year %></time>
+
+      <nav class="py-4">
+        <%= link_to t('simple_calendar.previous', default: 'Previous'), calendar.url_for_previous_view, class: "bg-orange-50 hover:bg-black font-semibold text-black hover:text-orange-50 py-2 px-2 border border-black hover:border-black border-4 border-double rounded shadow-md" %>
+        <%= link_to t('simple_calendar.today', default: 'Today'), calendar.url_for_today_view, class: "bg-orange-50 hover:bg-black font-semibold text-stone-400 hover:text-orange-50 py-2 px-2 border border-black hover:border-black border-4 border-double rounded shadow-md" %>
+        <%= link_to t('simple_calendar.next', default: 'Next'), calendar.url_for_next_view, class: "bg-orange-50 hover:bg-black font-semibold text-black hover:text-orange-50 py-2 px-2 border border-black hover:border-black border-4 border-double rounded shadow-md" %>
+      </nav>
+    </div>
+  </div>
+  <div class="tablewrap w-full max-w-full overflow-x-auto">
+    <table class="table table-fixed w-full min-w-5xl">
+      <thead>
+        <tr>
+          <% date_range.slice(0, 7).each do |day| %>
+            <th><%= t('date.abbr_day_names')[day.wday] %></th>
+          <% end %>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% date_range.each_slice(7) do |week| %>
+          <tr>
+            <% week.each do |day| %>
+              <%= content_tag :td, class: [calendar.td_classes_for(day), "border-y border-black min-h-sm h-sm align-baseline px-2 pt-2 pb-4 text-3xl"] do %>
+                <% instance_exec(day, calendar.sorted_events_for(day), &passed_block) %>
+              <% end %>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
