@@ -9,9 +9,11 @@ RSpec.describe 'application status emails job', type: :job do
     @facilitator_1 = FactoryBot.create(:facilitator)
     @workshop_1 = FactoryBot.create(:future_application_workshop)
     @participant_1 =
-      FactoryBot.create(:participant, workshop_id: @workshop_1.id)
-    @participant_2 =
-      FactoryBot.create(:participant, workshop_id: @workshop_1.id)
+      FactoryBot.create(
+        :participant,
+        workshop_id: @workshop_1.id,
+        application_status: nil
+      )
     @questions = [
       FactoryBot.create(:aq_short_answer_question, workshop_id: @workshop_1.id),
       FactoryBot.create(:aq_long_answer_question, workshop_id: @workshop_1.id),

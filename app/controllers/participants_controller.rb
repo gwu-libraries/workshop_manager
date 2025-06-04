@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 class ParticipantsController < ApplicationController
-  include FeedbackEmailScheduler
+  # include FeedbackEmailScheduler
 
   before_action :set_participant, only: %i[update destroy]
 
-  after_action :application_received_notification, only: :apply
+  # after_action :application_received_notification, only: :apply
   # before_action :require_login,
   #               only: %i[ new edit create update destroy]
 

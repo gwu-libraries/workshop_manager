@@ -2,7 +2,7 @@
   <% when "application_required"%>
     <%= render partial: "forms/application_status_form",
               # todo fix fix fix
-              collection: @workshop.participants.pending.order('created_at asc'),
+              collection: @workshop.participants.pending,
               as: :participant %>
 
     <%= render partial: "forms/application_status_form",

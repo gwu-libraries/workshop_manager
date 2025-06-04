@@ -23,29 +23,29 @@ class Participant < ApplicationRecord
 
   private
 
-  def send_application_status_notification
-    case application_status
-    when 'accepted'
-      ApplicationAcceptedEmailJob.perform_async(
-        {
-          workshop_id: workshop.id,
-          participant_id: participant.id
-        }.stringify_keys
-      )
-    when 'rejected'
-      ApplicationRejectedEmailJob.perform_async(
-        {
-          workshop_id: workshop.id,
-          participant_id: participant.id
-        }.stringify_keys
-      )
-    when 'waitlisted'
-      ApplicationWaitlistedEmailJob.perform_async(
-        {
-          workshop_id: workshop.id,
-          participant_id: participant.id
-        }.stringify_keys
-      )
-    end
-  end
+  # def send_application_status_notification
+  #   case application_status
+  #   when 'accepted'
+  #     ApplicationAcceptedEmailJob.perform_async(
+  #       {
+  #         workshop_id: participant.workshop_id,
+  #         participant_id: participant.id
+  #       }.stringify_keys
+  #     )
+  #   when 'rejected'
+  #     ApplicationRejectedEmailJob.perform_async(
+  #       {
+  #         workshop_id: participant.workshop_id,
+  #         participant_id: participant.id
+  #       }.stringify_keys
+  #     )
+  #   when 'waitlisted'
+  #     ApplicationWaitlistedEmailJob.perform_async(
+  #       {
+  #         workshop_id: participant.workshop_id,
+  #         participant_id: participant.id
+  #       }.stringify_keys
+  #     )
+  #   end
+  # end
 end
