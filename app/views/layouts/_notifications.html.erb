@@ -1,7 +1,11 @@
-<%= notice %>
-
 <% if current_facilitator.present? && current_facilitator.is_admin? %>
 <div class="w-full p-2 border-b border-dashed">
   There are <%= Workshop.pending.count %> workshop proposals awaiting approval and <%= Track.pending.count %> tracks awaiting approval.
+</div>
+<% end %>
+
+<% unless notice.nil? %>
+<div class="px-4 py-2 text-italic text-lg">
+<%= notice %>
 </div>
 <% end %>
