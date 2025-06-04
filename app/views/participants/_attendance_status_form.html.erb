@@ -1,14 +1,19 @@
 <%= turbo_frame_tag "participant_attendance_status_form_#{participant.id}" do %>
-  <%= participant.name %> - <%= participant.email %> 
-  Present? <%= participant.in_attendance ? "✅" : "❌" %>
-
+<div class="p-2">
+  <span class="text-xl font-semibold"><%= participant.name %></span> - <%= participant.email %> 
+  <div class="p-2 text-lg">
+  <span class="mr-4">Present?</span> <%= participant.in_attendance ? "✅" : "❌" %>
+  </div>
+  <div class="py-4 flex flex-col gap-4">
   <%= simple_form_for participant do |f| %>
     <%= f.hidden_field :in_attendance, value: true %>
-    <%= f.submit "Mark present" %>
+    <%= f.submit "Mark present", class: "w-full bg-orange-50 hover:bg-black font-semibold text-black hover:text-orange-50 py-2 px-2 border border-black hover:border-black border-4 border-double rounded shadow-md" %>
   <% end %>
 
   <%= simple_form_for participant do |f| %>
     <%= f.hidden_field :in_attendance, value: false %>
-    <%= f.submit "Mark absent" %>
+    <%= f.submit "Mark absent", class: "w-full bg-orange-50 hover:bg-black font-semibold text-black hover:text-orange-50 py-2 px-2 border border-black hover:border-black border-4 border-double rounded shadow-md" %>
   <% end %>
+  </div>
+  </div>
 <% end %>

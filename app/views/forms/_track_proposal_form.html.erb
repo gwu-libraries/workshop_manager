@@ -1,0 +1,30 @@
+<%# this probably won't work now but the CSS looked nice so it's still here zombified %>
+
+<div class="max-w-4xl">
+  <%= simple_form_for :track_proposal_form, url: track_proposal_forms_path do |f| %>
+    <%= f.hint "A 'Workshop Track' is a grouping of thematically similar workshops (e.g. Python Camp, Course Design Institute).", class: "pb-2" %>
+
+    <%= f.input :title,
+                required: true,
+                error: "Title is required",
+                placeholder: "Insert workshop track title",
+                legend_tag: false %>
+
+    <%= f.input :description,
+                placeholder: "Insert description of workshop track" %>
+
+    <div class='block text-sm font-large text-black'>
+      Workshops
+    </div>
+
+    <div class='h-48 overflow-y-scroll border border-black bg-stone-50 text-black px-4 mb-4'>
+      <%= f.association :workshops, 
+                        include_blank: false, 
+                        legend_tag: false,
+                        as: :check_boxes %>
+    </div>
+
+    <%= f.button :submit, 
+                  class: 'w-full bg-orange-50 hover:bg-black font-semibold text-black hover:text-orange-50 py-2 px-2 border border-black hover:border-black border-4 border-double rounded shadow-md' %>
+  <% end %>
+</div>

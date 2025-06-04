@@ -1,42 +1,54 @@
-<%= render @workshop %>
-
 <%# TODO this is a nightmare %>
 <% if current_facilitator.present? && current_facilitator.is_admin? %>
   <%= render "workshops/proposal_status", workshop: @workshop %>
 <% end %>
 
+<%= render @workshop %>
+<% if !current_facilitator.present? %>
+  <% if !current_facilitator.present? && @workshop.registration_modality == "registration_required" && @workshop.end_time.future? %>
+    <%= render "forms/registration_form", workshop: @workshop %>
+  <% end %>
+
+  <% if !current_facilitator.present? && @workshop.registration_modality == "application_required" && @workshop.end_time.future? %>
+    <%= render "forms/application_form", workshop: @workshop %>
+  <% end %>
+<% end %>
+
+<% if current_facilitator.present? %>
+<div class="flex flex-col gap-2 px-2 items-end lg:border-l lg:border-dashed">
 <% if current_facilitator.present? && @workshop.end_time.future? %>
-    <span>
+
+  <div class="py-4">
       <%= link_to "Edit Workshop", edit_workshop_path(@workshop), 
-                                   class: "bg-white hover:bg-blue-200 text-blue-700 font-semibold 
-                                           hover:text-black py-2 px-2 border border-blue-500 
-                                           hover:border-transparent rounded" %>
-    </span>
-    <span>
+                                   class: "btn my-4 bg-orange-50 hover:bg-black font-semibold text-black hover:text-orange-50 py-2 px-2 border border-black hover:border-black border-4 border-double rounded shadow-md" %>
+  </div>
+  <% end %>
+  <% if current_facilitator.present? && @workshop.registration_modality == "application_required" && @workshop.end_time.future? %>
+    <div class="py-4">
+      <%= render "pending_applications", workshop: @workshop %>
+    </div>
+
+  <% end %>
+
+  <% if current_facilitator.present? && @workshop.attendance_modality == "individual" %>
+
+  <div class="py-4">
+    <%= render partial: "participants/attendance_status_form", 
+              # todo fix fix fix
+              collection: @workshop.participants.accepted.order('created_at asc'),
+              as: :participant %>
+    </div>
+
+  <% end %>
+
+  <% if current_facilitator.present? && @workshop.attendance_modality == "collective" %>
+
+  <div class="py-4">
+    <%= render partial: "workshops/group_attendance_form" %>
+    </div>
+
+  <% end %>
+<% end %>
+
       <%# TODO FIX ME %>
-      <%# link_to "Edit feedback form", edit_feedback_form_path(@workshop.feedback_form), class: "bg-white hover:bg-blue-200 text-blue-700 font-semibold hover:text-black py-2 px-2 border border-blue-500 hover:border-transparent rounded" %>
-    </span>
-<% end %>
-
-<% if current_facilitator.present? && @workshop.registration_modality == "application_required" && @workshop.end_time.future? %>
-  <%= render "pending_applications", workshop: @workshop %>
-<% end %>
-
-<% if current_facilitator.present? && @workshop.attendance_modality == "individual" %>
-  <%= render partial: "participants/attendance_status_form", 
-            # todo fix fix fix
-            collection: @workshop.participants.accepted.order('created_at asc'),
-            as: :participant %>
-<% end %>
-
-<% if current_facilitator.present? && @workshop.attendance_modality == "collective" %>
-  <%= render partial: "workshops/group_attendance_form" %>
-<% end %>
-
-<% if !current_facilitator.present? && @workshop.registration_modality == "registration_required" && @workshop.end_time.future? %>
-  <%= render "forms/registration_form", workshop: @workshop %>
-<% end %>
-
-<% if !current_facilitator.present? && @workshop.registration_modality == "application_required" && @workshop.end_time.future? %>
-  <%= render "forms/application_form", workshop: @workshop %>
-<% end %>
+      <%# link_to "Edit feedback form", edit_feedback_form_path(@workshop.feedback_form), class: "btn my-4 bg-orange-50 hover:bg-black font-semibold text-black hover:text-orange-50 py-2 px-2 border border-black hover:border-black border-4 border-double rounded shadow-md" %>
