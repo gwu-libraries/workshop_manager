@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   resources :application_forms, only: %i[create]
   resources :registration_forms, only: %i[create]
   resources :workshop_proposal_forms, only: %i[create]
+  resources :track_proposal_forms, only: %i[create]
   resources :application_status_forms, only: %i[create]
 
   get '/dashboard', to: 'dashboard#show'
