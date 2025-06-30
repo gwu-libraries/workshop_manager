@@ -3,18 +3,21 @@
 Rails.application.routes.draw do
   get '/workshops/pending', to: 'workshops#pending'
   get '/tracks/pending', to: 'tracks#pending'
-  post '/workshop_participants/apply', to: 'workshop_participants#apply'
-  # resources :track_workshops
+  post '/participants/apply', to: 'participants#apply'
   resources :tracks
-  resources :workshop_participants
-  resources :participants
+  resources :participants, only: %i[create edit update]
   resources :workshop_facilitators
   devise_for :facilitators
-  resources :workshops
-  resources :application_forms, only: %i[edit]
+  resources :workshops, only: %i[show index edit new edit update destroy]
   resources :feedback_forms, only: %i[show edit]
   resources :feedback_form_responses, only: %i[create]
   resources :questions
+
+  resources :application_forms, only: %i[create]
+  resources :registration_forms, only: %i[create]
+  resources :workshop_proposal_forms, only: %i[create]
+  resources :track_proposal_forms, only: %i[create]
+  resources :application_status_forms, only: %i[create]
 
   get '/dashboard', to: 'dashboard#show'
 

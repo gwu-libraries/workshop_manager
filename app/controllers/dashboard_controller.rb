@@ -12,13 +12,13 @@ class DashboardController < ApplicationController
       result << {
         category: w.title,
         group: 'registrations',
-        value: w.workshop_participants.count
+        value: w.participants.count
       }
 
       result << {
         category: w.title,
         group: 'attended',
-        value: w.workshop_participants.in_attendance.count
+        value: w.participants.in_attendance.count
       }
     end
 
@@ -44,10 +44,6 @@ class DashboardController < ApplicationController
         }
       }
     }
-
-    # require 'pry'
-    # binding.pry
-
     # {
     #   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     #   "data": {

@@ -10,6 +10,8 @@ class TracksController < ApplicationController
   end
 
   def pending
+    redirect_to '/facilitators/sign_in' unless current_facilitator.present?
+
     @tracks = Track.pending
   end
 

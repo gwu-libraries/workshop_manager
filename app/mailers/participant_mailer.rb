@@ -3,10 +3,6 @@
 class ParticipantMailer < ApplicationMailer
   include WorkshopsHelper
 
-  # before_action :set_workshop
-  # before_action :set_participant
-  # before_action :set_ical_event
-
   def workshop_timing_update_email(workshop_id, participant_id)
     @workshop = Workshop.find(workshop_id)
     @participant = Participant.find(participant_id)
@@ -258,7 +254,7 @@ class ParticipantMailer < ApplicationMailer
     end
   end
 
-  def feedback_form_email(feedback_form_id, participant_id)
+  def feedback_email(feedback_form_id, participant_id)
     @feedback_form = FeedbackForm.find(feedback_form_id)
     @participant = Participant.find(participant_id)
 

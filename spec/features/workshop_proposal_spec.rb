@@ -13,16 +13,17 @@ RSpec.describe 'proposing a new workshop' do
     visit new_workshop_path
 
     fill_in 'Title', with: 'My Cool Workshop'
-    fill_in 'Description', with: 'Really neat!'
+    fill_in 'workshop_proposal_form_description', with: 'Really neat!'
 
-    choose 'virtual'
+    select 'virtual'
 
-    fill_in 'Virtual location', with: 'zoom'
-    fill_in 'In person location', with: 'Library'
+    fill_in 'workshop_proposal_form_virtual_location', with: 'zoom'
+    fill_in 'workshop_proposal_form_in_person_location', with: 'Library'
 
-    choose 'no_registration_required'
+    choose 'workshop_proposal_form_attendance_modality_individual'
+    choose 'workshop_proposal_form_registration_modality_no_registration_required'
 
-    click_button 'Propose Workshop'
+    click_button 'Submit'
 
     workshop = Workshop.last
 

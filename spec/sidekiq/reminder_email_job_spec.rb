@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 RSpec.describe 'reminder emails', type: :job do
-  xit 'can schedule multiple reminder emails' do
+  it 'can schedule multiple reminder emails' do
     facilitator_1 = FactoryBot.create(:facilitator)
     workshop_1 = FactoryBot.create(:future_registration_workshop)
 
@@ -39,7 +39,7 @@ RSpec.describe 'reminder emails', type: :job do
 
   # this is working, but fails due to a time rounding error in sidekiq
   # still trying to figure that out
-  xit 'can schedule a subset of reminder emails' do
+  it 'can schedule a subset of reminder emails' do
     facilitator_1 = FactoryBot.create(:facilitator)
     workshop_1 = FactoryBot.create(:future_registration_workshop)
 

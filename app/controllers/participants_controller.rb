@@ -1,49 +1,27 @@
 # frozen_string_literal: true
 
 class ParticipantsController < ApplicationController
-  before_action :set_participant, only: %i[show edit update destroy]
-  # before_action :require_login, only: %i[index show edit update destroy]
+  # include FeedbackEmailScheduler
 
-  # GET /participants
-  def index
-    @participants = Participant.all
-  end
+  before_action :set_participant, only: %i[update destroy]
 
-  # GET /participants/1
-  def show; end
-
-  # GET /participants/new
-  def new
-    @participant = Participant.new
-  end
+  # after_action :application_received_notification, only: :apply
+  # before_action :require_login,
+  #               only: %i[ new edit create update destroy]
 
   # GET /participants/1/edit
-  def edit; end
-
-  # POST /participants
-  def create
-    @participant = Participant.new(participant_params)
-
-    respond_to do |format|
-      if @participant.save
-        format.html do
-          redirect_to @participant,
-                      notice: 'Participant was successfully created.'
-        end
-      else
-        format.html { render :new, status: :unprocessable_entity }
-      end
-    end
+  def edit
   end
 
   # PATCH/PUT /participants/1
   def update
     respond_to do |format|
       if @participant.update(participant_params)
-        format.html do
-          redirect_to @participant,
-                      notice: 'Participant was successfully updated.'
+        format.turbo_stream do
+          render "participant_attendance_status_form_#{@participant.id}",
+                 partial: 'participants/attendance_status_form'
         end
+        format.html { redirect_to workshop_path(@participant.workshop_id) }
       else
         format.html { render :edit, status: :unprocessable_entity }
       end
@@ -55,11 +33,11 @@ class ParticipantsController < ApplicationController
     @participant.destroy!
 
     respond_to do |format|
-      format.html do
-        redirect_to participants_path,
-                    status: :see_other,
-                    notice: 'Participant was successfully destroyed.'
+      format.turbo_stream do
+        render turbo_stream:
+                 turbo_stream.remove("participant_#{@participant.id}")
       end
+      format.html { render workshop_path(@participant.workshop.id) }
     end
   end
 
@@ -70,8 +48,23 @@ class ParticipantsController < ApplicationController
     @participant = Participant.find(params[:id])
   end
 
+  def application_received_notification
+    return unless @participant.persisted?
+  end
+
   # Only allow a list of trusted parameters through.
   def participant_params
-    params.require(:participant).permit(:name, :email)
+    params.require(:participant).permit(
+      :workshop_id,
+      :in_attendance,
+      :name,
+      :email,
+      :application_status,
+      reminder_options: []
+    )
+  end
+
+  def reminder_option_params
+    params.require(:reminder_options).permit(reminder_options: [])
   end
 end

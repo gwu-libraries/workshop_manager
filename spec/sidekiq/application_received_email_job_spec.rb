@@ -5,21 +5,10 @@ RSpec.describe ApplicationReceivedEmailJob, type: :job do
   it 'enqueues an email confirming application recieved when a participant applies to a workshop' do
     facilitator_1 = FactoryBot.create(:facilitator)
     workshop_1 = FactoryBot.create(:future_application_workshop)
-    at = ApplicationForm.create
-    questions = []
-    questions << FactoryBot.create(:short_answer_question)
-    questions << FactoryBot.create(:long_answer_question)
-    questions << FactoryBot.create(:likert_question)
-    questions << FactoryBot.create(:true_false_question)
-
-    questions.each do |q|
-      ApplicationFormQuestion.create(
-        question_id: q.id,
-        application_form_id: at.id
-      )
-    end
-
-    ApplicationForm.create(workshop_id: workshop_1.id)
+    FactoryBot.create(:aq_short_answer_question, workshop_id: workshop_1.id)
+    FactoryBot.create(:aq_long_answer_question, workshop_id: workshop_1.id)
+    FactoryBot.create(:aq_likert_question, workshop_id: workshop_1.id)
+    FactoryBot.create(:aq_true_false_question, workshop_id: workshop_1.id)
 
     WorkshopFacilitator.create(
       facilitator_id: facilitator_1.id,
@@ -28,8 +17,8 @@ RSpec.describe ApplicationReceivedEmailJob, type: :job do
 
     visit "/workshops/#{workshop_1.id}"
 
-    fill_in 'Name', with: 'Professor Test'
-    fill_in 'Email', with: 'testing@example.com'
+    fill_in 'application_form_name', with: 'Professor Test'
+    fill_in 'application_form_email', with: 'testing@example.com'
 
     click_on 'Submit Application'
 

@@ -43,20 +43,23 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_29_012739) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "application_form_questions", force: :cascade do |t|
-    t.bigint "application_form_id", null: false
-    t.bigint "question_id", null: false
+  create_table "application_question_responses", force: :cascade do |t|
+    t.bigint "application_question_id", null: false
+    t.bigint "participant_id", null: false
+    t.string "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["application_form_id"], name: "index_application_form_questions_on_application_form_id"
-    t.index ["question_id"], name: "index_application_form_questions_on_question_id"
+    t.index ["application_question_id"], name: "idx_on_application_question_id_4c224aaa2b"
+    t.index ["participant_id"], name: "index_application_question_responses_on_participant_id"
   end
 
-  create_table "application_forms", force: :cascade do |t|
+  create_table "application_questions", force: :cascade do |t|
     t.bigint "workshop_id", null: false
+    t.string "prompt"
+    t.integer "question_format"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["workshop_id"], name: "index_application_forms_on_workshop_id"
+    t.index ["workshop_id"], name: "index_application_questions_on_workshop_id"
   end
 
   create_table "facilitators", force: :cascade do |t|
@@ -74,42 +77,32 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_29_012739) do
     t.index ["reset_password_token"], name: "index_facilitators_on_reset_password_token", unique: true
   end
 
-  create_table "feedback_form_questions", force: :cascade do |t|
-    t.bigint "feedback_form_id", null: false
-    t.bigint "question_id", null: false
+  create_table "feedback_question_responses", force: :cascade do |t|
+    t.bigint "feedback_question_id", null: false
+    t.string "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["feedback_form_id"], name: "index_feedback_form_questions_on_feedback_form_id"
-    t.index ["question_id"], name: "index_feedback_form_questions_on_question_id"
+    t.index ["feedback_question_id"], name: "index_feedback_question_responses_on_feedback_question_id"
   end
 
-  create_table "feedback_form_responses", force: :cascade do |t|
-    t.bigint "feedback_form_id", null: false
-    t.jsonb "response_data"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["feedback_form_id"], name: "index_feedback_form_responses_on_feedback_form_id"
-  end
-
-  create_table "feedback_forms", force: :cascade do |t|
+  create_table "feedback_questions", force: :cascade do |t|
     t.bigint "workshop_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["workshop_id"], name: "index_feedback_forms_on_workshop_id"
-  end
-
-  create_table "participants", force: :cascade do |t|
-    t.string "name"
-    t.string "email"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "questions", force: :cascade do |t|
     t.string "prompt"
     t.integer "question_format"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["workshop_id"], name: "index_feedback_questions_on_workshop_id"
+  end
+
+  create_table "participants", force: :cascade do |t|
+    t.bigint "workshop_id", null: false
+    t.string "name"
+    t.string "email"
+    t.boolean "in_attendance"
+    t.integer "application_status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["workshop_id"], name: "index_participants_on_workshop_id"
   end
 
   create_table "track_workshops", force: :cascade do |t|
@@ -138,18 +131,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_29_012739) do
     t.index ["workshop_id"], name: "index_workshop_facilitators_on_workshop_id"
   end
 
-  create_table "workshop_participants", force: :cascade do |t|
-    t.bigint "workshop_id", null: false
-    t.bigint "participant_id", null: false
-    t.jsonb "application_responses"
-    t.boolean "in_attendance"
-    t.integer "application_status"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["participant_id"], name: "index_workshop_participants_on_participant_id"
-    t.index ["workshop_id"], name: "index_workshop_participants_on_workshop_id"
-  end
-
   create_table "workshops", force: :cascade do |t|
     t.string "title"
     t.string "description"
@@ -170,17 +151,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_29_012739) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "application_form_questions", "application_forms"
-  add_foreign_key "application_form_questions", "questions"
-  add_foreign_key "application_forms", "workshops"
-  add_foreign_key "feedback_form_questions", "feedback_forms"
-  add_foreign_key "feedback_form_questions", "questions"
-  add_foreign_key "feedback_form_responses", "feedback_forms"
-  add_foreign_key "feedback_forms", "workshops"
+  add_foreign_key "application_question_responses", "application_questions"
+  add_foreign_key "application_question_responses", "participants"
+  add_foreign_key "application_questions", "workshops"
+  add_foreign_key "feedback_question_responses", "feedback_questions"
+  add_foreign_key "feedback_questions", "workshops"
+  add_foreign_key "participants", "workshops"
   add_foreign_key "track_workshops", "tracks"
   add_foreign_key "track_workshops", "workshops"
   add_foreign_key "workshop_facilitators", "facilitators"
   add_foreign_key "workshop_facilitators", "workshops"
-  add_foreign_key "workshop_participants", "participants"
-  add_foreign_key "workshop_participants", "workshops"
 end

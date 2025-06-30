@@ -1,18 +1,22 @@
 <%= turbo_frame_tag "group_attendance_form" do %>
-  <div class="max-w-4xl">
+  <div class="w-full">
     <%= simple_form_for @workshop do |f| %>
       <% case @workshop.presentation_modality %>
         <% when "in_person" %>
             <%= f.input :in_person_attendance_count, 
-                        :input_html => {:onchange => "this.form.requestSubmit()"} %>
+                        :input_html => {:onchange => "this.form.requestSubmit()"},
+                        class: "w-full" %>
         <% when "virtual" %>
             <%= f.input :virtual_attendance_count, 
-                        :input_html => {:onchange => "this.form.requestSubmit()"} %>
+                        :input_html => {:onchange => "this.form.requestSubmit()"},
+                        class: "w-full" %>
         <% when "hybrid" %>
             <%= f.input :virtual_attendance_count, 
-                        :input_html => {:onchange => "this.form.requestSubmit()"} %>
+                        :input_html => {:onchange => "this.form.requestSubmit()"},
+                        class: "w-full" %>
             <%= f.input :in_person_attendance_count, 
-                        :input_html => {:onchange => "this.form.requestSubmit()"} %>
+                        :input_html => {:onchange => "this.form.requestSubmit()"},
+                        class: "w-full" %>
       <% end %>
     <% end %>
   </div>

@@ -1,0 +1,36 @@
+<div class="workshop-wrap lg:h:full lg:max-w-xl p-4 max-lg:border-t lg:border-l border-black border-dashed bg-orange-50">
+  <div class="register">
+
+  <h2 class="text-2xl mb-2">Register for <%= @workshop.title %></h2>
+
+  <%= simple_form_for :registration_form, url: registration_forms_path do |f| %>
+    <%= f.input :email, class: "w-full border border-black bg-stone-50" %>
+    <%= f.input :name,  class: "w-full border border-black bg-stone-50" %>
+    <%= f.hidden_field :workshop_id, value: @workshop.id %>
+
+    <%= f.label :reminder_options %>
+    <%= f.hint "We'll send you a reminder email at each time you select.", class: "mt-0" %>
+    <%= simple_fields_for :reminder_options do |n| %>
+      <% if (@workshop.start_time - 1.hour).past? %>
+      <% elsif (@workshop.start_time - 1.day).past? %>
+        <%= n.input_field :reminder_options,
+                          as: :check_boxes, 
+                          collection: ["One hour before"] %>
+      <% elsif (@workshop.start_time - 1.week).past? %>
+        <%= n.input_field :reminder_options,
+                          as: :check_boxes,
+                          collection: ["One day before", "One hour before"] %>
+      <% else %>
+        <%= n.input_field :reminder_options,
+                          as: :check_boxes,
+                          collection: ["One week before", 
+                                      "One day before",
+                                      "One hour before"] %>
+      <% end %>
+    <% end %>
+    <%= f.submit "Submit Registration", 
+                  class: 'w-full bg-orange-50 hover:bg-black font-semibold text-black hover:text-orange-50 py-2 px-2 border border-black hover:border-black border-4 border-double rounded shadow-md' %>
+  <% end %>
+
+  </div>
+</div>

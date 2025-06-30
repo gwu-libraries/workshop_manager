@@ -1,3 +1,7 @@
-<h1>Editing <%= @workshop.title %></h1>
+<div class ="contain flex h-full w-full items-center justify-center p-2">
+  <div class="wrapper p-8 border border-4 border-black border-double w-fit">
+<h1 class="max-sm:text-3xl text-4xl mb-4">Editing <%= @workshop.title %></h1>
 
-<%= render "form", workshop: @workshop %>
+<%= render "forms/workshop_proposal_form", workshop: @workshop %>
+</div>
+</div>

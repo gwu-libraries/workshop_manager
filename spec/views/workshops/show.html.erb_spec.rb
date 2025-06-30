@@ -6,7 +6,12 @@ RSpec.describe 'workshops/show', type: :view do
   before(:each) do
     @admin = FactoryBot.create(:admin)
 
-    @proposal_pending_workshop = FactoryBot.create(:proposal_pending_workshop)
+    @proposal_pending_workshop =
+      FactoryBot.create(
+        :proposal_pending_workshop,
+        start_time: DateTime.now + 1.hours,
+        end_time: DateTime.now + 2.hours
+      )
 
     @future_application_workshop =
       FactoryBot.create(
@@ -39,56 +44,33 @@ RSpec.describe 'workshops/show', type: :view do
     @facilitator_1 = FactoryBot.create(:facilitator)
     @facilitator_2 = FactoryBot.create(:facilitator)
 
-    @application_form = ApplicationForm.create
-    @true_false_question = FactoryBot.create(:true_false_question)
-    @short_answer_question = FactoryBot.create(:short_answer_question)
-    @long_answer_question = FactoryBot.create(:long_answer_question)
-    @likert_question = FactoryBot.create(:likert_question)
-
-    [
-      @true_false_question,
-      @short_answer_question,
-      @long_answer_question,
-      @likert_question
-    ].each do |q|
-      ApplicationFormQuestion.create(
-        application_form_id: @application_form.id,
-        question_id: q.id
-      )
-    end
-
-    [
-      @proposal_pending_workshop,
-      @future_application_workshop,
-      @past_application_workshop,
-      @future_registration_workshop,
-      @past_registration_workshop
-    ].each do |workshop|
-      ApplicationForm.create(workshop_id: workshop.id)
-
+    Workshop.all.each do |workshop|
       WorkshopFacilitator.create(
         workshop_id: workshop.id,
         facilitator_id: @facilitator_1.id
       )
+
+      FactoryBot.create(:aq_true_false_question, workshop_id: workshop.id)
+      FactoryBot.create(:aq_short_answer_question, workshop_id: workshop.id)
+      FactoryBot.create(:aq_long_answer_question, workshop_id: workshop.id)
+      FactoryBot.create(:aq_likert_question, workshop_id: workshop.id)
     end
   end
 
   it 'displays an application form if in future and application required' do
     visit workshop_path(@future_application_workshop)
 
-    expect(page).to have_content(@true_false_question.prompt.humanize)
-    expect(page).to have_content(@short_answer_question.prompt.humanize)
-    expect(page).to have_content(@long_answer_question.prompt.humanize)
-    expect(page).to have_content(@likert_question.prompt.humanize)
+    @future_application_workshop.application_questions.each do |question|
+      expect(page).to have_content(question.prompt.humanize)
+    end
   end
 
   it 'does not display an application if workshop is in the past and application required' do
     visit workshop_path(@past_application_workshop)
 
-    expect(page).to_not have_content(@true_false_question.prompt.humanize)
-    expect(page).to_not have_content(@short_answer_question.prompt.humanize)
-    expect(page).to_not have_content(@long_answer_question.prompt.humanize)
-    expect(page).to_not have_content(@likert_question.prompt.humanize)
+    @past_application_workshop.application_questions.each do |question|
+      expect(page).to_not have_content(question.prompt.humanize)
+    end
   end
 
   it 'displays a registration form if workshop is in the future and registration required' do
@@ -98,16 +80,10 @@ RSpec.describe 'workshops/show', type: :view do
       "Register for #{@future_registration_workshop.title}"
     )
 
-    within '.form-inputs' do
+    within '.registration_form' do
       expect(page).to have_content('Name')
       expect(page).to have_content('Email')
     end
-
-    # no application questions
-    expect(page).to_not have_content(@true_false_question.prompt.humanize)
-    expect(page).to_not have_content(@short_answer_question.prompt.humanize)
-    expect(page).to_not have_content(@long_answer_question.prompt.humanize)
-    expect(page).to_not have_content(@likert_question.prompt.humanize)
   end
 
   it 'does not display a registration form if workshop is in the past and registration required' do

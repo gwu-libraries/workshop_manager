@@ -1,0 +1,45 @@
+<%= turbo_frame_tag "application_form" do %>
+  <div class="workshop-wrap lg:h-full lg:max-w-xl p-4 max-lg:border-t lg:border-l border-black border-dashed bg-orange-50">
+    <div class="max-w-4xl">
+      <h2 class="text-2xl mb-2">Apply for <%= @workshop.title %> </h3>
+
+      <%= simple_form_for :application_form, url: application_forms_path do |f| %>
+        <%= f.hint "Please complete the application below and we will be in touch!"%>
+        <%= f.input :email %>
+        <%= f.input :name %>
+
+        <% if @workshop.application_questions.any? %>
+          <% @workshop.application_questions.each do |question| %>
+            <% case question.question_format %>
+              <% when "short_answer" %>
+                <%= f.label "#{question.prompt}" %>
+                <%= f.input "#{question.id}" %>
+              <% when "long_answer" %>
+                <%= f.label "#{question.prompt}"%>
+                <br>
+                <%= f.text_area "#{question.id}", 
+                              class: 'w-full border border-black bg-stone-50' %>
+                <br>
+              <% when "true_false" %>
+                <%= f.label "#{question.prompt}" %>
+                <br>
+                <%= f.input_field "#{question.id}", 
+                            as: :radio_buttons, 
+                            collection: ['true', 'false'] %>
+              <% when "likert" %>
+                <%= f.label "#{question.prompt}"%>
+                <br>
+                <%= f.input_field "#{question.id}", 
+                            as: :radio_buttons, 
+                            collection: ['1', '2', '3', '4', '5'] %>
+              <br>
+            <% end %>
+          <% end%>
+        <% end %>
+        <%= f.hidden_field :workshop_id, value: @workshop.id %>
+        <%= f.submit "Submit Application", 
+                    class: 'w-full bg-orange-50 hover:bg-black font-semibold text-black hover:text-orange-50 py-2 px-2 border border-black hover:border-black border-4 border-double rounded shadow-md' %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

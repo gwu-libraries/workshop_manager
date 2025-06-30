@@ -1,12 +1,9 @@
 <div class="w-full p-2">
-  <h1>
-    <%= @track.title %> Workshops
-  </h1>
-  <%= month_calendar(events: @track.workshops) do |date, workshops| %>
-    <%= date %>
+  <%= month_calendar events: @track.workshops, locals: {tracktitle: @track.title} do |date, workshops| %>
+    <%= date.day %>
     <% workshops.each do |workshop| %>
-      <div class="max-w-sm m-1 p-2 bg-white border border-gray-200 rounded-lg shadow-sm">
-        <%= link_to workshop.title, workshop_path(workshop.id), class: "no-underline text-l font-bold tracking-tight text-gray-900" %>
+      <div class="workshop max-w-sm min-w-min p-2 mt-2 bg-stone-50 border border-4 border-double border-black text-black shadow-sm text-base">
+        <%= link_to workshop.title, workshop_path(workshop.id), class: "no-underline hover:underline hover:decoration-black text-l font-bold tracking-tight text-emerald-800" %>
         <br>
         <%= "#{human_readable_time(workshop.start_time)} - #{human_readable_time(workshop.end_time)}" %>
         <br>
