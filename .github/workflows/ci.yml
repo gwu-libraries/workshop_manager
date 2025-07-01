@@ -40,9 +40,8 @@ jobs:
       - name: Pre-compile assets
         run: |
           bundle exec rails assets:precompile
-      - name: set up database
+      - name: migrate database
         run: |
-          bundle exec rails db:create
           bundle exec rails db:migrate
       - name: Run rspec
         env:
