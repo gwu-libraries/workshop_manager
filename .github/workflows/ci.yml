@@ -20,22 +20,19 @@ jobs:
           POSTGRES_DB: rails_test
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: password
+        options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
     env:
       RAILS_ENV: test
       DATABASE_URL: 'postgres://postgres:password@localhost:5432/rails_test'
     permissions:
       packages: read
     steps:
-      - name: Create Folder
-        run: |
-          mkdir -p /opt/workshop_manager
-          cd /opt/workshop_manager
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Install ruby and gems
         uses: ruby/setup-ruby@ec02537da5712d66d4d50a0f33b7eb52773b5ed1
         with:
-          ruby-version: '3.2.1'
+          ruby-version: .ruby-version
           bundler-cache: true
       - name: Bundle
         run: |
@@ -48,5 +45,8 @@ jobs:
           bundle exec rails db:create
           bundle exec rails db:migrate
       - name: Run rspec
+        env:
+          RAILS_ENV: test
+          DATABASE_URL: postgres://postgres:password@localhost:5432
         run: |
           bundle exec rspec
