@@ -26,12 +26,30 @@ jobs:
     permissions:
       packages: read
     steps:
-      - uses: actions/checkout@v4
-      - uses: ruby/setup-ruby@ec02537da5712d66d4d50a0f33b7eb52773b5ed1
+      - name: Create Folder
+        run: |
+          mkdir -p /opt/workshop_manager
+          cd /opt/workshop_manager
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install ruby and gems
+        uses: ruby/setup-ruby@ec02537da5712d66d4d50a0f33b7eb52773b5ed1
         with:
-          ruby-version: '3.2.1' # Not needed with a .ruby-version file
-      - run: bundle install
-      - run: bundle exec rails assets:precompile
-      - run: bundle exec rails db:create
-      - run: bundle exec rails db:migrate
-      - run: bundle exec rspec
+          ruby-version: '3.2.1'
+          bundler-cache: true
+      - name: Bundle
+        run: |
+          cd rails
+          bundle install
+      - name: Pre-compile assets
+        run: |
+          bundle exec rails assets:precompile
+      - name: set up database
+        run: |
+          cd rails
+          bundle exec rails db:create
+          bundle exec rails db:migrate
+      - name: Run rspec
+        run: |
+          cd rails
+          bundle exec rspec
