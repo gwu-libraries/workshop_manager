@@ -10,28 +10,42 @@ on:
 
 jobs:
   CI:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     services:
       postgres:
         image: postgres:latest
         ports:
           - '5432:5432'
         env:
-          POSTGRES_DB: rails_test
+          POSTGRES_DB: workshop_manager_test
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: password
+        options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
     env:
       RAILS_ENV: test
-      DATABASE_URL: 'postgres://postgres:password@localhost:5432/rails_test'
+      DATABASE_URL: 'postgres://postgres:password@localhost:5432/workshop_manager_test'
     permissions:
       packages: read
     steps:
-      - uses: actions/checkout@v4
-      - uses: ruby/setup-ruby@ec02537da5712d66d4d50a0f33b7eb52773b5ed1
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install ruby and gems
+        uses: ruby/setup-ruby@ec02537da5712d66d4d50a0f33b7eb52773b5ed1
         with:
-          ruby-version: '3.2.1' # Not needed with a .ruby-version file
-      - run: bundle install
-      - run: bundle exec rails assets:precompile
-      - run: bundle exec rails db:create
-      - run: bundle exec rails db:migrate
-      - run: bundle exec rspec
+          ruby-version: .ruby-version
+          bundler-cache: true
+      - name: Bundle
+        run: |
+          bundle install
+      - name: Pre-compile assets
+        run: |
+          bundle exec rails assets:precompile
+      - name: migrate database
+        run: |
+          bundle exec rails db:migrate
+      - name: Run rspec
+        env:
+          RAILS_ENV: test
+          DATABASE_URL: postgres://postgres:password@localhost:5432
+        run: |
+          bundle exec rspec

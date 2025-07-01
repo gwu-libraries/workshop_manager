@@ -12,7 +12,7 @@ RSpec.describe 'application status emails job', type: :job do
       FactoryBot.create(
         :participant,
         workshop_id: @workshop_1.id,
-        application_status: nil
+        application_status: "pending"
       )
     @questions = [
       FactoryBot.create(:aq_short_answer_question, workshop_id: @workshop_1.id),
@@ -25,11 +25,6 @@ RSpec.describe 'application status emails job', type: :job do
       facilitator_id: @facilitator_1.id,
       workshop_id: @workshop_1.id
     )
-
-    Participant.create(
-      workshop_id: @workshop_1.id,
-      application_status: 'pending'
-    )
   end
 
   it 'enqueues an email if a participant is accepted' do
@@ -40,7 +35,7 @@ RSpec.describe 'application status emails job', type: :job do
     click_button 'Accept participant application'
 
     expect(ApplicationAcceptedEmailJob).to have_enqueued_sidekiq_job(
-      { participant_id: @participant_1.id, workshop_id: @workshop_1.id }
+      { participant_id: @participant_1.id.to_s, workshop_id: @workshop_1.id.to_s }
     )
   end
 
@@ -49,10 +44,10 @@ RSpec.describe 'application status emails job', type: :job do
 
     visit "/workshops/#{@workshop_1.id}"
 
-    click_button 'Reject participant application'
+    click_button 'Waitlist participant application'
 
     expect(ApplicationWaitlistedEmailJob).to have_enqueued_sidekiq_job(
-      { participant_id: @participant_1.id, workshop_id: @workshop_1.id }
+      { participant_id: @participant_1.id.to_s, workshop_id: @workshop_1.id.to_s }
     )
   end
 
@@ -61,10 +56,10 @@ RSpec.describe 'application status emails job', type: :job do
 
     visit "/workshops/#{@workshop_1.id}"
 
-    click_button 'Waitlist participant application'
+    click_button 'Reject participant application'
 
     expect(ApplicationRejectedEmailJob).to have_enqueued_sidekiq_job(
-      { participant_id: @participant_1.id, workshop_id: @workshop_1.id }
+      { participant_id: @participant_1.id.to_s, workshop_id: @workshop_1.id.to_s }
     )
   end
 end

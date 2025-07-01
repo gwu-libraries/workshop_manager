@@ -24,9 +24,24 @@
   </div>
   <% end %>
   <% if current_facilitator.present? && @workshop.registration_modality == "application_required" && @workshop.end_time.future? %>
-    <div class="py-4">
-      <%= render "pending_applications", workshop: @workshop %>
-    </div>
+    <% if @workshop.participants.pending.count > 0 %>
+      <div class="py-4">
+        pending applications
+        <%= render partial: "forms/application_status_form",
+            # todo fix fix fix
+            collection: @workshop.participants.pending,
+            as: :participant %>
+      </div>
+    <% end %>
+
+    <% if @workshop.participants.waitlisted.count > 0 %>
+      <div class="py-4">
+        Waitlisted applications
+        <%= render partial: "forms/application_status_form",
+            collection: @workshop.participants.waitlisted,
+            as: :participant %>
+      </div>
+    <% end %>
 
   <% end %>
 

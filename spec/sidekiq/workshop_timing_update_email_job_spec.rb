@@ -27,7 +27,7 @@ RSpec.describe WorkshopTimingUpdateEmailJob, type: :job do
 
   it 'enqueues update emails for all participants of a workshop when the start time is changed' do
     # select a specific minute here since it's always an hour
-    select '01', from: 'workshop_proposal_form_start_time_5i'
+    select '01', from: 'workshop_start_time_5i'
 
     click_on 'Submit'
 
@@ -40,7 +40,7 @@ RSpec.describe WorkshopTimingUpdateEmailJob, type: :job do
 
   it 'enqueues update emails for all participants of a workshop when the end time is changed' do
     # select a specific minute here since it's always an hour
-    select '01', from: 'workshop_proposal_form_end_time_5i'
+    select '01', from: 'workshop_end_time_5i'
 
     click_on 'Submit'
 
@@ -52,7 +52,7 @@ RSpec.describe WorkshopTimingUpdateEmailJob, type: :job do
   end
 
   it 'does not enqueue update emails for all participants of a workshop when the in-person location is changed' do
-    fill_in 'workshop_proposal_form_in_person_location', with: 'A new location'
+    fill_in 'workshop_in_person_location', with: 'A new location'
 
     click_on 'Submit'
 
@@ -64,7 +64,7 @@ RSpec.describe WorkshopTimingUpdateEmailJob, type: :job do
   end
 
   it 'does not enqueue update emails for all participants of a workshop when the virtual location is changed' do
-    fill_in 'workshop_proposal_form_virtual_location', with: 'A new location'
+    fill_in 'workshop_virtual_location', with: 'A new location'
 
     click_on 'Submit'
 
@@ -76,7 +76,7 @@ RSpec.describe WorkshopTimingUpdateEmailJob, type: :job do
   end
 
   it 'does not enqueue update emails for all participants of a workshop when the description is changed' do
-    fill_in 'workshop_proposal_form_description', with: 'A new description'
+    fill_in 'workshop_description', with: 'A new description'
 
     click_on 'Submit'
 
