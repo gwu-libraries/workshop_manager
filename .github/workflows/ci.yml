@@ -39,17 +39,14 @@ jobs:
           bundler-cache: true
       - name: Bundle
         run: |
-          cd rails
           bundle install
       - name: Pre-compile assets
         run: |
           bundle exec rails assets:precompile
       - name: set up database
         run: |
-          cd rails
           bundle exec rails db:create
           bundle exec rails db:migrate
       - name: Run rspec
         run: |
-          cd rails
           bundle exec rspec
