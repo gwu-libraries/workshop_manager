@@ -17,13 +17,13 @@ jobs:
         ports:
           - '5432:5432'
         env:
-          POSTGRES_DB: rails_test
+          POSTGRES_DB: workshop_manager_test
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: password
         options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
     env:
       RAILS_ENV: test
-      DATABASE_URL: 'postgres://postgres:password@localhost:5432/rails_test'
+      DATABASE_URL: 'postgres://postgres:password@localhost:5432/workshop_manager_test'
     permissions:
       packages: read
     steps:
