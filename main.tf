@@ -160,8 +160,8 @@ resource "aws_ecr_repository" "ecr" {
 }
 
 resource "aws_instance" "prod_web_server" {
-  ami               = "ami-084568db4383264d4"
-  instance_type     = "t2.micro"
+  ami               = "ami-020cba7c55df1f615"
+  instance_type     = "t2.small"
   availability_zone = var.aws_availability_zone
   key_name          = "main-key"
 
