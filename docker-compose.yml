@@ -33,6 +33,17 @@ services:
     depends_on:
       db:
         condition: service_healthy
+  sidekiq:
+    build: .
+    user: root
+    env_file:
+      - .env
+    command: sh -c "bundle exec sidekiq"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
   nginx:
     image: "nginx:latest"
     container_name: workshop_manager_nginx
