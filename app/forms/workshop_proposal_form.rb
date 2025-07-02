@@ -26,6 +26,8 @@ class WorkshopProposalForm
 
     @facilitator_ids =
       params[:facilitator_ids].reject { |x| x.empty? }.map { |x| x.to_i }
+
+    @attachments = params[:attachments].reject {|x| x == "" }
   end
 
   def save(params = {})
@@ -42,7 +44,8 @@ class WorkshopProposalForm
         in_person_location: @in_person_location,
         start_time: start_datetime,
         end_time: end_datetime,
-        proposal_status: 'pending'
+        proposal_status: 'pending',
+        attachments: @attachments
       )
 
     @facilitator_ids.map do |f|
