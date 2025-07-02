@@ -45,9 +45,20 @@ services:
     restart: unless-stopped
     depends_on:
       - rails
-
+  redis:
+    container_name: workshop_manager_redis
+    image: bitnami/redis:6.2
+    env_file:
+      - .env
+    volumes:
+      - redis:/bitnami/redis/data
+    healthcheck:
+      test: ["CMD", "redis-cli","ping"]
+    ports:
+      - 6379:6379
 volumes:
   postgres_data: {}
+  redis: {}
 networks:
   default:
     name: workshop_manager
