@@ -390,7 +390,7 @@ GEM
       prettier_print
       rbs
       syntax_tree (>= 2.0.1)
-    tailwindcss-rails (4.2.2)
+    tailwindcss-rails (4.2.3)
       railties (>= 7.0.0)
       tailwindcss-ruby (~> 4.0)
     tailwindcss-ruby (4.1.11-aarch64-linux-gnu)
