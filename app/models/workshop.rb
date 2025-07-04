@@ -66,6 +66,18 @@ class Workshop < ApplicationRecord
     end
   end
 
+  def registration_required
+    registration_modality == 'registration_required'
+  end
+
+  def application_required
+    registration_modality == 'application_required'
+  end
+
+  def no_registration_required
+    registration_modality == 'no_registration_required'
+  end
+
   private
 
   def send_timing_update_notification

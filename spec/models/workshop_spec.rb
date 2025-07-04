@@ -14,6 +14,48 @@ RSpec.describe Workshop, type: :model do
   end
 
   describe 'methods' do
+    it '.registration_required returns true if registration is required' do
+      workshop_1 = FactoryBot.create(:future_workshop, 
+                                      registration_modality: 'registration_required')
+
+      expect(workshop_1.registration_required).to eq(true)
+    end
+
+    it '.registration_required returns false if registration required not selected' do
+      workshop_1 = FactoryBot.create(:future_workshop, 
+                                      registration_modality: 'application_required')
+
+      expect(workshop_1.registration_required).to eq(false)
+    end
+    
+    it '.application_required returns true if application is required' do
+      workshop_1 = FactoryBot.create(:future_workshop, 
+                                     registration_modality: 'application_required')
+      
+      expect(workshop_1.application_required).to eq(true)
+    end
+
+    it '.application_required returns false if application required not selected' do
+      workshop_1 = FactoryBot.create(:future_workshop, 
+                                      registration_modality: 'registration_required')
+
+      expect(workshop_1.application_required).to eq(false)
+    end
+    
+    it '.no_registration_required returns true if no registration is required' do
+      workshop_1 = FactoryBot.create(:future_workshop, 
+                                      registration_modality: 'no_registration_required')
+      
+      expect(workshop_1.no_registration_required).to eq(true)
+    end
+    
+    it '.application_required returns false if application required not selected' do
+      workshop_1 = FactoryBot.create(:future_workshop, 
+                                      registration_modality: 'registration_required')
+      
+      expect(workshop_1.no_registration_required).to eq(false)
+    end
+
     it 'can return a total attendance count with an individual attendance modality' do
       workshop_1 =
         FactoryBot.create(:future_workshop, attendance_modality: 'individual')

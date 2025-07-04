@@ -5,11 +5,11 @@
 
 <%= render @workshop %>
 <% if !current_facilitator.present? %>
-  <% if !current_facilitator.present? && @workshop.registration_modality == "registration_required" && @workshop.end_time.future? %>
+  <% if !current_facilitator.present? && @workshop.registration_required? && @workshop.end_time.future? %>
     <%= render "forms/registration_form", workshop: @workshop %>
   <% end %>
 
-  <% if !current_facilitator.present? && @workshop.registration_modality == "application_required" && @workshop.end_time.future? %>
+  <% if !current_facilitator.present? && @workshop.application_required && @workshop.end_time.future? %>
     <%= render "forms/application_form", workshop: @workshop %>
   <% end %>
 <% end %>
@@ -23,7 +23,7 @@
                                    class: "btn my-4 bg-orange-50 hover:bg-black font-semibold text-black hover:text-orange-50 py-2 px-2 border border-black hover:border-black border-4 border-double rounded shadow-md" %>
   </div>
   <% end %>
-  <% if current_facilitator.present? && @workshop.registration_modality == "application_required" && @workshop.end_time.future? %>
+  <% if current_facilitator.present? && @workshop.application_required && @workshop.end_time.future? %>
     <% if @workshop.participants.pending.count > 0 %>
       <div class="py-4">
         pending applications
