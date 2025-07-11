@@ -7,8 +7,8 @@ class TrackProposalForm
     @workshop_ids = params[:workshop_ids].reject { |x| x.empty? }
   end
 
-  def save(params = {})
-    return false unless valid?
+  def save
+    return true unless invalid?
 
     track =
       Track.create(

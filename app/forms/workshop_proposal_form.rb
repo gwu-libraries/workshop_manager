@@ -1,7 +1,25 @@
 class WorkshopProposalForm
   include ActiveModel::Model
 
-  attr_reader :registration_modality
+  attr_reader :title,
+              :description,
+              :presentation_modality,
+              :attendance_modality,
+              :registration_modality,
+              :virtual_location,
+              :in_person_location,
+              :start_year,
+              :start_month,
+              :start_day,
+              :start_hour,
+              :start_minute,
+              :end_year,
+              :end_month,
+              :end_day,
+              :end_hour,
+              :end_minute,
+              :facilitator_ids,
+              :attachments
 
   def initialize(params)
     @title = params[:title]
@@ -30,42 +48,7 @@ class WorkshopProposalForm
     @attachments = params[:attachments].reject {|x| x == "" }
   end
 
-  def save(params = {})
-    return false unless valid?
-
-    workshop =
-      Workshop.create(
-        title: @title,
-        description: @description,
-        presentation_modality: @presentation_modality,
-        attendance_modality: @attendance_modality,
-        registration_modality: @registration_modality,
-        virtual_location: @virtual_location,
-        in_person_location: @in_person_location,
-        start_time: start_datetime,
-        end_time: end_datetime,
-        proposal_status: 'pending',
-        attachments: @attachments
-      )
-
-    @facilitator_ids.map do |f|
-      WorkshopFacilitator.create(workshop_id: workshop.id, facilitator_id: f)
-    end
-  end
-
-  private
-
-  def start_datetime
-    DateTime.new(
-      @start_year,
-      @start_month,
-      @start_day,
-      @start_hour,
-      @start_minute
-    )
-  end
-
-  def end_datetime
-    DateTime.new(@end_year, @end_month, @end_day, @end_hour, @end_minute)
+  def save
+    return true unless invalid?
   end
 end

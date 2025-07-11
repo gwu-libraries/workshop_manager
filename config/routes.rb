@@ -8,14 +8,14 @@ Rails.application.routes.draw do
   resources :participants, only: %i[create edit update]
   resources :workshop_facilitators
   devise_for :facilitators
-  resources :workshops, only: %i[show index edit new edit update destroy]
-  resources :feedback_forms, only: %i[show edit]
-  resources :feedback_form_responses, only: %i[create]
-  resources :questions
+  resources :workshops, only: %i[show index edit new edit update destroy] do
+    resources :application_questions, only: %i[index]
+    resources :feedback_questions, only: %i[index]
+  end
 
   resources :application_forms, only: %i[create]
   resources :registration_forms, only: %i[create]
-  resources :workshop_proposal_forms, only: %i[create]
+  resources :workshop_proposal_forms, only: %i[create new]
   resources :track_proposal_forms, only: %i[create]
   resources :application_status_forms, only: %i[create]
 
