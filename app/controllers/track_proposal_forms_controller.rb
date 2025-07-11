@@ -4,6 +4,17 @@ class TrackProposalFormsController < ApplicationController
 
     respond_to do |format|
       if @form.save
+
+        track =
+          Track.create(
+            title: @form.title,
+            description: @form.description,
+            proposal_status: 'pending'
+          )
+
+        @form.workshop_ids.map do |w|
+          TrackWorkshop.create(track_id: track.id, workshop_id: w)
+        end
         format.html do
           redirect_to root_url,
                       notice: 'Track proposal created! An admin will review it.'
