@@ -86,4 +86,23 @@
 <% end %>
 </div>
 </div>
+
+<div class="wrapper p-8 border border-4 border-black border-double w-fit">
+  <h2 class="max-sm:text-3xl text-4xl mb-4">
+  Application Questions </h2>
+
+  <% if @workshop.application_questions.present? %>
+    <% @workshop.application_questions.each do |aq| %>
+        <p>
+          <%= aq.prompt %>
+        </p>
+        <p>
+           Format: <%= aq.question_format.titleize %>
+        </p>
+    <% end %>
+  <% end %>
+<%# fix it %>
+  <%= render partial: "application_question_form" %>
+<div> 
+</div>
 </div>

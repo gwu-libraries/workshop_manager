@@ -4,6 +4,30 @@ class ApplicationFormsController < ApplicationController
 
     respond_to do |format|
       if @form.save
+
+        participant =
+          Participant.create(
+            name: @form.name,
+            email: @form.email,
+            workshop_id: @form.workshop_id,
+            application_status: 'pending'
+          )
+
+        @form.question_ids_and_responses.each do |question_id, response|
+          ApplicationQuestionResponse.create(
+            application_question_id: question_id,
+            participant_id: participant.id,
+            value: response
+          )
+        end
+
+        ApplicationReceivedEmailJob.perform_async(
+          {
+            workshop_id: participant.workshop_id,
+            participant_id: participant.id
+          }.stringify_keys
+        )
+
         format.turbo_stream { turbo_stream.replace 'application_form', 'beep' }
         format.html do
           redirect_to workshop_path(@form.workshop_id),

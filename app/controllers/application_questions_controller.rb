@@ -17,6 +17,9 @@ class ApplicationQuestionsController < ApplicationController
                      }
                    )
         end
+        format.html do
+          redirect_to edit_workshop_path(@application_question.workshop.id)
+        end
       end
     end
   end
