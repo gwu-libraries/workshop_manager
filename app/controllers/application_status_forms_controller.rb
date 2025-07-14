@@ -9,11 +9,21 @@ class ApplicationStatusFormsController < ApplicationController
     respond_to do |format|
       if @form.save
         participant = Participant.find(@form.participant_id)
+        workshop = Workshop.find(participant.workshop_id)
+        
         participant.update(application_status: @form.application_status)
 
         send_application_status_notification
 
-        schedule_feedback_emails if @form.application_status == 'accepted'
+        if @form.application_status == 'accepted'
+          FeedbackEmailJob.perform_at(
+            (workshop.end_time).round,
+            {
+              workshop_id: workshop.id,
+              participant_id: participant.id
+            }.stringify_keys
+          )
+        end
 
         format.turbo_stream do
           turbo_stream.destroy "participant_application_status_form_#{@form.participant_id}"
@@ -49,15 +59,5 @@ class ApplicationStatusFormsController < ApplicationController
         }.stringify_keys
       )
     end
-  end
-
-  def schedule_feedback_emails
-    # to do fix it
-    workshop = Workshop.find(@form.workshop_id)
-
-    FeedbackEmailJob.perform_at(
-      workshop.end_time,
-      { participant_id: @form.participant_id }.stringify_keys
-    )
   end
 end

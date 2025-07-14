@@ -22,6 +22,14 @@ class RegistrationFormsController < ApplicationController
           }.stringify_keys
         )
 
+        FeedbackEmailJob.perform_at(
+          (participant.workshop.end_time).round,
+          {
+            workshop_id: participant.workshop_id,
+            participant_id: participant.id
+          }.stringify_keys
+        )
+
         if @form.reminder_options.include? 'One week before'
           ReminderEmailOneWeekJob.perform_at(
             (participant.workshop.start_time - 1.week).round,
