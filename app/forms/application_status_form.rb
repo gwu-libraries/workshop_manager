@@ -3,9 +3,8 @@
 class ApplicationStatusForm
   include ActiveModel::Model
 
-  attr_accessor :participant_id,
-                :workshop_id,
-                :application_status
+  # should be reader
+  attr_accessor :participant_id, :workshop_id, :application_status
 
   def initialize(params)
     @participant_id = params[:application_status_form][:participant_id]

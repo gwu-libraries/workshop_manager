@@ -2,8 +2,6 @@
 
 require 'rails_helper'
 
-# test manually for now - functionality is working, tests are not, need to figure out a test setup.
-
 RSpec.describe 'application status emails job', type: :job do
   before do
     @facilitator_1 = FactoryBot.create(:facilitator)
@@ -35,7 +33,10 @@ RSpec.describe 'application status emails job', type: :job do
     click_button 'Accept participant application'
 
     expect(ApplicationAcceptedEmailJob).to have_enqueued_sidekiq_job(
-      { participant_id: @participant_1.id.to_s, workshop_id: @workshop_1.id.to_s }
+      {
+        participant_id: @participant_1.id.to_s,
+        workshop_id: @workshop_1.id.to_s
+      }
     )
   end
 
@@ -47,7 +48,10 @@ RSpec.describe 'application status emails job', type: :job do
     click_button 'Waitlist participant application'
 
     expect(ApplicationWaitlistedEmailJob).to have_enqueued_sidekiq_job(
-      { participant_id: @participant_1.id.to_s, workshop_id: @workshop_1.id.to_s }
+      {
+        participant_id: @participant_1.id.to_s,
+        workshop_id: @workshop_1.id.to_s
+      }
     )
   end
 
@@ -59,7 +63,10 @@ RSpec.describe 'application status emails job', type: :job do
     click_button 'Reject participant application'
 
     expect(ApplicationRejectedEmailJob).to have_enqueued_sidekiq_job(
-      { participant_id: @participant_1.id.to_s, workshop_id: @workshop_1.id.to_s }
+      {
+        participant_id: @participant_1.id.to_s,
+        workshop_id: @workshop_1.id.to_s
+      }
     )
   end
 end
