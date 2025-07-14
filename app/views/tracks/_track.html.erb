@@ -1,24 +1,46 @@
-<div class="track-wrap flex min-w-xs max-w-md basis-1/4 max-md:basis-1/2 max-sm:basis-1 flex-1">
-  <div class="track flex-1 shadow-md border border-4 border-double border-black overflow-hidden bg-orange-50 m-4 flex flex-col">
-      <div class="card-header px-3 pt-3 flex items-center border-bottom border-black">
-        <h2 class="text-4xl max-2xl:text-3xl text-black"> <%= track.title %> Workshops </h2>
+<div
+  class="
+    track-wrap flex min-w-xs max-w-md basis-1/4 max-md:basis-1/2 max-sm:basis-1
+    flex-1
+  "
+>
+  <div
+    class="
+      track flex-1 shadow-md border border-4 border-double border-black
+      overflow-hidden bg-orange-50 m-4 flex flex-col
+    "
+  >
+    <div class="card-header px-3 pt-3 flex items-center border-bottom border-black">
+      <h2 class="text-4xl max-2xl:text-3xl text-black">
+        <%= track.title %>
+        Workshops
+      </h2>
+    </div>
+    <div class="px-3 pb-3 flex-1">
+      <h3 class="text-sm p-2">In this track:</h3>
+      <div
+        class="
+          h-24 bg-neutral-50 px-4 pb-4 pt-2 mx-4 border border-black overflow-y-auto
+        "
+      >
+        <% track.workshops.each do |workshop| %>
+          <p>
+            <%= link_to "#{workshop.title}",
+            workshop_path(workshop),
+            class: "text-emerald-800 hover:underline hover:decoration-black" %>
+          </p>
+        <% end %>
       </div>
-      <div class="px-3 pb-3 flex-1">
-        <h3 class="text-sm p-2">In this track:</h3>
-        <div class="h-24 bg-neutral-50 px-4 pb-4 pt-2 mx-4 border border-black overflow-y-auto">
-          <% track.workshops.each do |workshop| %>
-            <p>
-              <%= link_to "#{workshop.title}", workshop_path(workshop), class: "text-emerald-800 hover:underline hover:decoration-black" %>
-            </p>
-          <% end %>
-        </div>
-      </div>
-      <div class="w-full text-end p-3">
-        <p class="my-4">
-          <b>
-            <%= link_to "Show calendar for this track", track, class: "btn bg-orange-50 hover:bg-black font-semibold text-black hover:text-orange-50 py-2 px-2 border border-black hover:border-black border-4 border-double rounded shadow-md" %>
-          </b>
-        </p>
-      </div>
+    </div>
+    <div class="w-full text-end p-3">
+      <p class="my-4">
+        <b>
+          <%= link_to "Show calendar for this track",
+          track,
+          class:
+            "btn bg-orange-50 hover:bg-black font-semibold text-black hover:text-orange-50 py-2 px-2 border border-black hover:border-black border-4 border-double rounded shadow-md" %>
+        </b>
+      </p>
+    </div>
   </div>
 </div>

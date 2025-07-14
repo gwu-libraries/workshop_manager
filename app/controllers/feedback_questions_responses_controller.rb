@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # class FeedbackFormResponsesController < ApplicationController
 #   def create
 #     feedback_form_responses = {}

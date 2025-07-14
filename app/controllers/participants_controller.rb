@@ -10,8 +10,7 @@ class ParticipantsController < ApplicationController
   #               only: %i[ new edit create update destroy]
 
   # GET /participants/1/edit
-  def edit
-  end
+  def edit; end
 
   # PATCH/PUT /participants/1
   def update
@@ -49,7 +48,7 @@ class ParticipantsController < ApplicationController
   end
 
   def application_received_notification
-    return unless @participant.persisted?
+    nil unless @participant.persisted?
   end
 
   # Only allow a list of trusted parameters through.

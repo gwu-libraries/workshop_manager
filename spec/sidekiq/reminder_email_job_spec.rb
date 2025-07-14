@@ -26,15 +26,15 @@ RSpec.describe 'reminder emails', type: :job do
 
     expect(ReminderEmailOneWeekJob).to have_enqueued_sidekiq_job(
       { participant_id: participant.id, workshop_id: workshop_1.id }
-    ).at(workshop_1.start_time - 1.weeks)
+    ).at(workshop_1.start_time - 1.week)
 
     expect(ReminderEmailOneDayJob).to have_enqueued_sidekiq_job(
       { participant_id: participant.id, workshop_id: workshop_1.id }
-    ).at(workshop_1.start_time - 1.days)
+    ).at(workshop_1.start_time - 1.day)
 
     expect(ReminderEmailOneHourJob).to have_enqueued_sidekiq_job(
       { participant_id: participant.id, workshop_id: workshop_1.id }
-    ).at(workshop_1.start_time - 1.hours)
+    ).at(workshop_1.start_time - 1.hour)
   end
 
   # this is working, but fails due to a time rounding error in sidekiq
@@ -65,10 +65,10 @@ RSpec.describe 'reminder emails', type: :job do
 
     expect(ReminderEmailOneWeekJob).to have_enqueued_sidekiq_job(
       { participant_id: participant.id, workshop_id: workshop_1.id }
-    ).at(workshop_1.start_time - 1.weeks)
+    ).at(workshop_1.start_time - 1.week)
 
     expect(ReminderEmailOneDayJob).to have_enqueued_sidekiq_job(
       { participant_id: participant.id, workshop_id: workshop_1.id }
-    ).at(workshop_1.start_time - 1.days)
+    ).at(workshop_1.start_time - 1.day)
   end
 end

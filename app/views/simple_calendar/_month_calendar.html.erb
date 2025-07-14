@@ -1,9 +1,14 @@
 <div class="simple-calendar">
-  <div class="calendar-heading flex flex-row max-lg:flex-col justify-center items-center">
+  <div
+    class="
+      calendar-heading flex flex-row max-lg:flex-col justify-center items-center
+    "
+  >
     <div class="heading flex-2 p-4 mb-2">
       <h1 class="max-sm:text-4xl text-6xl">
         <% if local_assigns[:tracktitle] %>
-          <%= tracktitle %> Track Calendar
+          <%= tracktitle %>
+          Track Calendar
         <% elsif local_assigns[:pending] %>
           Pending Workshops
         <% else %>
@@ -12,12 +17,25 @@
       </h1>
     </div>
     <div class="controls flex-1 p-4 mb-2 text-center">
-      <time datetime="<%= start_date.strftime('%Y-%m') %>" class="calendar-title text-3xl"><%= t('date.month_names')[start_date.month] %> <%= start_date.year %></time>
+      <time
+        datetime="<%= start_date.strftime('%Y-%m') %>"
+        class="calendar-title text-3xl"
+      ><%= t("date.month_names")[start_date.month] %>
+        <%= start_date.year %></time>
 
       <nav class="py-4">
-        <%= link_to t('simple_calendar.previous', default: 'Previous'), calendar.url_for_previous_view, class: "bg-orange-50 hover:bg-black font-semibold text-black hover:text-orange-50 py-2 px-2 border border-black hover:border-black border-4 border-double rounded shadow-md" %>
-        <%= link_to t('simple_calendar.today', default: 'Today'), calendar.url_for_today_view, class: "bg-orange-50 hover:bg-black font-semibold text-stone-400 hover:text-orange-50 py-2 px-2 border border-black hover:border-black border-4 border-double rounded shadow-md" %>
-        <%= link_to t('simple_calendar.next', default: 'Next'), calendar.url_for_next_view, class: "bg-orange-50 hover:bg-black font-semibold text-black hover:text-orange-50 py-2 px-2 border border-black hover:border-black border-4 border-double rounded shadow-md" %>
+        <%= link_to t("simple_calendar.previous", default: "Previous"),
+        calendar.url_for_previous_view,
+        class:
+          "bg-orange-50 hover:bg-black font-semibold text-black hover:text-orange-50 py-2 px-2 border border-black hover:border-black border-4 border-double rounded shadow-md" %>
+        <%= link_to t("simple_calendar.today", default: "Today"),
+        calendar.url_for_today_view,
+        class:
+          "bg-orange-50 hover:bg-black font-semibold text-stone-400 hover:text-orange-50 py-2 px-2 border border-black hover:border-black border-4 border-double rounded shadow-md" %>
+        <%= link_to t("simple_calendar.next", default: "Next"),
+        calendar.url_for_next_view,
+        class:
+          "bg-orange-50 hover:bg-black font-semibold text-black hover:text-orange-50 py-2 px-2 border border-black hover:border-black border-4 border-double rounded shadow-md" %>
       </nav>
     </div>
   </div>
@@ -26,7 +44,7 @@
       <thead>
         <tr>
           <% date_range.slice(0, 7).each do |day| %>
-            <th><%= t('date.abbr_day_names')[day.wday] %></th>
+            <th><%= t("date.abbr_day_names")[day.wday] %></th>
           <% end %>
         </tr>
       </thead>

@@ -9,7 +9,7 @@ RSpec.describe ParticipantMailer, type: :mailer do
       FactoryBot.create(:participant, workshop_id: workshop.id)
     end
     let(:mail) do
-      ParticipantMailer.registration_received_email(workshop.id, participant.id)
+      described_class.registration_received_email(workshop.id, participant.id)
     end
 
     it 'renders the headers' do

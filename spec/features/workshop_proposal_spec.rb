@@ -36,13 +36,13 @@ RSpec.describe 'proposing a new workshop' do
 
     visit '/workshops'
 
-    expect(page).to_not have_content(workshop.title)
+    expect(page).not_to have_content(workshop.title)
 
     # check lack of approval buttons on workshop page
 
     visit "/workshops/#{workshop.id}"
 
-    expect(page).to_not have_content(
+    expect(page).not_to have_content(
       'Workshop proposal status is pending - approve or reject?'
     )
 
@@ -65,7 +65,7 @@ RSpec.describe 'proposing a new workshop' do
 
     visit '/workshops/pending'
 
-    expect(page).to_not have_content(workshop.title)
+    expect(page).not_to have_content(workshop.title)
 
     # check presence on main page
 

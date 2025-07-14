@@ -16,16 +16,13 @@ class WorkshopsController < ApplicationController
   end
 
   # GET /workshops/1
-  def show
-  end
+  def show; end
 
   # GET /workshops/new
-  def new
-  end
+  def new; end
 
   # GET /workshops/1/edit
-  def edit
-  end
+  def edit; end
 
   # PATCH/PUT /workshops/1
   def update

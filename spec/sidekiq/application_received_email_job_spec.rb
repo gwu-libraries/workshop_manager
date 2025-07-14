@@ -22,7 +22,7 @@ RSpec.describe ApplicationReceivedEmailJob, type: :job do
 
     click_on 'Submit Application'
 
-    expect(ApplicationReceivedEmailJob).to have_enqueued_sidekiq_job(
+    expect(described_class).to have_enqueued_sidekiq_job(
       { participant_id: Participant.last.id, workshop_id: workshop_1.id }
     )
   end

@@ -1,31 +1,39 @@
 <%# TODO: whymst isnt' turbo frame working %>
-  <% case track.proposal_status %>
-    <% when 'pending' %>
-      <div class="flex flex-col gap-2">
-      <span>
-        Track status is pending - approve or reject?
-      </span>
+<% case track.proposal_status %>
+<% when 'pending' %>
+  <div class="flex flex-col gap-2">
+    <span>
+      Track status is pending - approve or reject?
+    </span>
 
-      <span>
-        <%= simple_form_for track do |f| %>
-          <%= f.hidden_field :proposal_status, value: 'approved' %>
-          <%= f.submit "Approve this track", class: "bg-orange-50 hover:bg-black font-semibold text-emerald-600 hover:text-orange-50 py-2 px-2 border border-black hover:border-black border-4 border-double rounded shadow-md" %>
-        <% end %>
-      </span>
+    <span>
+      <%= simple_form_for track do |f| %>
+        <%= f.hidden_field :proposal_status, value: "approved" %>
+        <%= f.submit "Approve this track",
+                 class:
+                   "bg-orange-50 hover:bg-black font-semibold text-emerald-600 hover:text-orange-50 py-2 px-2 border border-black hover:border-black border-4 border-double rounded shadow-md" %>
+      <% end %>
+    </span>
 
-      <span>
-        <%= simple_form_for track do |f| %>
-          <%= f.hidden_field :proposal_status, value: 'rejected' %>
-          <%= f.submit "Reject this track", class: "bg-orange-50 hover:bg-black font-semibold text-red hover:text-orange-50 py-2 px-2 border border-black hover:border-black border-4 border-double rounded shadow-md" %>
-        <% end %>
-      </span>
-      </div>
-    <% when 'approved' %>
-      <div class="flex flex-col gap-2">
-      <p> This track has been confirmed! <p>
-        </div>
-    <% when 'rejected' %>
-      <div class="flex flex-col gap-2">
-      <p> This track proposal has been rejected. <p>
+    <span>
+      <%= simple_form_for track do |f| %>
+        <%= f.hidden_field :proposal_status, value: "rejected" %>
+        <%= f.submit "Reject this track",
+                 class:
+                   "bg-orange-50 hover:bg-black font-semibold text-red hover:text-orange-50 py-2 px-2 border border-black hover:border-black border-4 border-double rounded shadow-md" %>
+      <% end %>
+    </span>
   </div>
-  <% end %>
+<% when 'approved' %>
+  <div class="flex flex-col gap-2">
+    <p>
+      This track has been confirmed!
+    </p>
+  </div>
+<% when 'rejected' %>
+  <div class="flex flex-col gap-2">
+    <p>
+      This track proposal has been rejected.
+    </p>
+  </div>
+<% end %>

@@ -12,7 +12,7 @@
 
 require 'faker'
 
-puts 'Seeding development database...'
+Rails.logger.debug 'Seeding development database...'
 
 # Create an admin user
 FactoryBot.create(:admin, email: 'admin@example.com', password: 'password')
@@ -26,12 +26,11 @@ fac =
   )
 
 # this user is NOT added to any workshops as a facilitator
-not_fac =
-  FactoryBot.create(
-    :facilitator,
-    email: 'notfacilitator@example.com',
-    password: 'password'
-  )
+FactoryBot.create(
+  :facilitator,
+  email: 'notfacilitator@example.com',
+  password: 'password'
+)
 
 # Create 20 other facilitators
 facilitators = []
@@ -78,7 +77,7 @@ future_workshops_open = []
 5.times { future_workshops_open << FactoryBot.create(:future_open_workshop) }
 
 # Assign two non-descript facilitators to each workshop
-Workshop.all.each do |workshop|
+Workshop.all.find_each do |workshop|
   facilitators
     .sample(2)
     .each do |facilitator|
@@ -125,7 +124,7 @@ end
   end
 end
 
-Workshop.all.each do |workshop|
+Workshop.all.find_each do |workshop|
   FactoryBot.create(:fq_true_false_question, workshop_id: workshop.id)
   FactoryBot.create(:fq_short_answer_question, workshop_id: workshop.id)
   FactoryBot.create(:fq_long_answer_question, workshop_id: workshop.id)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationQuestionResponsesController < ApplicationController
   def create
     @application_question_response =

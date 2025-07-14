@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RegistrationFormsController < ApplicationController
   def create
     @form = RegistrationForm.new(params)
@@ -22,7 +24,7 @@ class RegistrationFormsController < ApplicationController
 
         if @form.reminder_options.include? 'One week before'
           ReminderEmailOneWeekJob.perform_at(
-            (participant.workshop.start_time - 1.weeks).round,
+            (participant.workshop.start_time - 1.week).round,
             {
               workshop_id: participant.workshop_id,
               participant_id: participant.id
@@ -32,7 +34,7 @@ class RegistrationFormsController < ApplicationController
 
         if @form.reminder_options.include? 'One day before'
           ReminderEmailOneDayJob.perform_at(
-            (participant.workshop.start_time - 1.days).round,
+            (participant.workshop.start_time - 1.day).round,
             {
               workshop_id: participant.workshop_id,
               participant_id: participant.id
@@ -42,14 +44,13 @@ class RegistrationFormsController < ApplicationController
 
         if @form.reminder_options.include? 'One hour before'
           ReminderEmailOneHourJob.perform_at(
-            (participant.workshop.start_time - 1.hours).round,
+            (participant.workshop.start_time - 1.hour).round,
             {
               workshop_id: participant.workshop_id,
               participant_id: participant.id
             }.stringify_keys
           )
         end
-
 
         format.turbo_stream do
           turbo_stream.replace 'registration_form',
@@ -68,8 +69,6 @@ class RegistrationFormsController < ApplicationController
       end
     end
   end
-
-  private
 
   # def registration_form_params
   #   params.require(:participant_application_form).permit(

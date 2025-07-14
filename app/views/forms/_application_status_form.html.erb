@@ -1,37 +1,45 @@
 <%= turbo_frame_tag "participant_application_status_form_#{participant.id}" do %>
-<div class="p-2 m-2 border border-black">
-  <p class="font-semibold text-xl">
-    Applicant Name: <%= participant.name %>
-  </p>
-
-  <% participant.application_question_responses.each do |application_question_response|%>
-    <div class="py-2">
-    <p class="text-lg">
-      Question: <%= application_question_response.application_question.prompt %>
+  <div class="p-2 m-2 border border-black">
+    <p class="font-semibold text-xl">
+      Applicant Name:
+      <%= participant.name %>
     </p>
-    <p class="text-italic">
-      <%= application_question_response.value %>
-    </p>
-    </div>
-  <% end %>
 
-  <%= simple_form_for :application_status_form, url: application_status_forms_path do |f| %>
-    <%= f.hidden_field :participant_id, value: participant.id %>
-    <%= f.hidden_field :workshop_id, value: participant.workshop_id %>
-    <%= f.hidden_field :application_status, value: "accepted" %>
-    <%= f.submit "Accept participant application", class: "w-full btn my-4 bg-orange-50 hover:bg-black font-semibold text-black hover:text-orange-50 py-2 px-2 border border-black hover:border-black border-4 border-double rounded shadow-md" %>
-  <% end %>
-  <%= simple_form_for :application_status_form, url: application_status_forms_path do |f| %>
-    <%= f.hidden_field :participant_id, value: participant.id %>
-    <%= f.hidden_field :workshop_id, value: participant.workshop_id %>
-    <%= f.hidden_field :application_status, value: "waitlisted" %>
-    <%= f.submit "Waitlist participant application", class: "w-full btn my-4 bg-orange-50 hover:bg-black font-semibold text-black hover:text-orange-50 py-2 px-2 border border-black hover:border-black border-4 border-double rounded shadow-md" %>
-  <% end %>
-  <%= simple_form_for :application_status_form, url: application_status_forms_path do |f| %>
-    <%= f.hidden_field :participant_id, value: participant.id %>
-    <%= f.hidden_field :workshop_id, value: participant.workshop_id %>
-    <%= f.hidden_field :application_status, value: "rejected" %>
-    <%= f.submit "Reject participant application", class: "w-full btn my-4 bg-orange-50 hover:bg-black font-semibold text-red-600 hover:text-orange-50 py-2 px-2 border border-black hover:border-black border-4 border-double rounded shadow-md" %>
-  <% end %>
-</div>
+    <% participant.application_question_responses.each do |application_question_response| %>
+      <div class="py-2">
+        <p class="text-lg">
+          Question:
+          <%= application_question_response.application_question.prompt %>
+        </p>
+        <p class="text-italic">
+          <%= application_question_response.value %>
+        </p>
+      </div>
+    <% end %>
+
+    <%= simple_form_for :application_status_form, url: application_status_forms_path do |f| %>
+      <%= f.hidden_field :participant_id, value: participant.id %>
+      <%= f.hidden_field :workshop_id, value: participant.workshop_id %>
+      <%= f.hidden_field :application_status, value: "accepted" %>
+      <%= f.submit "Accept participant application",
+               class:
+                 "w-full btn my-4 bg-orange-50 hover:bg-black font-semibold text-black hover:text-orange-50 py-2 px-2 border border-black hover:border-black border-4 border-double rounded shadow-md" %>
+    <% end %>
+    <%= simple_form_for :application_status_form, url: application_status_forms_path do |f| %>
+      <%= f.hidden_field :participant_id, value: participant.id %>
+      <%= f.hidden_field :workshop_id, value: participant.workshop_id %>
+      <%= f.hidden_field :application_status, value: "waitlisted" %>
+      <%= f.submit "Waitlist participant application",
+               class:
+                 "w-full btn my-4 bg-orange-50 hover:bg-black font-semibold text-black hover:text-orange-50 py-2 px-2 border border-black hover:border-black border-4 border-double rounded shadow-md" %>
+    <% end %>
+    <%= simple_form_for :application_status_form, url: application_status_forms_path do |f| %>
+      <%= f.hidden_field :participant_id, value: participant.id %>
+      <%= f.hidden_field :workshop_id, value: participant.workshop_id %>
+      <%= f.hidden_field :application_status, value: "rejected" %>
+      <%= f.submit "Reject participant application",
+               class:
+                 "w-full btn my-4 bg-orange-50 hover:bg-black font-semibold text-red-600 hover:text-orange-50 py-2 px-2 border border-black hover:border-black border-4 border-double rounded shadow-md" %>
+    <% end %>
+  </div>
 <% end %>

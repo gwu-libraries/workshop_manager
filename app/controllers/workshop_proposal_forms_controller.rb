@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class WorkshopProposalFormsController < ApplicationController
   def create
     @form = WorkshopProposalForm.new(workshop_proposal_form_params)
@@ -13,16 +15,16 @@ class WorkshopProposalFormsController < ApplicationController
             registration_modality: @form.registration_modality,
             virtual_location: @form.virtual_location,
             in_person_location: @form.in_person_location,
-            start_time: to_datetime(@form.start_year, 
-                                    @form.start_month, 
-                                    @form.start_day, 
-                                    @form.start_hour, 
+            start_time: to_datetime(@form.start_year,
+                                    @form.start_month,
+                                    @form.start_day,
+                                    @form.start_hour,
                                     @form.start_minute),
-            end_time: to_datetime(@form.end_year, 
-                                    @form.end_month, 
-                                    @form.end_day, 
-                                    @form.end_hour, 
-                                    @form.end_minute),
+            end_time: to_datetime(@form.end_year,
+                                  @form.end_month,
+                                  @form.end_day,
+                                  @form.end_hour,
+                                  @form.end_minute),
             proposal_status: 'pending',
             attachments: @form.attachments
           )
@@ -33,17 +35,11 @@ class WorkshopProposalFormsController < ApplicationController
 
         if @form.registration_modality == 'application_required'
           # this needs to redirect to the application_f
-          format.html do
-            redirect_to root_url,
-                        notice:
-                          'Workshop proposal created! An admin will review it.'
-          end
-        else
-          format.html do
-            redirect_to root_url,
-                        notice:
-                          'Workshop proposal created! An admin will review it.'
-          end
+        end
+        format.html do
+          redirect_to root_url,
+                      notice:
+                        'Workshop proposal created! An admin will review it.'
         end
       else
         format.html { render :new, status: :unprocessable_entity }

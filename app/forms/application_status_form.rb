@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 class ApplicationStatusForm
   include ActiveModel::Model
 
-  attr_accessor :participant_id, 
-                :workshop_id, 
+  attr_accessor :participant_id,
+                :workshop_id,
                 :application_status
 
   def initialize(params)
@@ -12,6 +14,6 @@ class ApplicationStatusForm
   end
 
   def save
-    return true unless invalid?
+    true unless invalid?
   end
 end

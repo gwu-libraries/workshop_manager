@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 class RegistrationForm
   include ActiveModel::Model
 
-  attr_accessor :name, 
-                :email, 
+  attr_accessor :name,
+                :email,
                 :workshop_id,
                 :reminder_options
 
@@ -17,10 +19,10 @@ class RegistrationForm
 
     # lmao fix this
     @reminder_options =
-      params[:reminder_options][:reminder_options].reject { |x| x.empty? }
+      params[:reminder_options][:reminder_options].reject(&:empty?)
   end
 
   def save
-    return true unless invalid?
+    true unless invalid?
   end
 end

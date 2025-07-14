@@ -5,14 +5,14 @@ require 'rails_helper'
 # test manually for now - functionality is working, tests are not, need to figure out a test setup.
 
 RSpec.describe 'application status emails job', type: :job do
-  before :each do
+  before do
     @facilitator_1 = FactoryBot.create(:facilitator)
     @workshop_1 = FactoryBot.create(:future_application_workshop)
     @participant_1 =
       FactoryBot.create(
         :participant,
         workshop_id: @workshop_1.id,
-        application_status: "pending"
+        application_status: 'pending'
       )
     @questions = [
       FactoryBot.create(:aq_short_answer_question, workshop_id: @workshop_1.id),

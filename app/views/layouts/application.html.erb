@@ -11,9 +11,13 @@
   </head>
 
   <body class="flex flex-col font-serif bg-orange-50">
-    <%= render "layouts/navbar"%>
-    <%= render "layouts/notifications"%>
-    <div class="flex-1 w-full mx-auto p-2 flex flex-row justify-center max-lg:flex-col gap-6">
+    <%= render "layouts/navbar" %>
+    <%= render "layouts/notifications" %>
+    <div
+      class="
+        flex-1 w-full mx-auto p-2 flex flex-row justify-center max-lg:flex-col gap-6
+      "
+    >
       <%= yield %>
     </div>
   </body>
