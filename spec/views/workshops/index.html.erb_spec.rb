@@ -9,15 +9,15 @@ RSpec.describe 'workshops/index', type: :view do
 
     visit workshops_path
 
-    expect(page).to_not have_content(workshop_1.title)
-    expect(page).to_not have_content(workshop_2.title)
+    expect(page).not_to have_content(workshop_1.title)
+    expect(page).not_to have_content(workshop_2.title)
   end
 
   it 'does show approved workshops' do
     workshop_1 =
       FactoryBot.create(
         :future_application_workshop,
-        start_time: DateTime.now + 1.hours,
+        start_time: DateTime.now + 1.hour,
         end_time: DateTime.now + 2.hours
       )
     workshop_2 =

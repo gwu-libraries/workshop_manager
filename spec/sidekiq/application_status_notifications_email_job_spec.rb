@@ -2,17 +2,15 @@
 
 require 'rails_helper'
 
-# test manually for now - functionality is working, tests are not, need to figure out a test setup.
-
 RSpec.describe 'application status emails job', type: :job do
-  before :each do
+  before do
     @facilitator_1 = FactoryBot.create(:facilitator)
     @workshop_1 = FactoryBot.create(:future_application_workshop)
     @participant_1 =
       FactoryBot.create(
         :participant,
         workshop_id: @workshop_1.id,
-        application_status: "pending"
+        application_status: 'pending'
       )
     @questions = [
       FactoryBot.create(:aq_short_answer_question, workshop_id: @workshop_1.id),
@@ -35,7 +33,10 @@ RSpec.describe 'application status emails job', type: :job do
     click_button 'Accept participant application'
 
     expect(ApplicationAcceptedEmailJob).to have_enqueued_sidekiq_job(
-      { participant_id: @participant_1.id.to_s, workshop_id: @workshop_1.id.to_s }
+      {
+        participant_id: @participant_1.id.to_s,
+        workshop_id: @workshop_1.id.to_s
+      }
     )
   end
 
@@ -47,7 +48,10 @@ RSpec.describe 'application status emails job', type: :job do
     click_button 'Waitlist participant application'
 
     expect(ApplicationWaitlistedEmailJob).to have_enqueued_sidekiq_job(
-      { participant_id: @participant_1.id.to_s, workshop_id: @workshop_1.id.to_s }
+      {
+        participant_id: @participant_1.id.to_s,
+        workshop_id: @workshop_1.id.to_s
+      }
     )
   end
 
@@ -59,7 +63,10 @@ RSpec.describe 'application status emails job', type: :job do
     click_button 'Reject participant application'
 
     expect(ApplicationRejectedEmailJob).to have_enqueued_sidekiq_job(
-      { participant_id: @participant_1.id.to_s, workshop_id: @workshop_1.id.to_s }
+      {
+        participant_id: @participant_1.id.to_s,
+        workshop_id: @workshop_1.id.to_s
+      }
     )
   end
 end

@@ -10,14 +10,13 @@ class TracksController < ApplicationController
   end
 
   def pending
-    redirect_to '/facilitators/sign_in' unless current_facilitator.present?
+    redirect_to '/facilitators/sign_in' if current_facilitator.blank?
 
     @tracks = Track.pending
   end
 
   # GET /tracks/1
-  def show
-  end
+  def show; end
 
   # GET /tracks/new
   def new
@@ -25,8 +24,7 @@ class TracksController < ApplicationController
   end
 
   # GET /tracks/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /tracks
   def create

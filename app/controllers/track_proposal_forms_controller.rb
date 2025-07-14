@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TrackProposalFormsController < ApplicationController
   def create
     @form = TrackProposalForm.new(track_proposal_form_params)

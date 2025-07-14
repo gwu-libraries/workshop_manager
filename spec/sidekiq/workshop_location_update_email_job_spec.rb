@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 RSpec.describe WorkshopLocationUpdateEmailJob, type: :job do
-  before(:each) do
+  before do
     @facilitator_1 = FactoryBot.create(:facilitator)
     @workshop_1 = FactoryBot.create(:future_registration_workshop)
 
@@ -27,11 +27,11 @@ RSpec.describe WorkshopLocationUpdateEmailJob, type: :job do
 
   it 'enqueues update emails for all participants of a workshop when the in-person location is changed' do
     fill_in 'workshop_in_person_location', with: 'A new location'
-    
+
     click_on 'Submit'
 
     @participants.each do |p|
-      expect(WorkshopLocationUpdateEmailJob).to have_enqueued_sidekiq_job(
+      expect(described_class).to have_enqueued_sidekiq_job(
         { participant_id: p.id, workshop_id: @workshop_1.id }
       )
     end
@@ -43,7 +43,7 @@ RSpec.describe WorkshopLocationUpdateEmailJob, type: :job do
     click_on 'Submit'
 
     @participants.each do |p|
-      expect(WorkshopLocationUpdateEmailJob).to have_enqueued_sidekiq_job(
+      expect(described_class).to have_enqueued_sidekiq_job(
         { participant_id: p.id, workshop_id: @workshop_1.id }
       )
     end
@@ -55,7 +55,7 @@ RSpec.describe WorkshopLocationUpdateEmailJob, type: :job do
     click_on 'Submit'
 
     @participants.each do |p|
-      expect(WorkshopLocationUpdateEmailJob).to_not have_enqueued_sidekiq_job(
+      expect(described_class).not_to have_enqueued_sidekiq_job(
         { participant_id: p.id, workshop_id: @workshop_1.id }
       )
     end
@@ -67,7 +67,7 @@ RSpec.describe WorkshopLocationUpdateEmailJob, type: :job do
     click_on 'Submit'
 
     @participants.each do |p|
-      expect(WorkshopLocationUpdateEmailJob).to_not have_enqueued_sidekiq_job(
+      expect(described_class).not_to have_enqueued_sidekiq_job(
         { participant_id: p.id, workshop_id: @workshop_1.id }
       )
     end

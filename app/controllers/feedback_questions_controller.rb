@@ -2,7 +2,7 @@
 
 class FeedbackQuestionsController < ApplicationController
   def create
-    @feedback_question = FeedbackQuestion.create(feedback_form_question_params)
+    @feedback_question = FeedbackQuestion.create(feedback_question_params)
 
     respond_to do |format|
       if @feedback_question.save
@@ -15,6 +15,9 @@ class FeedbackQuestionsController < ApplicationController
                        question: @feedback_question
                      }
                    )
+        end
+        format.html do
+          redirect_to edit_workshop_path(@feedback_question.workshop.id)
         end
       end
     end

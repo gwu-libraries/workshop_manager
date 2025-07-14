@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class WorkshopProposalForm
   include ActiveModel::Model
 
@@ -43,12 +45,12 @@ class WorkshopProposalForm
     @end_minute = params['end_time(5i)'].to_i
 
     @facilitator_ids =
-      params[:facilitator_ids].reject { |x| x.empty? }.map { |x| x.to_i }
+      params[:facilitator_ids].reject(&:empty?).map(&:to_i)
 
-    @attachments = params[:attachments].reject {|x| x == "" }
+    @attachments = params[:attachments].reject { |x| x == '' }
   end
 
   def save
-    return true unless invalid?
+    true unless invalid?
   end
 end

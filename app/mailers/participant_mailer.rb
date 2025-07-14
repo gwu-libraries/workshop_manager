@@ -254,16 +254,16 @@ class ParticipantMailer < ApplicationMailer
     end
   end
 
-  def feedback_email(feedback_form_id, participant_id)
-    @feedback_form = FeedbackForm.find(feedback_form_id)
+  def feedback_email(participant_id, workshop_id)
     @participant = Participant.find(participant_id)
+    @workshop = Workshop.find(workshop_id)
 
     @message =
-      "Please complete feedback form for #{@feedback_form.workshop.title}"
+      "Please complete feedback form for #{@workshop.title}"
 
     mail(
       to: @participant.email,
-      subject: "Feedback form for #{@feedback_form.workshop.title}"
+      subject: "Feedback form for #{@workshop.title}"
     ) do |format|
       format.text
       format.html

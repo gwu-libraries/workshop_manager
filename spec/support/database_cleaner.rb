@@ -5,9 +5,9 @@ RSpec.configure do |config|
     DatabaseCleaner.clean_with :truncation, except: %w[ar_internal_metadata]
   end
 
-  config.before(:each) { DatabaseCleaner.strategy = :transaction }
+  config.before { DatabaseCleaner.strategy = :transaction }
 
-  config.before(:each) { DatabaseCleaner.start }
+  config.before { DatabaseCleaner.start }
 
-  config.after(:each) { DatabaseCleaner.clean }
+  config.after { DatabaseCleaner.clean }
 end

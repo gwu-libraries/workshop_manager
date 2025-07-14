@@ -87,22 +87,42 @@
 </div>
 </div>
 
-<div class="wrapper p-8 border border-4 border-black border-double w-fit">
-  <h2 class="max-sm:text-3xl text-4xl mb-4">
-  Application Questions </h2>
+  <% if @workshop.application_required %>
+    <div class="wrapper p-8 border border-4 border-black border-double w-fit">
+      <h2 class="max-sm:text-3xl text-4xl mb-4">
+      Application Questions </h2>
 
-  <% if @workshop.application_questions.present? %>
-    <% @workshop.application_questions.each do |aq| %>
-        <p>
-          <%= aq.prompt %>
-        </p>
-        <p>
-           Format: <%= aq.question_format.titleize %>
-        </p>
-    <% end %>
+      <% if @workshop.application_questions.present? %>
+        <% @workshop.application_questions.each do |aq| %>
+            <p>
+              <%= aq.prompt %>
+            </p>
+            <p>
+              Format: <%= aq.question_format.titleize %>
+            </p>
+        <% end %>
+      <% end %>
+    <%# fix it %>
+      <%= render partial: "application_question_form" %>
+    <div> 
   <% end %>
-<%# fix it %>
-  <%= render partial: "application_question_form" %>
-<div> 
+
+  <div class="wrapper p-8 border border-4 border-black border-double w-fit">
+    <h2 class="max-sm:text-3xl text-4xl mb-4">
+    Feedback Questions </h2>
+
+    <% if @workshop.feedback_questions.present? %>
+      <% @workshop.feedback_questions.each do |fq| %>
+          <p>
+            <%= fq.prompt %>
+          </p>
+          <p>
+            Format: <%= fq.question_format.titleize %>
+          </p>
+      <% end %>
+    <% end %>
+  <%# fix it %>
+    <%= render partial: "feedback_question_form" %>
+  <div> 
 </div>
 </div>

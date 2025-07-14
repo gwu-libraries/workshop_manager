@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationFormsController < ApplicationController
   def create
     @form = ApplicationForm.new(params)
@@ -39,8 +41,6 @@ class ApplicationFormsController < ApplicationController
       end
     end
   end
-
-  private
 
   # def application_form_params
   #   params.require(:participant_application_form).permit(

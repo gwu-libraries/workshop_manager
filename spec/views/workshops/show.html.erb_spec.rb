@@ -3,20 +3,20 @@
 require 'rails_helper'
 
 RSpec.describe 'workshops/show', type: :view do
-  before(:each) do
+  before do
     @admin = FactoryBot.create(:admin)
 
     @proposal_pending_workshop =
       FactoryBot.create(
         :proposal_pending_workshop,
-        start_time: DateTime.now + 1.hours,
+        start_time: DateTime.now + 1.hour,
         end_time: DateTime.now + 2.hours
       )
 
     @future_application_workshop =
       FactoryBot.create(
         :future_application_workshop,
-        start_time: DateTime.now + 1.hours,
+        start_time: DateTime.now + 1.hour,
         end_time: DateTime.now + 2.hours
       )
 
@@ -24,7 +24,7 @@ RSpec.describe 'workshops/show', type: :view do
       FactoryBot.create(
         :past_application_workshop,
         start_time: DateTime.now - 2.hours,
-        end_time: DateTime.now - 1.hours
+        end_time: DateTime.now - 1.hour
       )
 
     @future_registration_workshop =
@@ -44,7 +44,7 @@ RSpec.describe 'workshops/show', type: :view do
     @facilitator_1 = FactoryBot.create(:facilitator)
     @facilitator_2 = FactoryBot.create(:facilitator)
 
-    Workshop.all.each do |workshop|
+    Workshop.all.find_each do |workshop|
       WorkshopFacilitator.create(
         workshop_id: workshop.id,
         facilitator_id: @facilitator_1.id
@@ -69,7 +69,7 @@ RSpec.describe 'workshops/show', type: :view do
     visit workshop_path(@past_application_workshop)
 
     @past_application_workshop.application_questions.each do |question|
-      expect(page).to_not have_content(question.prompt.humanize)
+      expect(page).not_to have_content(question.prompt.humanize)
     end
   end
 
@@ -89,10 +89,10 @@ RSpec.describe 'workshops/show', type: :view do
   it 'does not display a registration form if workshop is in the past and registration required' do
     visit workshop_path(@past_registration_workshop)
 
-    expect(page).to_not have_content(
+    expect(page).not_to have_content(
       "Register for #{@past_registration_workshop.title}"
     )
-    expect(page).to_not have_content(
+    expect(page).not_to have_content(
       "Apply for #{@past_registration_workshop.title}"
     )
   end
@@ -118,7 +118,7 @@ RSpec.describe 'workshops/show', type: :view do
 
     visit workshops_path
 
-    expect(page).to_not have_content(@proposal_pending_workshop.title)
+    expect(page).not_to have_content(@proposal_pending_workshop.title)
   end
 
   it 'does not display a button to approve or reject a workshop if facilitator is not admin' do
@@ -126,7 +126,7 @@ RSpec.describe 'workshops/show', type: :view do
 
     visit workshop_path(@proposal_pending_workshop)
 
-    expect(page).to_not have_content('approve or reject?')
+    expect(page).not_to have_content('approve or reject?')
   end
 
   it 'links to a facilitator profile when clicking a facilitator name' do

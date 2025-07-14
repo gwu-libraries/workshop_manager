@@ -21,8 +21,6 @@ class Participant < ApplicationRecord
   # after_update :send_application_status_notification,
   #              if: lambda(&:saved_change_to_application_status?)
 
-  private
-
   # def send_application_status_notification
   #   case application_status
   #   when 'accepted'

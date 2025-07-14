@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 class ApplicationForm
   include ActiveModel::Model
 
-  attr_accessor :name, 
-                :email, 
+  attr_accessor :name,
+                :email,
                 :workshop_id,
                 :question_ids_and_responses
 
@@ -22,6 +24,6 @@ class ApplicationForm
   end
 
   def save
-    return true unless invalid?
+    true unless invalid?
   end
 end

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 RSpec.describe WorkshopTimingUpdateEmailJob, type: :job do
-  before(:each) do
+  before do
     @facilitator_1 = FactoryBot.create(:facilitator)
     @workshop_1 = FactoryBot.create(:future_registration_workshop)
 
@@ -32,7 +32,7 @@ RSpec.describe WorkshopTimingUpdateEmailJob, type: :job do
     click_on 'Submit'
 
     @participants.each do |p|
-      expect(WorkshopTimingUpdateEmailJob).to have_enqueued_sidekiq_job(
+      expect(described_class).to have_enqueued_sidekiq_job(
         { participant_id: p.id, workshop_id: @workshop_1.id }
       )
     end
@@ -45,7 +45,7 @@ RSpec.describe WorkshopTimingUpdateEmailJob, type: :job do
     click_on 'Submit'
 
     @participants.each do |p|
-      expect(WorkshopTimingUpdateEmailJob).to have_enqueued_sidekiq_job(
+      expect(described_class).to have_enqueued_sidekiq_job(
         { participant_id: p.id, workshop_id: @workshop_1.id }
       )
     end
@@ -57,7 +57,7 @@ RSpec.describe WorkshopTimingUpdateEmailJob, type: :job do
     click_on 'Submit'
 
     @participants.each do |p|
-      expect(WorkshopTimingUpdateEmailJob).to_not have_enqueued_sidekiq_job(
+      expect(described_class).not_to have_enqueued_sidekiq_job(
         { participant_id: p.id, workshop_id: @workshop_1.id }
       )
     end
@@ -69,7 +69,7 @@ RSpec.describe WorkshopTimingUpdateEmailJob, type: :job do
     click_on 'Submit'
 
     @participants.each do |p|
-      expect(WorkshopTimingUpdateEmailJob).to_not have_enqueued_sidekiq_job(
+      expect(described_class).not_to have_enqueued_sidekiq_job(
         { participant_id: p.id, workshop_id: @workshop_1.id }
       )
     end
@@ -81,7 +81,7 @@ RSpec.describe WorkshopTimingUpdateEmailJob, type: :job do
     click_on 'Submit'
 
     @participants.each do |p|
-      expect(WorkshopTimingUpdateEmailJob).to_not have_enqueued_sidekiq_job(
+      expect(described_class).not_to have_enqueued_sidekiq_job(
         { participant_id: p.id, workshop_id: @workshop_1.id }
       )
     end
