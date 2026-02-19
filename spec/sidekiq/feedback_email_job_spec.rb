@@ -65,7 +65,7 @@ RSpec.describe FeedbackEmailJob, type: :job do
 
     click_button 'Reject participant application'
 
-    expect(described_class).to_not have_enqueued_sidekiq_job(
+    expect(described_class).not_to have_enqueued_sidekiq_job(
       { participant_id: Participant.last.id, workshop_id: @application_workshop_1.id }
     ).at(@application_workshop_1.end_time)
   end
@@ -84,7 +84,7 @@ RSpec.describe FeedbackEmailJob, type: :job do
 
     click_button 'Waitlist participant application'
 
-    expect(described_class).to_not have_enqueued_sidekiq_job(
+    expect(described_class).not_to have_enqueued_sidekiq_job(
       { participant_id: Participant.last.id, workshop_id: @application_workshop_1.id }
     ).at(@application_workshop_1.end_time)
   end

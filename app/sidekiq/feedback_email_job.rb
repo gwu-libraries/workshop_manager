@@ -7,6 +7,6 @@ class FeedbackEmailJob
     ParticipantMailer.feedback_email(
       args[0]['participant_id'],
       args[0]['workshop_id']
-      ).deliver_now
+    ).deliver_now
   end
 end

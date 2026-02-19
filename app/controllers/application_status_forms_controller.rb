@@ -10,14 +10,14 @@ class ApplicationStatusFormsController < ApplicationController
       if @form.save
         participant = Participant.find(@form.participant_id)
         workshop = Workshop.find(participant.workshop_id)
-        
+
         participant.update(application_status: @form.application_status)
 
         send_application_status_notification
 
         if @form.application_status == 'accepted'
           FeedbackEmailJob.perform_at(
-            (workshop.end_time).round,
+            workshop.end_time.round,
             {
               workshop_id: workshop.id,
               participant_id: participant.id

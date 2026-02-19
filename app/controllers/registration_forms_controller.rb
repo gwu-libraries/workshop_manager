@@ -23,7 +23,7 @@ class RegistrationFormsController < ApplicationController
         )
 
         FeedbackEmailJob.perform_at(
-          (participant.workshop.end_time).round,
+          participant.workshop.end_time.round,
           {
             workshop_id: participant.workshop_id,
             participant_id: participant.id
